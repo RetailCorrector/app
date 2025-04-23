@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="RetailCorrector.Wizard.Pages.Editor" Height="383"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="794"
+             xmlns:c="clr-namespace:RetailCorrector.Wizard.Converters"
+             xmlns:l="clr-namespace:RetailCorrector.Wizard.Pages"
+             xmlns:s="clr-namespace:System;assembly=netstandard"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             xmlns:r="clr-namespace:RetailCorrector.Wizard">
+    <UserControl.Resources>
+        <Style TargetType="DataGrid">
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="CanUserResizeColumns" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="CanUserSortColumns" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
+        </Style>
+        <c:PreviewBackgroundConverter x:Key="previewconvert"/>
+        <c:ToDoubleConverter x:Key="toDouble"/>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type s:Enum}" 
+                            x:Key="propertiesSource">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="l:Property"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <TabControl>
+        <TabItem Header="Фильтрация">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Фильтр" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <DataGrid Grid.Row="2" ItemsSource="{Binding Items}">
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Binding="{Binding IsEnabled}"/>
+                        <DataGridComboBoxColumn Header="Параметр" Width="*" SelectedItemBinding="{Binding Property}" ItemsSource="{Binding Source={StaticResource propertiesSource}}"/>
+                        <DataGridTextColumn Header="Паттерн" Width="*" Binding="{Binding Pattern}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Добавить" Click="AddParam"/>
+                            <MenuItem Header="Удалить" Click="RemoveParam"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+                <GridSplitter Grid.Column="1" Grid.RowSpan="3"/>
+                <TextBlock Text="Предпоказ" Grid.Column="2" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <DataGrid Grid.Row="2" Grid.Column="2" IsReadOnly="True"
+                          DataContext="{Binding Source={x:Static r:App.Receipts}}" ItemsSource="{Binding Filtered}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Дата" Width="*" Binding="{Binding Item2.Created, StringFormat=yyyy'-'MM'-'dd' 'HH':'mm':'ss}"/>
+                        <DataGridTextColumn Header="Операция" Width="*" Binding="{Binding Item2.Operation}"/>
+                        <DataGridTextColumn Header="Сумма" Width="*" Binding="{Binding Item2.RoundedSum, Converter={StaticResource toDouble}, ConverterParameter=2}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <DataGrid ItemsSource="{Binding Item2.Items}" IsReadOnly="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Наименование"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding PosType}" Header="Тип позиции"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding PayType}" Header="Тип оплаты"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding TaxRate}" Header="Ставка НДС"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding Price, Converter={StaticResource toDouble}, ConverterParameter=2}" Header="Цена"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding Quantity, Converter={StaticResource toDouble}, ConverterParameter=3}" Header="Количество"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding MeasureUnit}" Header="Единица измерения"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding TotalSum, Converter={StaticResource toDouble}, ConverterParameter=2}" Header="Сумма"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="{Binding Item1, Converter={StaticResource previewconvert}}"/>
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Редактор">
+            
+        </TabItem>
+    </TabControl>
+</UserControl>

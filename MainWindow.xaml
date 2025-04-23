@@ -1,12 +1,21 @@
 ﻿<Window x:Class="RetailCorrector.Wizard.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RetailCorrector.Wizard"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:RetailCorrector.Wizard"        
+        xmlns:pars="clr-namespace:RetailCorrector;assembly=RetailCorrector.Parser"
+        xmlns:p="clr-namespace:RetailCorrector.Wizard.Pages"
+        ResizeMode="CanMinimize" 
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <TabControl>
+        <TabItem Header="Парсер">
+            <pars:Parser x:Name="parser"/>
+        </TabItem>
+        <TabItem Header="Редактор чека" IsEnabled="{Binding IsEnableEditor}">
+            <p:Editor x:Name="editor"/>
+        </TabItem>
+        <TabItem Header="Сборка" IsEnabled="{Binding IsEnablePublisher}">
+            <p:Publisher x:Name="publisher"/>
+        </TabItem>
+    </TabControl>
 </Window>
