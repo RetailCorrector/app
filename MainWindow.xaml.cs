@@ -16,11 +16,14 @@ namespace RetailCorrector.Wizard
             };
             App.Receipts.Edited.CollectionChanged += (_, e) => IsEnablePublisher = (e.NewItems?.Count ?? 0) > 0;
             InitializeComponent();
-            parser.OnSearched += arr =>
+            parser.OnSearchBegin += () =>
             {
                 App.Receipts.Parsed.Clear();
                 App.Receipts.Filtered.Clear();
                 App.Receipts.Edited.Clear();
+            };
+            parser.OnSearched += arr =>
+            {
                 foreach (var item in arr)
                     App.Receipts.Parsed.Add(item);
             };
