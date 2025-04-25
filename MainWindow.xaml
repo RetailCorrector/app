@@ -9,13 +9,13 @@
         Title="MainWindow" Height="450" Width="800">
     <TabControl SelectionChanged="ActivationTabChanged">
         <TabItem Header="Парсер">
-            <pars:Parser x:Name="parser" Log="ParserLog"/>
+            <pars:Parser Log="ParserLog" OnSearchBegin="OnSearchBegin" OnSearched="OnSearchEnd"/>
         </TabItem>
         <TabItem Header="Редактор чека" IsEnabled="{Binding IsEnableEditor}">
-            <p:Editor x:Name="editor"/>
+            <p:Editor/>
         </TabItem>
         <TabItem Header="Сборка" IsEnabled="{Binding IsEnablePublisher}">
-            <p:Publisher x:Name="publisher"/>
+            <p:Publisher/>
         </TabItem>
     </TabControl>
 </Window>

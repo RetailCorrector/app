@@ -1,5 +1,4 @@
-﻿using RetailCorrector.Wizard.Pages;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,18 +12,20 @@ namespace RetailCorrector.Wizard
             App.Receipts.Parsed.CollectionChanged += (_, e) => IsEnableEditor = (e.NewItems?.Count ?? 0) > 0;
             App.Receipts.Edited.CollectionChanged += (_, e) => IsEnablePublisher = (e.NewItems?.Count ?? 0) > 0;
             InitializeComponent();
-            parser.OnSearchBegin += () =>
-            {
-                App.Receipts.Parsed.Clear();
-                App.Receipts.Filtered.Clear();
-                App.Receipts.Edited.Clear();
-            };
-            parser.OnSearched += arr =>
-            {
-                foreach (var item in arr)
-                    App.Receipts.Parsed.Add(item);
-                MessageBox.Show("Сканирование завершено!");
-            };
+        }
+
+        private void OnSearchBegin()
+        {
+            App.Receipts.Parsed.Clear();
+            App.Receipts.Filtered.Clear();
+            App.Receipts.Edited.Clear();
+        }
+
+        private void OnSearchEnd(List<Receipt> arr, bool cancel)
+        {
+            foreach (var item in arr)
+                App.Receipts.Parsed.Add(item);
+            MessageBox.Show($"Сканирование {(cancel ? "отменено" : "завершено")}!");
         }
 
         public bool IsEnableEditor
