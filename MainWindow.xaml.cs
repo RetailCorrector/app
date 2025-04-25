@@ -60,9 +60,6 @@ namespace RetailCorrector.Wizard
             if (e.OriginalSource != sender || e.RemovedItems.Count < 1) return;
             switch (((TabItem)e.AddedItems[0]).Header)
             {
-                case "Редактор чека":
-                    Editor.RefreshFilterPreview();
-                    break;
                 case "Сборка":
                     break;
                 default:

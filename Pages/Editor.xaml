@@ -34,9 +34,9 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
-    <TabControl SelectionChanged="SelectionTabChanged">
+    <TabControl>
         <TabItem Header="Фильтрация">
-            <Grid>
+            <Grid Loaded="ShowFilter">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="5"/>
@@ -95,7 +95,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="Редактор">
-            <Grid>
+            <Grid Loaded="ShowEditor">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="5"/>

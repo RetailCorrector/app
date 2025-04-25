@@ -369,11 +369,7 @@ namespace RetailCorrector.Wizard.Pages
             RefreshEditorPreview();
         }
 
-        private void SelectionTabChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.OriginalSource != sender || e.RemovedItems.Count == 0 || 
-                (string)((TabItem)e.AddedItems[0]!).Header != "Редактор") return;
-            RefreshEditorPreview();
-        }
+        private void ShowEditor(object sender, RoutedEventArgs e) => RefreshEditorPreview();
+        private void ShowFilter(object sender, RoutedEventArgs e) => RefreshFilterPreview();
     }
 }
