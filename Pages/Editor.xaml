@@ -72,7 +72,7 @@
                     </DataGrid.Columns>
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
-                            <DataGrid ItemsSource="{Binding Item2.Items}" IsReadOnly="False">
+                            <DataGrid ItemsSource="{Binding Item2.Items}" IsReadOnly="True">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Наименование"/>
                                     <DataGridTextColumn Width="Auto" Binding="{Binding PosType}" Header="Тип позиции"/>
@@ -155,7 +155,7 @@
                     </DataGrid.Columns>
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
-                            <DataGrid ItemsSource="{Binding Items}" IsReadOnly="False">
+                            <DataGrid ItemsSource="{Binding Items}" IsReadOnly="True">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Наименование"/>
                                     <DataGridTextColumn Width="Auto" Binding="{Binding PosType}" Header="Тип позиции"/>
