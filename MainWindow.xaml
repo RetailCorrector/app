@@ -11,6 +11,9 @@
         <TabItem Header="Парсер">
             <pars:Parser Log="ParserLog" OnSearchBegin="OnSearchBegin" OnSearched="OnSearchEnd"/>
         </TabItem>
+        <TabItem Header="Фильтр" IsEnabled="{Binding IsEnableEditor}">
+            <p:Filter/>
+        </TabItem>
         <TabItem Header="Редактор чека" IsEnabled="{Binding IsEnableEditor}">
             <p:Editor/>
         </TabItem>
