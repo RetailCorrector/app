@@ -27,8 +27,14 @@
                 <x:Type Type="l:Property"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type s:Enum}" 
+                            x:Key="editorItemsSource">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="l:PropertyType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </UserControl.Resources>
-    <TabControl>
+    <TabControl SelectionChanged="SelectionTabChanged">
         <TabItem Header="Фильтрация">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -42,7 +48,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Фильтр" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <DataGrid Grid.Row="2" ItemsSource="{Binding Items}">
+                <DataGrid Grid.Row="2" ItemsSource="{Binding FilterItems}">
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Binding="{Binding IsEnabled}"/>
                         <DataGridComboBoxColumn Header="Параметр" Width="*" SelectedItemBinding="{Binding Property}" ItemsSource="{Binding Source={StaticResource propertiesSource}}"/>
@@ -50,8 +56,8 @@
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Добавить" Click="AddParam"/>
-                            <MenuItem Header="Удалить" Click="RemoveParam"/>
+                            <MenuItem Header="Добавить" Click="AddParamFilter"/>
+                            <MenuItem Header="Удалить" Click="RemoveParamFilter"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>
@@ -60,7 +66,7 @@
                 <DataGrid Grid.Row="2" Grid.Column="2" IsReadOnly="True"
                           DataContext="{Binding Source={x:Static r:App.Receipts}}" ItemsSource="{Binding Filtered}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Дата" Width="*" Binding="{Binding Item2.Created, StringFormat=yyyy'-'MM'-'dd' 'HH':'mm':'ss}"/>
+                        <DataGridTextColumn Header="Дата" Width="*" Binding="{Binding Item2.Created, StringFormat=yyyy-MM-dd HH:mm:ss}"/>
                         <DataGridTextColumn Header="Операция" Width="*" Binding="{Binding Item2.Operation}"/>
                         <DataGridTextColumn Header="Сумма" Width="*" Binding="{Binding Item2.RoundedSum, Converter={StaticResource toDouble}, ConverterParameter=2}"/>
                     </DataGrid.Columns>
@@ -89,7 +95,82 @@
             </Grid>
         </TabItem>
         <TabItem Header="Редактор">
-            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Редактирование" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="Предпоказ" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2"/>
+                <DataGrid Grid.Row="2" ItemsSource="{Binding EditorItems}">
+                    <DataGrid.Columns>
+                        <DataGridComboBoxColumn Header="Тип данных" Width="*" SelectedItemBinding="{Binding DataType, UpdateSourceTrigger=PropertyChanged}"
+                                                ItemsSource="{Binding Source={StaticResource editorItemsSource}}"/>
+                        <DataGridTemplateColumn Header="Условие" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ConditionPropertyName}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding EnumValues}" SelectedIndex="{Binding ConditionPropertyId, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Паттерн" Width="*" Binding="{Binding ConditionPropertyPattern, UpdateSourceTrigger=LostFocus}"/>
+                        <DataGridTemplateColumn Header="Свойства" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PropertyName}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding EnumValues}" SelectedIndex="{Binding PropertyId, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Значение" Width="*" Binding="{Binding PropertyValue, UpdateSourceTrigger=LostFocus}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Добавить" Click="AddParamEditor"/>
+                            <MenuItem Header="Удалить" Click="RemoveParamEditor"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+                <DataGrid Grid.Row="2" Grid.Column="2" IsReadOnly="True" 
+                          DataContext="{Binding Source={x:Static r:App.Receipts}}" ItemsSource="{Binding Edited}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Дата" Width="*" Binding="{Binding Created, StringFormat=yyyy-MM-dd HH:mm:ss}"/>
+                        <DataGridTextColumn Header="Операция" Width="*" Binding="{Binding Operation}"/>
+                        <DataGridTextColumn Header="Сумма" Width="*" Binding="{Binding RoundedSum, Converter={StaticResource toDouble}, ConverterParameter=2}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <DataGrid ItemsSource="{Binding Items}" IsReadOnly="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Наименование"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding PosType}" Header="Тип позиции"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding PayType}" Header="Тип оплаты"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding TaxRate}" Header="Ставка НДС"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding Price, Converter={StaticResource toDouble}, ConverterParameter=2}" Header="Цена"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding Quantity, Converter={StaticResource toDouble}, ConverterParameter=3}" Header="Количество"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding MeasureUnit}" Header="Единица измерения"/>
+                                    <DataGridTextColumn Width="Auto" Binding="{Binding TotalSum, Converter={StaticResource toDouble}, ConverterParameter=2}" Header="Сумма"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+            </Grid>
         </TabItem>
     </TabControl>
 </UserControl>
