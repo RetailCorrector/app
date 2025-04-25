@@ -6,6 +6,6 @@ namespace RetailCorrector.Wizard
     {
         public ObservableCollection<Receipt> Parsed { get; } = [];
         public ObservableCollection<Tuple<bool, Receipt>> Filtered { get; } = [];
-        public ObservableCollection<Tuple<Receipt, Receipt>> Edited { get; } = [];
+        public ObservableCollection<Receipt> Edited { get; } = [];
     }
 }
