@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RetailCorrector.Wizard
 {
@@ -9,11 +10,7 @@ namespace RetailCorrector.Wizard
     {
         public MainWindow()
         {
-            App.Receipts.Parsed.CollectionChanged += (_, e) =>
-            {
-                IsEnableEditor = (e.NewItems?.Count ?? 0) > 0;
-                Editor.RefreshPreview();
-            };
+            App.Receipts.Parsed.CollectionChanged += (_, e) => IsEnableEditor = (e.NewItems?.Count ?? 0) > 0;
             App.Receipts.Edited.CollectionChanged += (_, e) => IsEnablePublisher = (e.NewItems?.Count ?? 0) > 0;
             InitializeComponent();
             parser.OnSearchBegin += () =>
@@ -26,6 +23,7 @@ namespace RetailCorrector.Wizard
             {
                 foreach (var item in arr)
                     App.Receipts.Parsed.Add(item);
+                MessageBox.Show("Сканирование завершено!");
             };
         }
 
@@ -56,5 +54,20 @@ namespace RetailCorrector.Wizard
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string paramName = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(paramName));
+
+        private void ActivationTabChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.OriginalSource != sender || e.RemovedItems.Count < 1) return;
+            switch (((TabItem)e.AddedItems[0]).Header)
+            {
+                case "Редактор чека":
+                    Editor.RefreshFilterPreview();
+                    break;
+                case "Сборка":
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
