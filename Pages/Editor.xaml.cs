@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace RetailCorrector.Wizard.Pages
 {
@@ -371,5 +372,15 @@ namespace RetailCorrector.Wizard.Pages
 
         private void ShowEditor(object sender, RoutedEventArgs e) => RefreshEditorPreview();
         private void ShowFilter(object sender, RoutedEventArgs e) => RefreshFilterPreview();
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if(e.Key == Key.Escape)
+            {
+                previewEditor.SelectedIndex = -1;
+                previewFilter.SelectedIndex = -1;
+            }
+            base.OnKeyDown(e);
+        }
     }
 }
