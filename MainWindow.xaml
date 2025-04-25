@@ -9,7 +9,7 @@
         Title="MainWindow" Height="450" Width="800">
     <TabControl SelectionChanged="ActivationTabChanged">
         <TabItem Header="Парсер">
-            <pars:Parser x:Name="parser"/>
+            <pars:Parser x:Name="parser" Log="ParserLog"/>
         </TabItem>
         <TabItem Header="Редактор чека" IsEnabled="{Binding IsEnableEditor}">
             <p:Editor x:Name="editor"/>

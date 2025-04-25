@@ -66,5 +66,13 @@ namespace RetailCorrector.Wizard
                     break;
             }
         }
+
+        private void ParserLog(bool error, string text, Exception exception)
+        {
+            if (error)
+                App.Logger.Error(exception, text);
+            else
+                App.Logger.Information(text);
+        }
     }
 }
