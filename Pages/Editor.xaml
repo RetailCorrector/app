@@ -50,9 +50,9 @@
                 <TextBlock Text="Фильтр" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <DataGrid Grid.Row="2" ItemsSource="{Binding FilterItems}">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Binding="{Binding IsEnabled}"/>
-                        <DataGridComboBoxColumn Header="Параметр" Width="*" SelectedItemBinding="{Binding Property}" ItemsSource="{Binding Source={StaticResource propertiesSource}}"/>
-                        <DataGridTextColumn Header="Паттерн" Width="*" Binding="{Binding Pattern}"/>
+                        <DataGridCheckBoxColumn Binding="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridComboBoxColumn Header="Параметр" Width="*" SelectedItemBinding="{Binding Property, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source={StaticResource propertiesSource}}"/>
+                        <DataGridTextColumn Header="Паттерн" Width="*" Binding="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}"/>
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
