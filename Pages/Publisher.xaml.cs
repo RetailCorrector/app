@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace RetailCorrector.Wizard.Pages
 {
@@ -23,6 +13,17 @@ namespace RetailCorrector.Wizard.Pages
         public Publisher()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var chunks = App.Receipts.Edited.Chunk(25);
+            foreach (var chunk in chunks)
+            {
+                var text = JsonSerializer.Serialize(chunk);
+                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Path.GetRandomFileName());
+                File.WriteAllText(path, text);
+            }
         }
     }
 }
