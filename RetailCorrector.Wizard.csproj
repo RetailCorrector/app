@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <RootNamespace>RetailCorrector.Wizard</RootNamespace>
+    <AssemblyName>RetailCorrector</AssemblyName>
+    <Version>0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
