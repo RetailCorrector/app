@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -22,6 +24,8 @@ namespace RetailCorrector.Wizard.Pages
             }
         }
         private RepoPackage _current;
+
+        private string[] pastebinIds;
 
         public string ScriptText
         {
@@ -64,8 +68,9 @@ namespace RetailCorrector.Wizard.Pages
             var builder = new StringBuilder();
             var agentPath = Path.Combine("C:", "RetailCorrector");
             builder.AppendLine($"New-Item -ItemType Directory -Path \"{agentPath}\"");
+            var path = Path.Combine(agentPath, "cc");
+            builder.AppendLine($"New-Item -ItemType Directory -Path \"{path}\"");
             builder.AppendLine("$http = New-Object Net.WebClient");
-            string path;
             foreach (var depend in _current.Depends)
             {
                 path = Path.Combine(agentPath, depend.FileName);
@@ -75,6 +80,11 @@ namespace RetailCorrector.Wizard.Pages
             builder.AppendLine($"$http.DownloadFile(\"{_current.Url}\", \"{path}\")");
             path = Path.Combine(agentPath, "RetailCorrector.Agent.exe");
             builder.AppendLine($"$http.DownloadFile(\"https://\", \"{path}\")");
+            foreach(var id in pastebinIds)
+            {
+                path = Path.Combine(agentPath, "tasks", $"{id}.json");
+                builder.AppendLine($"$http.DownloadFile(\"https://pastebin.com/raw/{id}\", \"{path}\")");
+            }
             var binPath = new StringBuilder(path);
             binPath.Append($" -m '{_current.EndpointPath}'");
             if (IsPersistence) binPath.Append(" -p");
@@ -97,24 +107,32 @@ namespace RetailCorrector.Wizard.Pages
         private void OnPropertyChanged([CallerMemberName] string property = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            /*
-            var chunks = App.Receipts.Edited.Chunk(25);
-            foreach (var chunk in chunks)
-            {
-                var text = JsonSerializer.Serialize(chunk);
-                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Path.GetRandomFileName());
-                File.WriteAllText(path, text);
-            }*/
-        }
-
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Packages.Clear();
             if(e.OriginalSource is UserControl us && (int)us.ActualHeight != 0) 
                 foreach(var p in App.Repository.Value.Where(p => p.Type == RepoPackage.RepoPackageType.Fiscal))
                     Packages.Add(p);
+            var chunks = App.Receipts.Edited.Chunk(25).ToArray();
+            using var http = new HttpClient();
+            pastebinIds = new string[chunks.Length];
+            for (var i = 0; i < chunks.Length; i++)
+            {
+                var text = JsonSerializer.Serialize(chunks[i]);
+                using var req = new HttpRequestMessage(HttpMethod.Post, "https://pastebin.com/api/api_post.php");
+                Dictionary<string, string> @params = new()
+                {
+                    { "api_paste_format", "json"},
+                    { "api_dev_key", "dJwp4jZ2sJbgOUBJxXC4kXjumUXEaCqr"},
+                    { "api_option", "paste"},
+                    { "api_paste_code", text},
+                    { "api_paste_private", "1"},
+                };
+                req.Content = new FormUrlEncodedContent(@params);
+                using var resp = http.Send(req);
+                var url = resp.Content.ReadAsStringAsync().Result;
+                pastebinIds[i] = url.Split('/')[^1];
+            }
         }
     }
 }
