@@ -1,7 +1,19 @@
-﻿<UserControl x:Class="RetailCorrector.Wizard.Pages.Publisher"
+﻿<UserControl x:Class="RetailCorrector.Wizard.Pages.Publisher" Loaded="OnLoaded"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             DataContext="{Binding RelativeSource={RelativeSource Self}}" Height="383"             
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="794">
     <Grid>
-        <Button VerticalAlignment="Center" HorizontalAlignment="Center" Content="Выгрузить" Click="Button_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <WrapPanel ItemHeight="32">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <ComboBox ItemsSource="{Binding Packages}" DisplayMemberPath="Name" Width="150" SelectedItem="{Binding CurrentPackage}"/>
+                <TextBlock Text=" Фискальная интеграция"/>
+            </StackPanel>
+            <CheckBox IsChecked="{Binding IsPersistence}" Content="Оставить агента после завершения работы" VerticalContentAlignment="Center" Margin="5"/>
+        </WrapPanel>
+        <TextBox AcceptsReturn="False" Grid.Column="1" Text="{Binding ScriptText, Mode=OneWay}" TextWrapping="WrapWithOverflow" IsReadOnly="True" Margin="5"/>
     </Grid>
 </UserControl>
