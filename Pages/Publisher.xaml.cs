@@ -35,6 +35,18 @@ namespace RetailCorrector.Wizard.Pages
         }
         private string _script = "";
 
+        public string FiscalConfig
+        {
+            get => _config;
+            set
+            {
+                if (_config == value) return;
+                _config = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _config = "";
+
         public bool IsPersistence
         {
             get => persistence;
@@ -66,6 +78,7 @@ namespace RetailCorrector.Wizard.Pages
             var binPath = new StringBuilder(path);
             binPath.Append($" -m '{_current.EndpointPath}'");
             if (IsPersistence) binPath.Append(" -p");
+            binPath.Append($" -c '{FiscalConfig}'");
             builder.AppendLine($"New-Service -Name \"RetailCorrector\" -DisplayName \"Корректирующий кассир\" -BinaryPathName \"{binPath}\" -StartupType Automatic");
             ScriptText = builder.ToString();
         }
