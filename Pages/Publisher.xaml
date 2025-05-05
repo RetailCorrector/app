@@ -21,6 +21,7 @@
                 <TextBox Width="185" Text="{Binding FiscalConfig, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Text=" Настройки фискальной интеграции"/>
             </StackPanel>
+            <Button Content="Выгрузка чеков в PasteBin" Click="PushReceipts"/>
         </WrapPanel>
         <TextBox AcceptsReturn="False" Grid.Column="1" Text="{Binding ScriptText, Mode=OneWay}" TextWrapping="WrapWithOverflow" IsReadOnly="True" Margin="5"/>
     </Grid>

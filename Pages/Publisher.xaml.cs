@@ -110,12 +110,8 @@ namespace RetailCorrector.Wizard.Pages
         private void OnPropertyChanged([CallerMemberName] string property = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void PushReceipts(object sender, RoutedEventArgs e)
         {
-            Packages.Clear();
-            if(e.OriginalSource is UserControl us && (int)us.ActualHeight != 0) 
-                foreach(var p in App.Repository.Value.Where(p => p.Type == RepoPackage.RepoPackageType.Fiscal))
-                    Packages.Add(p);
             var chunks = App.Receipts.Edited.Chunk(25).ToArray();
             using var http = new HttpClient();
             pastebinIds = new string[chunks.Length];
@@ -136,6 +132,15 @@ namespace RetailCorrector.Wizard.Pages
                 var url = resp.Content.ReadAsStringAsync().Result;
                 pastebinIds[i] = url.Split('/')[^1];
             }
+            UpdateScript();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Packages.Clear();
+            if(e.OriginalSource is UserControl us && (int)us.ActualHeight != 0) 
+                foreach(var p in App.Repository.Value.Where(p => p.Type == RepoPackage.RepoPackageType.Fiscal))
+                    Packages.Add(p);            
         }
     }
 }
