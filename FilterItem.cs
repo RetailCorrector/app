@@ -61,25 +61,32 @@ namespace RetailCorrector.Wizard
         private string value = "";
         #endregion
 
-        public bool Check(Receipt receipt) => !enabled || property switch
+        public bool Check(Receipt receipt)
         {
-            0 => receipt.Created.ToString("yyyy'-'MM'-'dd") == value,
-            1 => $"{receipt.Operation:D}" == value,
-            2 => $"{receipt.RoundedSum}" == value,
-            3 => $"{receipt.Payment.Cash}" == value,
-            4 => $"{receipt.Payment.ECash}" == value,
-            5 => $"{receipt.Payment.Pre}" == value,
-            6 => $"{receipt.Payment.Post}" == value,
-            7 => $"{receipt.Payment.Provision}" == value,
-            8 => receipt.Items.Any(i => Regex.IsMatch(i.Name, value)),
-            9 => receipt.Items.Any(i => $"{i.Price}" == value),
-            10 => receipt.Items.Any(i => $"{i.Quantity}" == value),
-            11 => receipt.Items.Any(i => $"{i.TotalSum}" == value),
-            12 => receipt.Items.Any(i => $"{i.MeasureUnit:D}" == value),
-            13 => receipt.Items.Any(i => $"{i.TaxRate:D}" == value),
-            14 => receipt.Items.Any(i => $"{i.PosType:D}" == value),
-            15 => receipt.Items.Any(i => $"{i.PayType:D}" == value),
-            _ => false,
-        };
+            try
+            {
+                return !enabled || property switch
+                {
+                    0 => receipt.Created.ToString("yyyy'-'MM'-'dd") == value,
+                    1 => $"{receipt.Operation:D}" == value,
+                    2 => receipt.RoundedSum == (uint)Math.Round(double.Parse(value) * 100),
+                    3 => receipt.Payment.Cash == (uint)Math.Round(double.Parse(value) * 100),
+                    4 => receipt.Payment.ECash == (uint)Math.Round(double.Parse(value) * 100),
+                    5 => receipt.Payment.Pre == (uint)Math.Round(double.Parse(value) * 100),
+                    6 => receipt.Payment.Post == (uint)Math.Round(double.Parse(value) * 100),
+                    7 => receipt.Payment.Provision == (uint)Math.Round(double.Parse(value) * 100),
+                    8 => receipt.Items.Any(i => Regex.IsMatch(i.Name, value)),
+                    9 => receipt.Items.Any(i => i.Price == (uint)Math.Round(double.Parse(value) * 100)),
+                    10 => receipt.Items.Any(i => i.Quantity == (uint)Math.Round(double.Parse(value) * 1000)),
+                    11 => receipt.Items.Any(i => i.TotalSum == (uint)Math.Round(double.Parse(value) * 100)),
+                    12 => receipt.Items.Any(i => $"{i.MeasureUnit:D}" == value),
+                    13 => receipt.Items.Any(i => $"{i.TaxRate:D}" == value),
+                    14 => receipt.Items.Any(i => $"{i.PosType:D}" == value),
+                    15 => receipt.Items.Any(i => $"{i.PayType:D}" == value),
+                    _ => false,
+                };
+            }
+            catch { return false; }
+        }
     }
 }

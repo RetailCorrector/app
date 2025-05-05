@@ -97,84 +97,100 @@ namespace RetailCorrector.Wizard
         #region Методы редактирования
         public void Edit(ref Receipt receipt)
         {
-            switch (property)
+            try
             {
-                case 0: receipt.Operation = (Operation)int.Parse(value); break;
-                case 1: receipt.RoundedSum = uint.Parse(value); break;
-                case 2:
-                    var pay = receipt.Payment;
-                    pay.Cash = uint.Parse(value);
-                    receipt.Payment = pay;
-                    break;
-                case 3:
-                    pay = receipt.Payment;
-                    pay.ECash = uint.Parse(value);
-                    receipt.Payment = pay;
-                    break;
-                case 4:
-                    pay = receipt.Payment;
-                    pay.Pre = uint.Parse(value);
-                    receipt.Payment = pay;
-                    break;
-                case 5:
-                    pay = receipt.Payment;
-                    pay.Post = uint.Parse(value);
-                    receipt.Payment = pay;
-                    break;
-                case 6:
-                    pay = receipt.Payment;
-                    pay.Provision = uint.Parse(value);
-                    receipt.Payment = pay;
-                    break;
-                default: break;
+
+                switch (property)
+                {
+                    case 0: receipt.Operation = (Operation)int.Parse(value); break;
+                    case 1: receipt.RoundedSum = (uint)Math.Round(double.Parse(value) * 100); break;
+                    case 2:
+                        var pay = receipt.Payment;
+                        pay.Cash = (uint)Math.Round(double.Parse(value) * 100);
+                        receipt.Payment = pay;
+                        break;
+                    case 3:
+                        pay = receipt.Payment;
+                        pay.ECash = (uint)Math.Round(double.Parse(value) * 100);
+                        receipt.Payment = pay;
+                        break;
+                    case 4:
+                        pay = receipt.Payment;
+                        pay.Pre = (uint)Math.Round(double.Parse(value) * 100);
+                        receipt.Payment = pay;
+                        break;
+                    case 5:
+                        pay = receipt.Payment;
+                        pay.Post = (uint)Math.Round(double.Parse(value) * 100);
+                        receipt.Payment = pay;
+                        break;
+                    case 6:
+                        pay = receipt.Payment;
+                        pay.Provision = (uint)Math.Round(double.Parse(value) * 100);
+                        receipt.Payment = pay;
+                        break;
+                    default: break;
+                }
             }
+            catch { }
         }
         public void Edit(ref Position position)
         {
-            switch (property)
-            {
-                case 0: position.Name = value; break;
-                case 1: position.Price = uint.Parse(value); break;
-                case 2:
-                    position.Quantity = uint.Parse(value);
-                    position.TotalSum = (uint)(position.Quantity * position.Price / 1000.0);
-                    break;
-                case 3: position.TotalSum = uint.Parse(value); break;
-                case 4: position.MeasureUnit = (MeasureUnit)uint.Parse(value); break;
-                case 5: position.PayType = (PaymentType)uint.Parse(value); break;
-                case 6: position.PosType = (PositionType)uint.Parse(value); break;
-                case 7: position.TaxRate = (TaxRate)uint.Parse(value); break;
-                default: break;
+            try { 
+                switch (property)
+                {
+                    case 0: position.Name = value; break;
+                    case 1: position.Price = (uint)Math.Round(double.Parse(value)*100); break;
+                    case 2: position.Quantity = (uint)Math.Round(double.Parse(value) * 1000); break;
+                    case 3: position.TotalSum = (uint)Math.Round(double.Parse(value) * 100); break;
+                    case 4: position.MeasureUnit = (MeasureUnit)uint.Parse(value); break;
+                    case 5: position.PayType = (PaymentType)uint.Parse(value); break;
+                    case 6: position.PosType = (PositionType)uint.Parse(value); break;
+                    case 7: position.TaxRate = (TaxRate)uint.Parse(value); break;
+                    default: break;
+                }
             }
+            catch { }
         }
         #endregion
 
         #region Методы проверки
-        public bool Check(Position position) =>
-            condition switch
+        public bool Check(Position position)
+        {
+            try { 
+                return condition switch
+                {
+                    0 => Regex.IsMatch(position.Name, pattern),
+                    1 => position.Price == (uint)Math.Round(double.Parse(pattern) * 100),
+                    2 => position.Quantity == (uint)Math.Round(double.Parse(pattern) * 1000),
+                    3 => position.TotalSum == (uint)Math.Round(double.Parse(pattern) * 100),
+                    4 => $"{position.MeasureUnit:D}" == pattern,
+                    5 => $"{position.PayType:D}" == pattern,
+                    6 => $"{position.PosType:D}" == pattern,
+                    7 => $"{position.TaxRate:D}" == pattern,
+                    _ => false
+                };
+            }
+            catch { return false; }
+        }
+        public bool Check(Receipt receipt)
+        {
+            try
             {
-                0 => Regex.IsMatch(position.Name, pattern),
-                1 => $"{position.Price}" == pattern,
-                2 => $"{position.Quantity}" == pattern,
-                3 => $"{position.TotalSum}" == pattern,
-                4 => $"{position.MeasureUnit:D}" == pattern,
-                5 => $"{position.PayType:D}" == pattern,
-                6 => $"{position.PosType:D}" == pattern,
-                7 => $"{position.TaxRate:D}" == pattern,
-                _ => false
-            };
-        public bool Check(Receipt receipt) =>
-            condition switch
-            {
-                0 => $"{receipt.Operation:D}" == pattern,
-                1 => $"{receipt.RoundedSum}" == pattern,
-                2 => $"{receipt.Payment.Cash}" == pattern,
-                3 => $"{receipt.Payment.ECash}" == pattern,
-                4 => $"{receipt.Payment.Pre}" == pattern,
-                5 => $"{receipt.Payment.Post}" == pattern,
-                6 => $"{receipt.Payment.Provision}" == pattern,
-                _ => false
-            };
+                return condition switch
+                {
+                    0 => $"{receipt.Operation:D}" == pattern,
+                    1 => receipt.RoundedSum == (uint)Math.Round(double.Parse(pattern) * 100),
+                    2 => receipt.Payment.Cash == (uint)Math.Round(double.Parse(pattern) * 100),
+                    3 => receipt.Payment.ECash == (uint)Math.Round(double.Parse(pattern) * 100),
+                    4 => receipt.Payment.Pre == (uint)Math.Round(double.Parse(pattern) * 100),
+                    5 => receipt.Payment.Post == (uint)Math.Round(double.Parse(pattern) * 100),
+                    6 => receipt.Payment.Provision == (uint)Math.Round(double.Parse(pattern) * 100),
+                    _ => false
+                };
+            }
+            catch { return false; }
+        }
         #endregion
     }
 }
