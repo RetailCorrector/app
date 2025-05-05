@@ -21,6 +21,7 @@ namespace RetailCorrector.Wizard.Pages
                 if (_current == value) return;
                 _current = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(TipText));
             }
         }
         private RepoPackage _current;
@@ -38,6 +39,8 @@ namespace RetailCorrector.Wizard.Pages
             }
         }
         private string _script = "";
+
+        public string TipText => string.Join("\n  ", CurrentPackage?.ConfigTip ?? []);
 
         public string FiscalConfig
         {

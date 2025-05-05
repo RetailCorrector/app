@@ -13,7 +13,7 @@ namespace RetailCorrector.Wizard
         [JsonPropertyName("typepath")]
         public string EndpointPath { get; set; }
         [JsonPropertyName("conftip")]
-        public string? ConfigTip { get; set; }
+        public string[] ConfigTip { get; set; }
         [JsonPropertyName("depends")]
         public RepoDepend[] Depends { get; set; }
 
