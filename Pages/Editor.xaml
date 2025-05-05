@@ -38,7 +38,7 @@
                 <DataGridTemplateColumn Header="Условие" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding ConditionName}"/>
+                            <TextBlock Text="{Binding Path=ConditionName}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
@@ -47,7 +47,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Паттерн" Width="*" Binding="{Binding ConditionPropertyPattern, UpdateSourceTrigger=LostFocus}"/>
+            <DataGridTextColumn Header="Паттерн" Width="*" Binding="{Binding ConditionPattern, UpdateSourceTrigger=LostFocus}"/>
                 <DataGridTemplateColumn Header="Свойства" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

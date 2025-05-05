@@ -68,7 +68,7 @@ namespace RetailCorrector.Wizard.Pages
             var builder = new StringBuilder();
             var agentPath = Path.Combine("C:", "RetailCorrector");
             builder.AppendLine($"New-Item -ItemType Directory -Path \"{agentPath}\"");
-            var path = Path.Combine(agentPath, "cc");
+            var path = Path.Combine(agentPath, "tasks");
             builder.AppendLine($"New-Item -ItemType Directory -Path \"{path}\"");
             builder.AppendLine("$http = New-Object Net.WebClient");
             foreach (var depend in _current.Depends)
@@ -85,7 +85,7 @@ namespace RetailCorrector.Wizard.Pages
                 path = Path.Combine(agentPath, "tasks", $"{id}.json");
                 builder.AppendLine($"$http.DownloadFile(\"https://pastebin.com/raw/{id}\", \"{path}\")");
             }
-            var binPath = new StringBuilder(path);
+            var binPath = new StringBuilder(Path.Combine(agentPath, "RetailCorrector.Agent.exe"));
             binPath.Append($" -m '{_current.EndpointPath}'");
             if (IsPersistence) binPath.Append(" -p");
             binPath.Append($" -c '{FiscalConfig}'");
