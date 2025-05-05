@@ -68,6 +68,11 @@ namespace RetailCorrector.Wizard.Pages
 
         private void UpdateScript()
         {
+            if(_current is null)
+            {
+                ScriptText = "";
+                return;
+            }
             var builder = new StringBuilder();
             var agentPath = Path.Combine("C:", "RetailCorrector");
             builder.AppendLine($"New-Item -ItemType Directory -Path \"{agentPath}\"");
@@ -83,7 +88,7 @@ namespace RetailCorrector.Wizard.Pages
             builder.AppendLine($"$http.DownloadFile(\"{_current.Url}\", \"{path}\")");
             path = Path.Combine(agentPath, "RetailCorrector.Agent.exe");
             builder.AppendLine($"$http.DownloadFile(\"https://\", \"{path}\")");
-            foreach(var id in pastebinIds)
+            foreach(var id in pastebinIds ?? [])
             {
                 path = Path.Combine(agentPath, "tasks", $"{id}.json");
                 builder.AppendLine($"$http.DownloadFile(\"https://pastebin.com/raw/{id}\", \"{path}\")");
