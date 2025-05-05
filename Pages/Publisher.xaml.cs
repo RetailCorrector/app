@@ -87,7 +87,7 @@ namespace RetailCorrector.Wizard.Pages
             path = Path.Combine(agentPath, $"{_current.EndpointPath.Split(", ")[^1]}.dll");
             builder.AppendLine($"$http.DownloadFile(\"{_current.Url}\", \"{path}\")");
             path = Path.Combine(agentPath, "RetailCorrector.Agent.exe");
-            builder.AppendLine($"$http.DownloadFile(\"https://\", \"{path}\")");
+            builder.AppendLine($"$http.DownloadFile(\"https://github.com/ornaras/RetailCorrector.Archive/raw/refs/heads/main/v{App.Version}/RetailCorrector.Agent.exe\", \"{path}\")");
             foreach(var id in pastebinIds ?? [])
             {
                 path = Path.Combine(agentPath, "tasks", $"{id}.json");

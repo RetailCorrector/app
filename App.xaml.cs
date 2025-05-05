@@ -16,6 +16,7 @@ namespace RetailCorrector.Wizard
                 flushToDiskInterval: TimeSpan.FromMilliseconds(100))
             .CreateLogger();
         public static Lazy<RepoPackage[]> Repository = new(LoadRepository);
+        public static string Version = typeof(App).Assembly.GetName().Version.ToString(2);
 
         private static RepoPackage[] LoadRepository()
         {
