@@ -84,8 +84,7 @@ namespace RetailCorrector.Wizard.Pages
                 path = Path.Combine(agentPath, depend.FileName);
                 builder.AppendLine($"$http.DownloadFile(\"{depend.Url}\", \"{path}\")");
             }
-            path = Path.Combine(agentPath, $"{_current.EndpointPath.Split(", ")[^1]}.dll");
-            builder.AppendLine($"$http.DownloadFile(\"{_current.Url}\", \"{path}\")");
+            builder.AppendLine($"$http.DownloadFile(\"{_current.Url}\", \"{Path.Combine(agentPath, $"fiscal.ps1")}\")");
             path = Path.Combine(agentPath, "RetailCorrector.Agent.exe");
             builder.AppendLine($"$http.DownloadFile(\"https://github.com/ornaras/RetailCorrector.Archive/raw/refs/heads/main/v{App.Version}/RetailCorrector.Agent.exe\", \"{path}\")");
             foreach(var id in pastebinIds ?? [])
