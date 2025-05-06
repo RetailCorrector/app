@@ -21,7 +21,7 @@ namespace RetailCorrector.Wizard
         private static RepoPackage[] LoadRepository()
         {
             var args = Environment.GetCommandLineArgs();
-            var url = "https://raw.githubusercontent.com/ornaras/RetailCorrector.Examples/refs/heads/docs/repository.json";
+            var url = "https://raw.githubusercontent.com/ornaras/RCOfficialModules/refs/heads/stable/repository.json";
             if (args.Length > 1) url = args[1];
             using var http = new HttpClient();
             using var req = new HttpRequestMessage(HttpMethod.Get, url);
