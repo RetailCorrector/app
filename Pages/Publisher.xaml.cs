@@ -79,11 +79,6 @@ namespace RetailCorrector.Wizard.Pages
             var path = Path.Combine(agentPath, "tasks");
             builder.AppendLine($"New-Item -ItemType Directory -Path \"{path}\"");
             builder.AppendLine("$http = New-Object Net.WebClient");
-            foreach (var depend in _current.Depends)
-            {
-                path = Path.Combine(agentPath, depend.FileName);
-                builder.AppendLine($"$http.DownloadFile(\"{depend.Url}\", \"{path}\")");
-            }
             builder.AppendLine($"$http.DownloadFile(\"{_current.Url}\", \"{Path.Combine(agentPath, $"fiscal.ps1")}\")");
             path = Path.Combine(agentPath, "RetailCorrector.Agent.exe");
             builder.AppendLine($"$http.DownloadFile(\"https://github.com/ornaras/RetailCorrector.Archive/raw/refs/heads/main/v{App.Version}/RetailCorrector.Agent.exe\", \"{path}\")");
@@ -93,7 +88,6 @@ namespace RetailCorrector.Wizard.Pages
                 builder.AppendLine($"$http.DownloadFile(\"https://pastebin.com/raw/{id}\", \"{path}\")");
             }
             var binPath = new StringBuilder(Path.Combine(agentPath, "RetailCorrector.Agent.exe"));
-            binPath.Append($" -m '{_current.EndpointPath}'");
             if (IsPersistence) binPath.Append(" -p");
             binPath.Append($" -c '{FiscalConfig}'");
             builder.AppendLine($"New-Service -Name \"RetailCorrector\" -DisplayName \"Корректирующий кассир\" -BinaryPathName \"{binPath}\" -StartupType Automatic");
