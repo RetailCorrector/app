@@ -79,7 +79,6 @@ namespace RetailCorrector.Wizard.Pages
             var path = Path.Combine(agentPath, "tasks");
             builder.AppendLine($"New-Item -ItemType Directory -Path \"{path}\"");
             builder.AppendLine("$http = New-Object Net.WebClient");
-            builder.AppendLine($"$http.DownloadFile(\"{_current.Url}\", \"{Path.Combine(agentPath, $"fiscal.ps1")}\")");
             path = Path.Combine(agentPath, "RetailCorrector.Agent.exe");
             builder.AppendLine($"$http.DownloadFile(\"https://github.com/ornaras/RetailCorrector.Archive/raw/refs/heads/main/v{App.Version}/RetailCorrector.Agent.exe\", \"{path}\")");
             foreach(var id in pastebinIds ?? [])
@@ -90,7 +89,7 @@ namespace RetailCorrector.Wizard.Pages
             var binPath = new StringBuilder(Path.Combine(agentPath, "RetailCorrector.Agent.exe"));
             if (IsPersistence) binPath.Append(" -p");
             binPath.Append($" -c '{FiscalConfig}'");
-            builder.AppendLine($"New-Service -Name \"RetailCorrector\" -DisplayName \"Корректирующий кассир\" -BinaryPathName \"{binPath}\" -StartupType Automatic");
+            builder.AppendLine($"New-Service -Name \"RetailCorrector\" -DisplayName \"Корректирующий кассир\" -BinaryPathName \"{binPath} -m {_current.Url}\" -StartupType Automatic");
             ScriptText = builder.ToString();
         }
 
