@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
-using System.Text;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,20 +26,6 @@ namespace RetailCorrector.Wizard.Pages
             }
         }
         private RepoPackage _current;
-
-        private string[] pastebinIds;
-
-        public string ScriptText
-        {
-            get => _script;
-            private set
-            {
-                if (_script == value) return;
-                _script = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _script = "";
 
         public string TipText => string.Join("\n  ", CurrentPackage?.ConfigTip ?? []);
 
@@ -66,41 +53,8 @@ namespace RetailCorrector.Wizard.Pages
         }
         private bool persistence;
 
-        private void UpdateScript()
-        {
-            if(_current is null)
-            {
-                ScriptText = "";
-                return;
-            }
-            var builder = new StringBuilder();
-            var agentPath = Path.Combine("C:", "RetailCorrector");
-            builder.AppendLine($"New-Item -ItemType Directory -Path \"{agentPath}\"");
-            var path = Path.Combine(agentPath, "tasks");
-            builder.AppendLine($"New-Item -ItemType Directory -Path \"{path}\"");
-            builder.AppendLine("$http = New-Object Net.WebClient");
-            builder.AppendLine($"$http.DownloadFile(\"{_current.Url}\", \"{Path.Combine(agentPath, $"fiscal.ps1")}\")");
-            path = Path.Combine(agentPath, "RetailCorrector.Agent.exe");
-            builder.AppendLine($"$http.DownloadFile(\"https://github.com/ornaras/RetailCorrector.Archive/raw/refs/heads/main/v{App.Version}/RetailCorrector.Agent.exe\", \"{path}\")");
-            foreach(var id in pastebinIds ?? [])
-            {
-                path = Path.Combine(agentPath, "tasks", $"{id}.json");
-                builder.AppendLine($"$http.DownloadFile(\"https://pastebin.com/raw/{id}\", \"{path}\")");
-            }
-            var binPath = new StringBuilder(Path.Combine(agentPath, "RetailCorrector.Agent.exe"));
-            if (IsPersistence) binPath.Append(" -p");
-            binPath.Append($" -c '{FiscalConfig}'");
-            builder.AppendLine($"New-Service -Name \"RetailCorrector\" -DisplayName \"Корректирующий кассир\" -BinaryPathName \"{binPath}\" -StartupType Automatic");
-            ScriptText = builder.ToString();
-        }
-
         public Publisher()
         {
-            PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName != nameof(ScriptText))
-                    UpdateScript();
-            };
             InitializeComponent();
         }
 
@@ -110,27 +64,13 @@ namespace RetailCorrector.Wizard.Pages
 
         private void PushReceipts(object sender, RoutedEventArgs e)
         {
-            var chunks = App.Receipts.Edited.Chunk(25).ToArray();
-            using var http = new HttpClient();
-            pastebinIds = new string[chunks.Length];
-            for (var i = 0; i < chunks.Length; i++)
-            {
-                var text = JsonSerializer.Serialize(chunks[i]);
-                using var req = new HttpRequestMessage(HttpMethod.Post, "https://pastebin.com/api/api_post.php");
-                Dictionary<string, string> @params = new()
-                {
-                    { "api_paste_format", "json"},
-                    { "api_dev_key", "dJwp4jZ2sJbgOUBJxXC4kXjumUXEaCqr"},
-                    { "api_option", "paste"},
-                    { "api_paste_code", text},
-                    { "api_paste_private", "1"},
-                };
-                req.Content = new FormUrlEncodedContent(@params);
-                using var resp = http.Send(req);
-                var url = resp.Content.ReadAsStringAsync().Result;
-                pastebinIds[i] = url.Split('/')[^1];
-            }
-            UpdateScript();
+            CreateTempFolder();
+            UnzipAgent();
+            DownloadFiscal();
+            SaveReceipts();
+            Configure();
+            BuildInstaller();
+            //ClearTempFolder();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -140,5 +80,64 @@ namespace RetailCorrector.Wizard.Pages
                 foreach(var p in App.Repository.Value.Where(p => p.Type == RepoPackage.RepoPackageType.Fiscal))
                     Packages.Add(p);            
         }
+
+        private void CreateTempFolder()
+        {
+            var path = Path.Combine(AppContext.BaseDirectory, "Temp");
+            Directory.CreateDirectory(path);
+        }
+        private void UnzipAgent()
+        {
+            var path = Path.Combine(AppContext.BaseDirectory, "agent.zip");
+            var temp = Path.Combine(AppContext.BaseDirectory, "Temp");
+            using var fs = File.OpenRead(path);
+            using var zip = new ZipArchive(fs);
+            zip.ExtractToDirectory(temp);
+        }
+        private void DownloadFiscal()
+        {
+            using var http = new HttpClient();
+            using var req = new HttpRequestMessage(HttpMethod.Get, _current.Url);
+            using var resp = http.Send(req);
+            using var stream = resp.Content.ReadAsStream();
+            var path = Path.Combine(AppContext.BaseDirectory, "Temp", "ExtFiscal.dll");
+            using var fs = File.Create(path);
+            stream.CopyTo(fs);
+        }
+        private void SaveReceipts()
+        {
+            var chunks = App.Receipts.Edited.Chunk(25).ToArray();
+            for (var i = 0; i < chunks.Length; i++)
+            {
+                var text = JsonSerializer.Serialize(chunks[i]);
+                var path = Path.Combine(AppContext.BaseDirectory, "Temp", "tasks", $"{Path.GetRandomFileName().Replace(".", "")}.json");
+                File.WriteAllText(path, text);
+            }
+        }
+        private void Configure()
+        {
+            SetConfig("generic", "fiscal", FiscalConfig);
+            SetConfig("generic", "persistence", $"{IsPersistence}");
+        }
+        private void BuildInstaller()
+        {
+
+        }
+        private void ClearTempFolder()
+        {
+            var path = Path.Combine(AppContext.BaseDirectory, "Temp");
+            Directory.Delete(path, true);
+        }
+
+        private static void SetConfig(string section, string key, string value)
+        {
+            var path = Path.Combine(AppContext.BaseDirectory, "Temp", "settings.ini");
+            WritePrivateProfileString(section, key, value, path);
+        }
+
+        #region Native
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        private static extern bool WritePrivateProfileString(string lpAppName, string lpKeyName, string lpString, string lpFileName);
+        #endregion
     }
 }
