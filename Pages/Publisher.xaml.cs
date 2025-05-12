@@ -68,6 +68,7 @@ namespace RetailCorrector.Wizard.Pages
             UnzipAgent();
             DownloadFiscal();
             SaveReceipts();
+            SaveReport();
             Configure();
             BuildInstaller();
             //ClearTempFolder();
@@ -113,6 +114,12 @@ namespace RetailCorrector.Wizard.Pages
                 var path = Path.Combine(AppContext.BaseDirectory, "Temp", "tasks", $"{Path.GetRandomFileName().Replace(".", "")}.json");
                 File.WriteAllText(path, text);
             }
+        }
+        private void SaveReport()
+        {
+            var text = JsonSerializer.Serialize(App.Receipts.Report);
+            var path = Path.Combine(AppContext.BaseDirectory, "Temp", "report.json");
+            File.WriteAllText(path, text);
         }
         private void Configure()
         {

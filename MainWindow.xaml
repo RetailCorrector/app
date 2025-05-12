@@ -17,6 +17,9 @@
         <TabItem Header="Редактор чека" IsEnabled="{Binding IsEnableEditor}">
             <p:Editor/>
         </TabItem>
+        <TabItem Header="Редактор отчета">
+            <p:Report/>
+        </TabItem>
         <TabItem Header="Сборка" IsEnabled="{Binding IsEnablePublisher}">
             <p:Publisher/>
         </TabItem>
