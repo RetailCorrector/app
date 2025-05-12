@@ -19,8 +19,10 @@
             <Setter Property="Width" Value="390"/>
             <Setter Property="CanUserResizeRows" Value="False"/>
             <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
             <Setter Property="CanUserResizeColumns" Value="False"/>
             <Setter Property="CanUserSortColumns" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
             <Setter Property="AutoGenerateColumns" Value="False"/>
             <Setter Property="Height" Value="346"/>
         </Style>
@@ -31,15 +33,25 @@
         <ComboBox ItemsSource="{Binding Source={StaticResource contentType}}" Width="70" Canvas.Right="0" IsEnabled="False" SelectedItem="{Binding ContentType}"/>
         <DataGrid Canvas.Top="27" ItemsSource="{Binding Headers}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Заголовок" Width="*" Binding="{Binding Item1}"/>
-                <DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Item2}"/>
+                <DataGridTextColumn Header="Заголовок" Width="*" Binding="{Binding Key}"/>
+                <DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Value}"/>
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить" Click="AddHeader"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
         <DataGrid Canvas.Top="27" Canvas.Right="0" ItemsSource="{Binding Body}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Ключ" Width="*" Binding="{Binding Item1}"/>
-                <DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Item2}"/>
+                <DataGridTextColumn Header="Ключ" Width="*" Binding="{Binding Key}"/>
+                <DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Value}"/>
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить" Click="AddBody"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Canvas>
 </UserControl>

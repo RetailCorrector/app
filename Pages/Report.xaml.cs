@@ -1,5 +1,7 @@
 ﻿using RetailCorrector.Enums;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,8 +12,8 @@ namespace RetailCorrector.Wizard.Pages
         public string Url { get; set; }
         public HttpMethod Method { get; set; } = HttpMethod.GET;
         public ReportContentType ContentType { get; set; } = ReportContentType.JSON;
-        public ObservableCollection<Tuple<string, string>> Body { get; set; }
-        public ObservableCollection<Tuple<string, string>> Headers { get; set; }
+        public ObservableCollection<KVPair> Body { get; } = [];
+        public ObservableCollection<KVPair> Headers { get; } = [];
 
         public Report()
         {
@@ -23,15 +25,15 @@ namespace RetailCorrector.Wizard.Pages
             var headers = new Dictionary<string, List<string>>();
             foreach (var head in Headers)
             {
-                if(headers.ContainsKey(head.Item1))
-                    headers[head.Item1].Add(head.Item2);
+                if(headers.ContainsKey(head.Key))
+                    headers[head.Key].Add(head.Value);
                 else
-                    headers.Add(head.Item1, [head.Item2]);
+                    headers.Add(head.Key, [head.Value]);
             }
             var body = new Dictionary<string, object>();
             foreach (var _b in Body)
-                if (!body.ContainsKey(_b.Item1))
-                    body.Add(_b.Item1, _b.Item2);
+                if (!body.ContainsKey(_b.Key))
+                    body.Add(_b.Key, _b.Value);
 
             App.Receipts.Report = new RetailCorrector.Report
             {
@@ -44,6 +46,39 @@ namespace RetailCorrector.Wizard.Pages
                 },
                 Headers = headers
             };
+        }
+
+        private void AddHeader(object sender, RoutedEventArgs args) => Headers.Add(new KVPair());
+        
+        private void AddBody(object sender, RoutedEventArgs args) => Body.Add(new KVPair());
+
+        public class KVPair: INotifyPropertyChanged
+        {
+            public string Key
+            {
+                get => _key;
+                set
+                {
+                    _key = value;
+                    OnPropertyChanged();
+                }
+            }
+            public string Value
+            {
+                get => _value;
+                set
+                {
+                    _value = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            private string _key = "";
+            private string _value = "";
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+            private void OnPropertyChanged([CallerMemberName] string propName = "") =>
+                PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propName));
         }
     }
 }
