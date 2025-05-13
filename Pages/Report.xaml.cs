@@ -33,7 +33,13 @@ namespace RetailCorrector.Wizard.Pages
             var body = new Dictionary<string, object>();
             foreach (var _b in Body)
                 if (!body.ContainsKey(_b.Key))
-                    body.Add(_b.Key, _b.Value);
+                {
+                    if(long.TryParse(_b.Value, out var @long))
+                        body.Add(_b.Key, @long);
+                    else if (bool.TryParse(_b.Value, out var @bool))
+                        body.Add(_b.Key, @bool);
+                    else body.Add(_b.Key, _b.Value);
+                }
 
             App.Receipts.Report = new RetailCorrector.Report
             {
