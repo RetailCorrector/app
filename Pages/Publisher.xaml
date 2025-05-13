@@ -23,5 +23,9 @@
             </StackPanel>
             <Button Content="Выгрузка чеков в PasteBin" Click="PushReceipts"/>
         </WrapPanel>
+        <DockPanel Grid.Column="1">
+            <ProgressBar DockPanel.Dock="Bottom" Height="10" Maximum="{Binding MaxProgress}" Value="{Binding CurrProgress}"/>
+            <TextBox IsReadOnly="True" AcceptsReturn="True" Text="{Binding LogText}" TextWrapping="WrapWithOverflow"/>
+        </DockPanel>
     </Grid>
 </UserControl>
