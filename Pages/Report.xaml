@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="RetailCorrector.Wizard.Pages.Report" Width="784" Height="373"
+﻿<UserControl x:Class="RetailCorrector.Wizard.Pages.Report"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:sys="clr-namespace:System;assembly=mscorlib" Margin="5"
@@ -27,11 +27,32 @@
             <Setter Property="Height" Value="346"/>
         </Style>
     </UserControl.Resources>
-    <Canvas>
-        <ComboBox ItemsSource="{Binding Source={StaticResource httpMethod}}" Width="70" SelectedItem="{Binding Method}"/>
-        <TextBox Height="22" VerticalContentAlignment="Center" Canvas.Left="75" Width="634" Text="{Binding Url}"/>
-        <ComboBox ItemsSource="{Binding Source={StaticResource contentType}}" Width="70" Canvas.Right="0" IsEnabled="False" SelectedItem="{Binding ContentType}"/>
-        <DataGrid Canvas.Top="27" ItemsSource="{Binding Headers}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="70"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ComboBox ItemsSource="{Binding Source={StaticResource httpMethod}}" SelectedItem="{Binding Method}"/>
+        <TextBox VerticalContentAlignment="Center" Text="{Binding Url}" Grid.ColumnSpan="3" Grid.Column="2"/>
+        <ComboBox ItemsSource="{Binding Source={StaticResource contentType}}" IsEnabled="False" 
+                  SelectedItem="{Binding ContentType}" Grid.Column="6"/>
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="3" Text="Заголовки" VerticalAlignment="Center"
+                   HorizontalAlignment="Center" FontWeight="Bold" FontSize="18"/>
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="3" Text="Контент" VerticalAlignment="Center"
+                   HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" Grid.Column="4"/>
+        <DataGrid Grid.Row="4" Grid.ColumnSpan="3" ItemsSource="{Binding Headers}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Заголовок" Width="*" Binding="{Binding Key}"/>
                 <DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Value}"/>
@@ -42,7 +63,7 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <DataGrid Canvas.Top="27" Canvas.Right="0" ItemsSource="{Binding Body}">
+        <DataGrid Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="4" ItemsSource="{Binding Body}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Ключ" Width="*" Binding="{Binding Key}"/>
                 <DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Value}"/>
@@ -53,5 +74,5 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-    </Canvas>
+    </Grid>
 </UserControl>
