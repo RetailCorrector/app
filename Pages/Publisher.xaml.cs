@@ -102,19 +102,19 @@ namespace RetailCorrector.Wizard.Pages
         private void OnPropertyChanged([CallerMemberName] string property = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
-        private void PushReceipts(object sender, RoutedEventArgs e)
+        private async void PushReceipts(object sender, RoutedEventArgs e)
         {
             try
             {
                 MaxProgress = 8;
-                ClearTempFolder();
-                CreateTempFolder();
-                UnzipAgent();
-                DownloadFiscal();
-                SaveReceipts();
-                SaveReport();
-                Configure();
-                BuildInstaller();
+                await Task.Run(ClearTempFolder);
+                await Task.Run(CreateTempFolder);
+                await Task.Run(UnzipAgent);
+                await Task.Run(DownloadFiscal);
+                await Task.Run(SaveReceipts);
+                await Task.Run(SaveReport);
+                await Task.Run(Configure);
+                await BuildInstaller();
             }
             catch (Exception ex)
             {
@@ -123,7 +123,7 @@ namespace RetailCorrector.Wizard.Pages
             }
             finally
             {
-                ClearTempFolder();
+                await Task.Run(ClearTempFolder);
             }
         }
 
@@ -192,7 +192,7 @@ namespace RetailCorrector.Wizard.Pages
             SetConfig("generic", "persistence", $"{IsPersistence}");
             CurrProgress++;
         }
-        private void BuildInstaller()
+        private async Task BuildInstaller()
         {
             LogText += ">>> Упаковка агента...\n";
             var info = new ProcessStartInfo()
@@ -201,7 +201,8 @@ namespace RetailCorrector.Wizard.Pages
                 Arguments = Path.Combine(AppContext.BaseDirectory, "Temp", "installer.nsi"),
                 CreateNoWindow = true
             };
-            Process.Start(info)!.WaitForExit();
+            var proc = Process.Start(info)!;
+            await proc.WaitForExitAsync();
             LogText += ">>> Сохранение установщика агента\n";
             var save = new SaveFileDialog
             {
