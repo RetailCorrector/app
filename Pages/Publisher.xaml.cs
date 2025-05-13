@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
-﻿using System.Collections.ObjectModel;
+using Serilog;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -66,14 +67,25 @@ namespace RetailCorrector.Wizard.Pages
 
         private void PushReceipts(object sender, RoutedEventArgs e)
         {
-            CreateTempFolder();
-            UnzipAgent();
-            DownloadFiscal();
-            SaveReceipts();
-            SaveReport();
-            Configure();
-            BuildInstaller();
-            //ClearTempFolder();
+            try
+            {
+                CreateTempFolder();
+                UnzipAgent();
+                DownloadFiscal();
+                SaveReceipts();
+                SaveReport();
+                Configure();
+                BuildInstaller();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex}", "Ошибка при сборке... Сообщите разработчику!", MessageBoxButton.OK, MessageBoxImage.Hand);
+                Log.Logger.Fatal(ex, "Не удалось собрать установщик агента!");
+            }
+            finally
+            {
+                ClearTempFolder();
+            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
