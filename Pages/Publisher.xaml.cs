@@ -107,6 +107,8 @@ namespace RetailCorrector.Wizard.Pages
             try
             {
                 MaxProgress = 8;
+                ClearTempFolder();
+                CreateTempFolder();
                 UnzipAgent();
                 DownloadFiscal();
                 SaveReceipts();
@@ -197,6 +199,7 @@ namespace RetailCorrector.Wizard.Pages
             {
                 FileName = Path.Combine(AppContext.BaseDirectory, "NSIS", "makensis.exe"),
                 Arguments = Path.Combine(AppContext.BaseDirectory, "Temp", "installer.nsi"),
+                CreateNoWindow = true
             };
             Process.Start(info)!.WaitForExit();
             LogText += ">>> Сохранение установщика агента\n";
@@ -207,13 +210,14 @@ namespace RetailCorrector.Wizard.Pages
             };
             save.ShowDialog();
             LogText += $">>> Установщик агента находится по пути: {save.FileName}\n";
+            File.Move(Path.Combine(AppContext.BaseDirectory, "Temp", "RCAgent_Setup.exe"), save.FileName, true);
             CurrProgress++;
         }
         private void ClearTempFolder()
         {
             LogText += ">>> Удаление временных файлов...\n";
             var path = Path.Combine(AppContext.BaseDirectory, "Temp");
-            Directory.Delete(path, true);
+            if(Directory.Exists(path)) Directory.Delete(path, true);
             CurrProgress++;
         }
 
