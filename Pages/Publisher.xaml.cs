@@ -1,5 +1,7 @@
+﻿using Microsoft.Win32;
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -129,7 +131,19 @@ namespace RetailCorrector.Wizard.Pages
         }
         private void BuildInstaller()
         {
-
+            var info = new ProcessStartInfo()
+            {
+                FileName = Path.Combine(AppContext.BaseDirectory, "NSIS", "makensis.exe"),
+                Arguments = Path.Combine(AppContext.BaseDirectory, "Temp", "installer.nsi"),
+            };
+            Process.Start(info)!.WaitForExit();
+            var save = new SaveFileDialog
+            {
+                FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"RCAgent_Setup.exe"),
+                Filter = "Исполняемый файл|*.exe"
+            };
+            save.ShowDialog();
+            File.Move(Path.Combine(AppContext.BaseDirectory, "Temp", "RCAgent_Setup.exe"), save.FileName);
         }
         private void ClearTempFolder()
         {
