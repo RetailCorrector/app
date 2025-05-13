@@ -102,7 +102,24 @@ namespace RetailCorrector.Wizard.Pages
         private void OnPropertyChanged([CallerMemberName] string property = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
-        private async void PushReceipts(object sender, RoutedEventArgs e)
+        private async void SaveConfig(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MaxProgress = 4;
+                await Task.Run(ClearTempFolder);
+                await Task.Run(CreateTempFolder);
+                await Task.Run(SaveReceipts);
+                await Task.Run(SaveReport);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex}", "Ошибка при выгрузке... Сообщите разработчику!", MessageBoxButton.OK, MessageBoxImage.Hand);
+                Log.Logger.Fatal(ex, "Не удалось выгрузить чеки и отчет!");
+            }
+        }
+
+        private async void BuildSetup(object sender, RoutedEventArgs e)
         {
             try
             {

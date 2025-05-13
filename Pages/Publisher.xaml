@@ -21,7 +21,10 @@
                 <TextBox Width="185" Text="{Binding FiscalConfig, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Text=" Настройки фискальной интеграции"/>
             </StackPanel>
-            <Button Content="Выгрузка чеков в PasteBin" Click="PushReceipts"/>
+            <WrapPanel Orientation="Horizontal" ItemHeight="22" ItemWidth="198">
+                <Button Content="Выгрузка чека и отчета" Click="SaveConfig"/>
+                <Button Content="Сборка установщика" Click="BuildSetup" Margin="1,0,-1,0"/>
+            </WrapPanel>
         </WrapPanel>
         <DockPanel Grid.Column="1">
             <ProgressBar DockPanel.Dock="Bottom" Height="10" Maximum="{Binding MaxProgress}" Value="{Binding CurrProgress}"/>
