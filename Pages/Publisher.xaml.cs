@@ -93,7 +93,7 @@ namespace RetailCorrector.Wizard.Pages
             var temp = Path.Combine(AppContext.BaseDirectory, "Temp");
             using var fs = File.OpenRead(path);
             using var zip = new ZipArchive(fs);
-            zip.ExtractToDirectory(temp);
+            zip.ExtractToDirectory(temp, true);
         }
         private void DownloadFiscal()
         {
@@ -112,6 +112,7 @@ namespace RetailCorrector.Wizard.Pages
             {
                 var text = JsonSerializer.Serialize(chunks[i]);
                 var path = Path.Combine(AppContext.BaseDirectory, "Temp", "tasks", $"{Path.GetRandomFileName().Replace(".", "")}.json");
+                Directory.CreateDirectory(Path.GetDirectoryName(path)!);
                 File.WriteAllText(path, text);
             }
         }
