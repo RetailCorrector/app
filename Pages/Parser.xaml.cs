@@ -1,4 +1,5 @@
 ﻿using RetailCorrector.Wizard.Repository;
+using Serilog;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -97,12 +98,12 @@ namespace RetailCorrector.Wizard.Pages
             powerShell.ErrorDataReceived += (_, e) =>
             {
                 if (string.IsNullOrWhiteSpace(e.Data)) return;
-                App.Logger.Error($"Ошибка из PowerShell: {e.Data}");
+                Log.Error($"Ошибка из PowerShell: {e.Data}");
             };
             powerShell.OutputDataReceived += (_, e) =>
             {
                 if (string.IsNullOrWhiteSpace(e.Data)) return;
-                App.Logger.Debug($"Ответ от PowerShell: {e.Data}");
+                Log.Debug($"Ответ от PowerShell: {e.Data}");
                 OutputHandle(e.Data);
             };
             powerShell.BeginErrorReadLine();
@@ -173,7 +174,7 @@ namespace RetailCorrector.Wizard.Pages
             if (string.IsNullOrWhiteSpace(text)) return;
             await powerShell.StandardInput.WriteLineAsync(text);
             await powerShell.StandardInput.FlushAsync();
-            App.Logger.Debug($"Ввод в PowerShell: {text}");
+            Log.Debug($"Ввод в PowerShell: {text}");
         }
 
         private async void RunSearch(object sender, RoutedEventArgs e)
