@@ -1,8 +1,9 @@
 ﻿using Serilog;
 using Serilog.Core;
 using System.Net.Http;
-using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Windows;
+using RetailCorrector.Wizard.Repository;
 
 namespace RetailCorrector.Wizard
 {
@@ -21,13 +22,13 @@ namespace RetailCorrector.Wizard
         private static RepoPackage[] LoadRepository()
         {
             var args = Environment.GetCommandLineArgs();
-            var url = "https://raw.githubusercontent.com/ornaras/RCOfficialModules/refs/heads/stable/repository.json";
+            var url = "https://raw.githubusercontent.com/ornaras/RetailCorrector.Repository/refs/heads/stable/repository.json";
             if (args.Length > 1) url = args[1];
             using var http = new HttpClient();
             using var req = new HttpRequestMessage(HttpMethod.Get, url);
             using var resp = http.Send(req);
             var content = resp.Content.ReadAsStringAsync().Result;
-            return JsonSerializer.Deserialize<RepoPackage[]>(content)!;
+            return RepoPackage.Parse(JsonNode.Parse(content)!.AsArray());
         }
     }
 }

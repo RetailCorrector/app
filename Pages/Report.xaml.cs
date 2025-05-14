@@ -12,8 +12,8 @@ namespace RetailCorrector.Wizard.Pages
         public string Url { get; set; }
         public HttpMethod Method { get; set; } = HttpMethod.GET;
         public ReportContentType ContentType { get; set; } = ReportContentType.JSON;
-        public ObservableCollection<KVPair> Body { get; } = [];
-        public ObservableCollection<KVPair> Headers { get; } = [];
+        public ObservableCollection<StringsPair> Body { get; } = [];
+        public ObservableCollection<StringsPair> Headers { get; } = [];
 
         public Report()
         {
@@ -54,37 +54,8 @@ namespace RetailCorrector.Wizard.Pages
             };
         }
 
-        private void AddHeader(object sender, RoutedEventArgs args) => Headers.Add(new KVPair());
+        private void AddHeader(object sender, RoutedEventArgs args) => Headers.Add(new StringsPair());
         
-        private void AddBody(object sender, RoutedEventArgs args) => Body.Add(new KVPair());
-
-        public class KVPair: INotifyPropertyChanged
-        {
-            public string Key
-            {
-                get => _key;
-                set
-                {
-                    _key = value;
-                    OnPropertyChanged();
-                }
-            }
-            public string Value
-            {
-                get => _value;
-                set
-                {
-                    _value = value;
-                    OnPropertyChanged();
-                }
-            }
-
-            private string _key = "";
-            private string _value = "";
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-            private void OnPropertyChanged([CallerMemberName] string propName = "") =>
-                PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propName));
-        }
+        private void AddBody(object sender, RoutedEventArgs args) => Body.Add(new StringsPair());
     }
 }

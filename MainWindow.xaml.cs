@@ -14,20 +14,6 @@ namespace RetailCorrector.Wizard
             InitializeComponent();
         }
 
-        private void OnSearchBegin()
-        {
-            App.Receipts.Parsed.Clear();
-            App.Receipts.Filtered.Clear();
-            App.Receipts.Edited.Clear();
-        }
-
-        private void OnSearchEnd(List<Receipt> arr, bool cancel)
-        {
-            foreach (var item in arr)
-                App.Receipts.Parsed.Add(item);
-            MessageBox.Show($"Сканирование {(cancel ? "отменено" : "завершено")}!");
-        }
-
         public bool IsEnableEditor
         {
             get => isEnableEditor;
@@ -66,14 +52,6 @@ namespace RetailCorrector.Wizard
                 default:
                     break;
             }
-        }
-
-        private void ParserLog(bool error, string text, Exception exception)
-        {
-            if (error)
-                App.Logger.Error(exception, text);
-            else
-                App.Logger.Information(text);
         }
     }
 }

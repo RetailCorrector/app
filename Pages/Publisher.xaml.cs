@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using RetailCorrector.Wizard.Repository;
 using Serilog;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,8 +17,8 @@ namespace RetailCorrector.Wizard.Pages
 {
     public partial class Publisher : UserControl, INotifyPropertyChanged
     {
-        public ObservableCollection<RepoPackage> Packages { get; } = [];
-        public RepoPackage CurrentPackage
+        public ObservableCollection<FiscalPackage> Packages { get; } = [];
+        public FiscalPackage CurrentPackage
         {
             get => _current;
             set
@@ -28,7 +29,7 @@ namespace RetailCorrector.Wizard.Pages
                 OnPropertyChanged(nameof(TipText));
             }
         }
-        private RepoPackage _current;
+        private FiscalPackage _current;
 
         public int MaxProgress 
         {
@@ -67,7 +68,7 @@ namespace RetailCorrector.Wizard.Pages
         }
         private int _currProgress;
 
-        public string TipText => string.Join("\n  ", CurrentPackage?.ConfigTip ?? []);
+        public string TipText => string.Join("\n  ", CurrentPackage?.Tooltip ?? []);
 
         public string FiscalConfig
         {
@@ -147,9 +148,10 @@ namespace RetailCorrector.Wizard.Pages
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Packages.Clear();
-            if(e.OriginalSource is UserControl us && (int)us.ActualHeight != 0) 
-                foreach(var p in App.Repository.Value.Where(p => p.Type == RepoPackage.RepoPackageType.Fiscal))
-                    Packages.Add(p);            
+            if (e.OriginalSource is UserControl us && (int)us.ActualHeight != 0)
+                foreach (var p in App.Repository.Value)
+                    if (p is FiscalPackage fiscal)
+                        Packages.Add(fiscal);
         }
 
         private void CreateTempFolder()
@@ -173,7 +175,7 @@ namespace RetailCorrector.Wizard.Pages
         {
             LogText += ">>> Скачивание фискальной интеграции...\n";
             using var http = new HttpClient();
-            using var req = new HttpRequestMessage(HttpMethod.Get, _current.Url);
+            using var req = new HttpRequestMessage(HttpMethod.Get, _current.Uri);
             using var resp = http.Send(req);
             using var stream = resp.Content.ReadAsStream();
             var path = Path.Combine(AppContext.BaseDirectory, "Temp", "ExtFiscal.dll");

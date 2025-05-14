@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="RetailCorrector.Wizard.Pages.Parser" Margin="5"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style TargetType="GridSplitter">
+            <Setter Property="Background" Value="{x:Null}"/>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <TextBlock Text="Модуль ОФД:" VerticalAlignment="Center"/>
+            <GridSplitter Width="5"/>
+            <ComboBox ItemsSource="{Binding Packages}" SelectedItem="{Binding Package}" DisplayMemberPath="Name"/>
+        </DockPanel>
+        <GridSplitter Height="5" DockPanel.Dock="Top"/>
+        <DockPanel DockPanel.Dock="Bottom" Height="22">
+            <Button DockPanel.Dock="Right" Content="Поиск" Width="70" IsEnabled="{Binding SearchEnabled}" Click="RunSearch"/>
+            <GridSplitter Width="5" DockPanel.Dock="Right"/>
+            <Button DockPanel.Dock="Right" Content="Отмена" Width="70" IsEnabled="{Binding CancelEnabled}" Click="CancelSearch"/>
+            <GridSplitter Width="5" DockPanel.Dock="Right"/>
+            <ProgressBar Maximum="{Binding MaxProgress}" Value="{Binding CurrentProgress}"/>
+        </DockPanel>
+        <GridSplitter Height="5" DockPanel.Dock="Bottom"/>
+        <DataGrid VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Settings}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Настройка" Width="*" Binding="{Binding Key}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Value}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

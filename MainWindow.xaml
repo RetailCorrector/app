@@ -2,14 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:RetailCorrector.Wizard"        
-        xmlns:pars="clr-namespace:RetailCorrector;assembly=RetailCorrector.Parser"
         xmlns:p="clr-namespace:RetailCorrector.Wizard.Pages"
         ResizeMode="CanMinimize" 
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="MainWindow" Height="450" Width="800">
     <TabControl SelectionChanged="ActivationTabChanged">
         <TabItem Header="Парсер">
-            <pars:Parser Log="ParserLog" OnSearchBegin="OnSearchBegin" OnSearched="OnSearchEnd"/>
+            <p:Parser/>
         </TabItem>
         <TabItem Header="Фильтр" IsEnabled="{Binding IsEnableEditor}">
             <p:Filter/>

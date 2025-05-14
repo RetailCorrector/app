@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Основной репозитории": {
+      "commandName": "Project"
+    },
+    "Локальный репозитории": {
+      "commandName": "Project",
+      "commandLineArgs": "http://localhost:8080/repository.json"
+    }
+  }
+}
