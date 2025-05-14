@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace RetailCorrector.Wizard
 {
-    public class StringsPair(string key = "", string value = "")
+    public class StringsPair(string key = "", string value = ""): INotifyPropertyChanged
     {
         public string Key
         {

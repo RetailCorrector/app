@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -73,6 +74,11 @@ namespace RetailCorrector.Wizard.Pages
         private void OnPropertyChanged([CallerMemberName] string nameProp = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameProp));
 
+        static Parser()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
+
         public Parser()
         {
             foreach(var p in App.Repository.Value) 
@@ -93,6 +99,8 @@ namespace RetailCorrector.Wizard.Pages
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
                 CreateNoWindow = true,
+                StandardErrorEncoding = Encoding.GetEncoding(866),
+                StandardOutputEncoding = Encoding.GetEncoding(866)
             };
             powerShell = Process.Start(startInfo)!;
             powerShell.ErrorDataReceived += (_, e) =>

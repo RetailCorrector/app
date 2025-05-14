@@ -6,7 +6,7 @@
         ResizeMode="CanMinimize" 
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="MainWindow" Height="450" Width="800">
-    <TabControl SelectionChanged="ActivationTabChanged">
+    <TabControl>
         <TabItem Header="Парсер">
             <p:Parser/>
         </TabItem>

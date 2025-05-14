@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace RetailCorrector.Wizard
 {
@@ -41,17 +40,5 @@ namespace RetailCorrector.Wizard
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string paramName = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(paramName));
-
-        private void ActivationTabChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.OriginalSource != sender || e.RemovedItems.Count < 1) return;
-            switch (((TabItem)e.AddedItems[0]).Header)
-            {
-                case "Сборка":
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }
