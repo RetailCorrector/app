@@ -6,5 +6,15 @@ namespace RetailCorrector.Cashier
         {
             InitializeComponent();
         }
+
+        private void ShowOpenDialog(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void Start(object sender, EventArgs e)
+        {
+
+        }
     }
 }
