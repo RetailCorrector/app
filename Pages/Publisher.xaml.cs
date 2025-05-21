@@ -83,18 +83,6 @@ namespace RetailCorrector.Wizard.Pages
         }
         private string _config = "";
 
-        public bool IsPersistence
-        {
-            get => persistence;
-            set
-            {
-                if (persistence == value) return;
-                persistence = value;
-                OnPropertyChanged();
-            }
-        }
-        private bool persistence;
-
         public Publisher()
         {
             InitializeComponent();
@@ -216,7 +204,6 @@ namespace RetailCorrector.Wizard.Pages
         {
             LogText += ">>> Конфигурирование агента...\n";
             SetConfig("generic", "fiscal", FiscalConfig);
-            SetConfig("generic", "persistence", $"{IsPersistence}");
             CurrProgress++;
         }
         private async Task BuildInstaller()

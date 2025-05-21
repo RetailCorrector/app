@@ -13,9 +13,6 @@
                           Width="150" SelectedItem="{Binding CurrentPackage}"/>
                 <TextBlock Text=" Фискальная интеграция" VerticalAlignment="Center"/>
             </StackPanel>
-            <CheckBox IsChecked="{Binding IsPersistence}" Height="22"
-                      Content="Оставить агента после завершения работы" 
-                      VerticalContentAlignment="Center" Margin="5"/>
             <TextBlock Margin="5" TextWrapping="WrapWithOverflow" Text="{Binding TipText}" FontStyle="Italic"/>
             <StackPanel Orientation="Horizontal" Margin="5" Height="22">
                 <TextBox Width="185" Text="{Binding FiscalConfig, UpdateSourceTrigger=PropertyChanged}"/>
