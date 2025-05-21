@@ -13,19 +13,26 @@ namespace RetailCorrector.Wizard.Repository
 
         public static RepoPackage[] Parse(JsonArray arr)
         {
-            var res = new RepoPackage[arr.Count];
-            for(var i = 0; i < arr.Count; i++)
+            try
             {
-                var node = arr[i]!;
-                var type = node["type"]!.GetValue<string>();
-                res[i] = node["type"]!.GetValue<string>().ToLower() switch
+                var res = new RepoPackage[arr.Count];
+                for (var i = 0; i < arr.Count; i++)
                 {
-                    "fiscal" => new FiscalPackage(node),
-                    "source" => new RepoPackage(node),
-                    _ => throw new ArgumentException($"Тип интеграции ({type}) не определён"),
-                };
+                    var node = arr[i]!;
+                    var type = node["type"]!.GetValue<string>();
+                    res[i] = node["type"]!.GetValue<string>().ToLower() switch
+                    {
+                        "fiscal" => new FiscalPackage(node),
+                        "source" => new RepoPackage(node),
+                        _ => throw new ArgumentException($"Тип интеграции ({type}) не определён"),
+                    };
+                }
+                return res;
             }
-            return res;
+            catch
+            {
+                return [];
+            }
         }
     }
 }
