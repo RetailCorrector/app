@@ -39,6 +39,17 @@ namespace RetailCorrector.Wizard
             _ => "???"
         };
 
+        public bool CanClick
+        {
+            get => canClick;
+            set
+            {
+                canClick = value;
+                OnPropertyChanged(nameof(CanClick));
+            }
+        }
+        private bool canClick = true;
+
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged(string nameProperty) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameProperty));
@@ -52,6 +63,7 @@ namespace RetailCorrector.Wizard
         private async void Install(object? sender, RoutedEventArgs args)
         {
             var tempStatus = Status;
+            CanClick = false;
             if (tempStatus >= ModuleStatus.Installed)
             {
                 var _path = ModuleCollection.Remove(_package.Guid);
@@ -59,16 +71,17 @@ namespace RetailCorrector.Wizard
             }
             if (tempStatus != ModuleStatus.Installed)
             {
-            using var http = new HttpClient();
-            using var resp = await http.GetAsync(_package.Uri);
-            using var stream = await resp.Content.ReadAsStreamAsync();
-            var path = Path.Combine(AppContext.BaseDirectory, 
-                "sources", _package.Uri.ToString().Split('/')[^1]);
-            using (var fs = File.Create(path))
-                stream.CopyTo(fs);
-            await ModuleCollection.Add(path);
+                using var http = new HttpClient();
+                using var resp = await http.GetAsync(_package.Uri);
+                using var stream = await resp.Content.ReadAsStreamAsync();
+                var path = Path.Combine(AppContext.BaseDirectory,
+                    "sources", _package.Uri.ToString().Split('/')[^1]);
+                using (var fs = File.Create(path))
+                    stream.CopyTo(fs);
+                await ModuleCollection.Add(path);
             }
             OnPropertyChanged(nameof(InstallText));
+            CanClick = true;
         }
     }
 }
