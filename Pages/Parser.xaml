@@ -11,10 +11,10 @@
         <DataTemplate x:Key="NumberTemplate"/>
 
         <DataTemplate x:Key="BoolTemplate">
-            <CheckBox IsChecked="{Binding Value}"/>
+            <CheckBox IsChecked="{Binding Value}" VerticalAlignment="Center"/>
         </DataTemplate>
         <DataTemplate x:Key="EnumTemplate">
-            <ComboBox SelectedValue="{Binding Value}" ItemsSource="{Binding ValuesFromEnum}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
+            <ComboBox SelectedValue="{Binding ValueAsInt}" ItemsSource="{Binding ValuesFromEnum}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
         </DataTemplate>
         <DataTemplate x:Key="DateTemplate">
             <DatePicker SelectedDate="{Binding ValueAsDateTime}"/>

@@ -40,6 +40,23 @@ namespace RetailCorrector.Wizard
             }
         }
 
+        public int? ValueAsInt
+        {
+            get
+            {
+                if (!Value.GetType().IsEnum)
+                    return null;
+                return (int)Value;
+            }
+            set
+            {
+                if (value.HasValue) {
+                    var type = Value.GetType();
+                    Value = Enum.Parse(type, Enum.GetName(type, value)!);
+                }
+            }
+        }
+
         public ObservableCollection<KeyValuePair<int, string>> ValuesFromEnum
         {
             get
