@@ -25,11 +25,17 @@ namespace RetailCorrector.Wizard.Pages
         {
             Settings.Clear();
             var type = Package.EntryPoint!.GetType();
-            var names = from prop in type.GetProperties()
-                    where prop.GetCustomAttribute<DisplayNameAttribute>() is not null
-                    select prop.GetCustomAttribute<DisplayNameAttribute>()!.DisplayName;
-            foreach (var name in names)
-                Settings.Add(new StringsPair(name));
+            var obj = Activator.CreateInstance(type);
+            var names = type.GetProperties()
+                .Where(p => p.GetCustomAttribute<DisplayNameAttribute>() is not null)
+                .Select(p => p.GetCustomAttribute<DisplayNameAttribute>()!.DisplayName)
+                .ToArray();
+            var values = type.GetProperties()
+                .Where(p => p.GetCustomAttribute<DisplayNameAttribute>() is not null)
+                .Select(p => p.GetValue(obj)).ToArray();
+            obj = null;
+            for(var i = 0; i < names.Length; i++)
+                Settings.Add(new KVPair(names[i], values[i]));
         }
         private LocalModule _package;
 
@@ -68,7 +74,7 @@ namespace RetailCorrector.Wizard.Pages
 
         private CancellationTokenSource cancelSource = new();
 
-        public ObservableCollection<StringsPair> Settings { get; set; } = [];
+        public ObservableCollection<KVPair> Settings { get; set; } = [];
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string nameProp = "") =>
