@@ -12,13 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+	<PackageReference Include="RetailCorrector.Source" Version="1.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RetailCorrector.Data\RetailCorrector.Data.csproj" />
-  </ItemGroup>
-	
   <ItemGroup>
     <None Include="NSIS\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -1,10 +1,6 @@
-﻿using RetailCorrector.Wizard.Repository;
-using Serilog;
+﻿using System.Reflection;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
@@ -14,9 +10,7 @@ namespace RetailCorrector.Wizard.Pages
 {
     public partial class Parser : UserControl, INotifyPropertyChanged
     {
-        public ObservableCollection<SourcePackage> Packages { get; set; } = [];
-
-        public SourcePackage Package
+        public LocalModule Package
         {
             get => _package;
             set
@@ -24,12 +18,20 @@ namespace RetailCorrector.Wizard.Pages
                 if (_package == value) return;
                 _package = value;
                 OnPropertyChanged();
-                Settings.Clear();
-                foreach (var prop in _package.Properties)
-                    Settings.Add(new StringsPair(prop.Key));
+                UpdateSetting();
             }
         }
-        private SourcePackage _package;
+        private void UpdateSetting()
+        {
+            Settings.Clear();
+            var type = Package.EntryPoint!.GetType();
+            var names = from prop in type.GetProperties()
+                    where prop.GetCustomAttribute<DisplayNameAttribute>() is not null
+                    select prop.GetCustomAttribute<DisplayNameAttribute>()!.DisplayName;
+            foreach (var name in names)
+                Settings.Add(new StringsPair(name));
+        }
+        private LocalModule _package;
 
         private int _maxProgress = 1;
         public int MaxProgress 
@@ -66,8 +68,6 @@ namespace RetailCorrector.Wizard.Pages
 
         private CancellationTokenSource cancelSource = new();
 
-        private Process powerShell;
-
         public ObservableCollection<StringsPair> Settings { get; set; } = [];
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -81,117 +81,23 @@ namespace RetailCorrector.Wizard.Pages
 
         public Parser()
         {
-            foreach(var p in App.Repository.Value) 
-                if(p is SourcePackage source)
-                    Packages.Add(source);
             Cancel();
             InitializeComponent();
-        }
-
-        private void RunPowerShell()
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), "WindowsPowerShell", "v1.0", "powershell.exe"),
-                Arguments = "-ExecutionPolicy Unrestricted -NoExit -NoLogo -Command -",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                RedirectStandardInput = true,
-                CreateNoWindow = true,
-                StandardErrorEncoding = Encoding.GetEncoding(866),
-                StandardOutputEncoding = Encoding.GetEncoding(866)
-            };
-            powerShell = Process.Start(startInfo)!;
-            powerShell.ErrorDataReceived += (_, e) =>
-            {
-                if (string.IsNullOrWhiteSpace(e.Data)) return;
-                Log.Error($"Ошибка из PowerShell: {e.Data}");
-            };
-            powerShell.OutputDataReceived += (_, e) =>
-            {
-                if (string.IsNullOrWhiteSpace(e.Data)) return;
-                Log.Debug($"Ответ от PowerShell: {e.Data}");
-                OutputHandle(e.Data);
-            };
-            powerShell.BeginErrorReadLine();
-            powerShell.BeginOutputReadLine();
-        }
-
-        private Receipt? _currReceipt;
-        private int _posIndex;
-
-        private void OutputHandle(string output)
-        {
-            var args = output.Split('|');
-            switch (args[0])
-            {
-                case "0": // количество пунктов
-                    MaxProgress = int.Parse(args[1]);
-                    break;
-                case "1": // новый чек
-                    if (_currReceipt is not null) 
-                        App.Receipts.Parsed.Add((Receipt)_currReceipt);
-                    _posIndex = 0;
-                    _currReceipt = new Receipt
-                    {
-                        Operation = (Operation)int.Parse(args[1]),
-                        ActNumber = " ",
-                        CorrectionType = CorrType.ByYourself,
-                        Created = DateTime.ParseExact(args[2], "yyyy'-'MM'-'dd'T'HH':'mm':'ss", CultureInfo.InvariantCulture),
-                        FiscalSign = args[3],
-                        RoundedSum = uint.Parse(args[4]),
-                        Items = new Position[int.Parse(args[5])],
-                        Payment = new Payment
-                        {
-                            Cash = uint.Parse(args[6]),
-                            ECash = uint.Parse(args[7]),
-                            Pre = uint.Parse(args[8]),
-                            Post= uint.Parse(args[9]),
-                            Provision= uint.Parse(args[10]),
-                        }
-                    };
-                    break;
-                case "2": // новая позиция
-                    ((Receipt)_currReceipt!).Items[_posIndex] = new Position
-                    {
-                        Name = args[1],
-                        Price = uint.Parse(args[2]),
-                        Quantity = uint.Parse(args[3]),
-                        TotalSum = uint.Parse(args[4]),
-                        MeasureUnit = (MeasureUnit)int.Parse(args[5]),
-                        TaxRate = (TaxRate)int.Parse(args[6]),
-                        PayType = (PaymentType)int.Parse(args[7]),
-                        PosType = (PositionType)int.Parse(args[8]),
-                    };
-                    _posIndex++;
-                    break;
-                case "3": // пункт пройден
-                    if (_currReceipt is not null)
-                    {
-                        App.Receipts.Parsed.Add((Receipt)_currReceipt);
-                        _currReceipt = null;
-                    }
-                    CurrentProgress++;
-                    break;
-            }
-        }
-
-        private async Task InputPowerShell(string text)
-        {
-            if (string.IsNullOrWhiteSpace(text)) return;
-            await powerShell.StandardInput.WriteLineAsync(text);
-            await powerShell.StandardInput.FlushAsync();
-            Log.Debug($"Ввод в PowerShell: {text}");
         }
 
         private async void RunSearch(object sender, RoutedEventArgs e)
         {
             ResetSource();
+            App.Receipts.Parsed.Clear();
             CurrentProgress = 0;
-            RunPowerShell();
-            await InputPowerShell($"Invoke-Expression (New-Object System.Net.WebClient).DownloadString(\"{_package.Uri}\")");
-            foreach(var k in Settings) await InputPowerShell(k.Value);
+            var type = Package.EntryPoint!.GetType();
+            PropertyInfo[] names = [..type.GetProperties().Where(prop => prop.GetCustomAttribute<DisplayNameAttribute>() is not null)];
+            for (var i = 0; i < names.Length; i++)
+                names[i].SetValue(Package.EntryPoint!, Settings[i].Value);
+            var arr = await Package.EntryPoint!.Parse(cancelSource.Token);
+            foreach (var receipt in arr)
+                App.Receipts.Parsed.Add(receipt);
+            Cancel();
         }
 
         private void CancelSearch(object sender, RoutedEventArgs e)
@@ -201,8 +107,6 @@ namespace RetailCorrector.Wizard.Pages
 
         private void Cancel()
         {
-            powerShell?.Kill();
-            powerShell?.Dispose();
             cancelSource.Cancel();
             OnPropertyChanged(nameof(CancelEnabled));
             OnPropertyChanged(nameof(SearchEnabled));
@@ -213,6 +117,11 @@ namespace RetailCorrector.Wizard.Pages
             cancelSource = new CancellationTokenSource();
             OnPropertyChanged(nameof(CancelEnabled));
             OnPropertyChanged(nameof(SearchEnabled));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new ModuleManager().ShowDialog();
         }
     }
 }

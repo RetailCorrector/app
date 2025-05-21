@@ -8,7 +8,8 @@ namespace RetailCorrector.Wizard.Repository
 
         public FiscalPackage(JsonNode node) : base(node)
         {
-            var arr = node["tooltip"]!.AsArray();
+            var arr = node["tooltip"]?.AsArray();
+            if (arr is null) return;
             Tooltip = new string[arr.Count];
             for (var i = 0; i < Tooltip.Length; i++)
                 Tooltip[i] = arr[i]!.GetValue<string>();

@@ -2,10 +2,14 @@
 
 namespace RetailCorrector.Wizard.Repository
 {
-    public abstract class RepoPackage(JsonNode node)
+    public class RepoPackage(JsonNode node)
     {
+        public string Guid { get; set; } = node["id"]!.GetValue<string>();
         public string Name { get; set; } = node["name"]!.GetValue<string>();
+        public string Description { get; set; } = node["description"]!.GetValue<string>();
         public Uri Uri { get; set; } = new Uri(node["uri"]!.GetValue<string>());
+        public string HashSum { get; set; } = node["hash"]!.GetValue<string>();
+        public Version Version { get; set; } = Version.Parse(node["version"]!.GetValue<string>());
 
         public static RepoPackage[] Parse(JsonArray arr)
         {
@@ -13,11 +17,12 @@ namespace RetailCorrector.Wizard.Repository
             for(var i = 0; i < arr.Count; i++)
             {
                 var node = arr[i]!;
-                res[i] = node["type"]!.GetValue<string>() switch
+                var type = node["type"]!.GetValue<string>();
+                res[i] = node["type"]!.GetValue<string>().ToLower() switch
                 {
-                    "Fiscal" => new FiscalPackage(node),
-                    "Source" => new SourcePackage(node),
-                    _ => throw new ArgumentException("Тип интеграции не определён"),
+                    "fiscal" => new FiscalPackage(node),
+                    "source" => new RepoPackage(node),
+                    _ => throw new ArgumentException($"Тип интеграции ({type}) не определён"),
                 };
             }
             return res;

@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -149,9 +150,16 @@ namespace RetailCorrector.Wizard.Pages
         {
             Packages.Clear();
             if (e.OriginalSource is UserControl us && (int)us.ActualHeight != 0)
-                foreach (var p in App.Repository.Value)
+            {
+                using var http = new HttpClient();
+                using var req = new HttpRequestMessage(HttpMethod.Get, App.RepositoryUrl);
+                using var resp = http.Send(req);
+                var content = resp.Content.ReadAsStringAsync().Result;
+                var repo = RepoPackage.Parse(JsonNode.Parse(content)!.AsArray());
+                foreach (var p in repo)
                     if (p is FiscalPackage fiscal)
                         Packages.Add(fiscal);
+            }
         }
 
         private void CreateTempFolder()
