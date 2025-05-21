@@ -32,14 +32,12 @@ namespace RetailCorrector.Wizard
         public string InstallText => Status switch
         {
             ModuleStatus.NotInstalled => "Установить",
-            ModuleStatus.Installed => "Установлено",
+            ModuleStatus.Installed => "Удалить",
             ModuleStatus.Newer => "Обновить",
             ModuleStatus.Older => "Откад",
             ModuleStatus.Broken => "Переустановить",
             _ => "???"
         };
-
-        public bool NeedInstalled => Status != ModuleStatus.Installed;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged(string nameProperty) =>
@@ -53,11 +51,14 @@ namespace RetailCorrector.Wizard
 
         private async void Install(object? sender, RoutedEventArgs args)
         {
-            if (Status >= ModuleStatus.Newer)
+            var tempStatus = Status;
+            if (tempStatus >= ModuleStatus.Installed)
             {
                 var _path = ModuleCollection.Remove(_package.Guid);
                 File.Delete(_path);
             }
+            if (tempStatus != ModuleStatus.Installed)
+            {
             using var http = new HttpClient();
             using var resp = await http.GetAsync(_package.Uri);
             using var stream = await resp.Content.ReadAsStreamAsync();
@@ -66,9 +67,8 @@ namespace RetailCorrector.Wizard
             using (var fs = File.Create(path))
                 stream.CopyTo(fs);
             await ModuleCollection.Add(path);
-            OnPropertyChanged(nameof(Status));
+            }
             OnPropertyChanged(nameof(InstallText));
-            OnPropertyChanged(nameof(NeedInstalled));
         }
     }
 }
