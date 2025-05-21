@@ -10,7 +10,7 @@
             <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding Url}"/>
+        <ComboBox SelectedValue="{Binding Url}" ItemsSource="{Binding Repositories}"/>
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" >
             <ScrollViewer.Content>
                 <Border BorderThickness="1" BorderBrush="Gray">
