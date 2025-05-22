@@ -1,0 +1,34 @@
+﻿<Window x:Class="RetailCorrector.Wizard.Windows.Main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:RetailCorrector.Wizard.Windows"
+        Title="Парсер чеков | RetailCorrector" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18"/>
+        </Grid.RowDefinitions>
+        <Menu IsMainMenu="True">
+            <MenuItem Header="Пространство">
+                <MenuItem Header="Создать новое"/>
+                <MenuItem Header="Получить чеки"/>
+                <MenuItem Header="Добавить отчет"/>
+                <MenuItem Header="Экспорт">
+                    <MenuItem Header="Для локальной работы"/>
+                    <MenuItem Header="Для удалённой работы"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Вид">
+                <MenuItem Header="Список чеков" IsCheckable="True"/>
+                <MenuItem Header="История изменений" IsCheckable="True"/>
+            </MenuItem>
+            <MenuItem Header="Сервисы">
+                <MenuItem Header="Менеджер модулей"/>
+            </MenuItem>
+            <MenuItem Header="Помощь">
+                <MenuItem Header="Открыть лог-папку"/>
+                <MenuItem Header="Документация"/>
+                <MenuItem Header="О программе"/>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</Window>
