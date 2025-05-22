@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace RetailCorrector.Wizard.Windows
 {
@@ -23,6 +12,12 @@ namespace RetailCorrector.Wizard.Windows
         {
             InitializeComponent();
         }
+
+        private void ShowLogs(object? s, RoutedEventArgs e) =>
+            Process.Start(new ProcessStartInfo("explorer", DirPath.LogsDir) { UseShellExecute = true});
+
+        private void ShowDocs(object? s, RoutedEventArgs e) =>
+            Process.Start(new ProcessStartInfo("https://retailcorrector.gitbook.io/wiki") { UseShellExecute = true});
 
         private void ShowAbout(object? s, RoutedEventArgs args) => 
             new About().ShowDialog();

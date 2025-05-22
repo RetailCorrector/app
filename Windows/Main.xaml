@@ -25,8 +25,8 @@
                 <MenuItem Header="Менеджер модулей"/>
             </MenuItem>
             <MenuItem Header="Помощь">
-                <MenuItem Header="Открыть лог-папку"/>
-                <MenuItem Header="Документация"/>
+                <MenuItem Header="Открыть лог-папку" Click="ShowLogs"/>
+                <MenuItem Header="Документация" Click="ShowDocs"/>
                 <MenuItem Header="О программе" Click="ShowAbout"/>
             </MenuItem>
         </Menu>
