@@ -23,5 +23,8 @@ namespace RetailCorrector.Wizard.Windows
         {
             InitializeComponent();
         }
+
+        private void ShowAbout(object? s, RoutedEventArgs args) => 
+            new About().ShowDialog();
     }
 }

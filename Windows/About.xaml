@@ -1,0 +1,24 @@
+﻿<Window x:Class="RetailCorrector.Wizard.Windows.About" Width="350"
+        WindowStyle="ToolWindow" ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:r="clr-namespace:RetailCorrector.Wizard" Height="325"
+        Title="О RetailCorrector">
+    <DockPanel>
+        <Canvas DockPanel.Dock="Left" Width="75">
+            <Image Height="65" Margin="5" Width="65" Source="/Resources/icon.ico"/>
+        </Canvas>
+        <TextBlock Margin="0,5,15,5" TextWrapping="WrapWithOverflow">
+            <Bold>RetailCorrector</Bold> - это программный комплекс, предназначенный для исправления ошибок в расчетах и регистрации ранее неучтённых операций на кассовом аппарате.
+            <LineBreak/>
+            <LineBreak/>
+            <Bold>RetailCorrector.Wizard</Bold> — утилита для подготовки чеков коррекции к отправке оператору фискальных документов. Программа выполняет парсинг, фильтрацию и редактирование чеков из указанного источника данных с целью исправления ранее отправленных чеков либо генерации отсутствующих чеков.
+            <LineBreak/>
+            <LineBreak/>
+            Версия: <Bold><Run Text="{Binding Source={x:Static r:App.Version}, Mode=OneWay}"/></Bold>
+            <LineBreak/>
+            Разработчик: <Hyperlink><Bold>ornaras</Bold></Hyperlink>
+        </TextBlock>
+    </DockPanel>
+</Window>

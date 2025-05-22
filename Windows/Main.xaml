@@ -27,7 +27,7 @@
             <MenuItem Header="Помощь">
                 <MenuItem Header="Открыть лог-папку"/>
                 <MenuItem Header="Документация"/>
-                <MenuItem Header="О программе"/>
+                <MenuItem Header="О программе" Click="ShowAbout"/>
             </MenuItem>
         </Menu>
     </Grid>
