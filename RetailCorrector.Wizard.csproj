@@ -9,6 +9,7 @@
     <RootNamespace>RetailCorrector.Wizard</RootNamespace>
     <AssemblyName>RetailCorrector</AssemblyName>
     <Version>0.1</Version>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,10 @@
     <None Include="NSIS\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\icon.ico" />
   </ItemGroup>
 
 </Project>
