@@ -21,5 +21,8 @@ namespace RetailCorrector.Wizard.Windows
 
         private void ShowAbout(object? s, RoutedEventArgs args) => 
             new About().ShowDialog();
+
+        private void ShowRegistryList(object? s, RoutedEventArgs args) => 
+            new RegistryList().ShowDialog();
     }
 }

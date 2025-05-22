@@ -23,6 +23,7 @@
             </MenuItem>
             <MenuItem Header="Сервисы">
                 <MenuItem Header="Менеджер модулей"/>
+                <MenuItem Header="Список реестров" Click="ShowRegistryList"/>
             </MenuItem>
             <MenuItem Header="Помощь">
                 <MenuItem Header="Открыть лог-папку" Click="ShowLogs"/>
