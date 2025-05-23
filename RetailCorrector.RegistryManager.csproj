@@ -8,4 +8,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RetailCorrector.Constants\RetailCorrector.Constants.csproj" />
+	<Using Include="RetailCorrector.Constants"/>
+  </ItemGroup>
+	
 </Project>
