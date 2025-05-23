@@ -6,7 +6,7 @@ namespace RetailCorrector.Wizard
     {
         public static string AppDir { get; } = AppContext.BaseDirectory;
         public static string LogsDir { get; } = Path.Combine(AppDir, "Logs");
-        public static string RegistriesPath { get; } = Path.Combine(LogsDir, ".registries");
+
         public static string RegistryListPath { get; } = Path.Combine(LogsDir, ".registries");
     }
 }
