@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:m="clr-namespace:Masonry"
+        xmlns:m="clr-namespace:Masonry" ResizeMode="NoResize"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         xmlns:l="clr-namespace:RetailCorrector.RegistryManager"
         Title="Менеджер модулей" Height="450" Width="885">
