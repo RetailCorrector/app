@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using RetailCorrector.RegistryManager.Data;
+using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using System.Windows;

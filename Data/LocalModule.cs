@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace RetailCorrector.RegistryManager
+namespace RetailCorrector.RegistryManager.Data
 {
     public readonly struct LocalModule(Assembly assembly, string path)
     {
