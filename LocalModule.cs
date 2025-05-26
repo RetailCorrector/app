@@ -8,7 +8,7 @@ namespace RetailCorrector.RegistryManager
     {
         public Guid Id { get; } = new Guid(assembly.GetCustomAttribute<GuidAttribute>()!.Value);
         public string Name { get; } = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
-        public Version Version { get; } = Version.Parse(assembly.GetCustomAttribute<AssemblyVersionAttribute>()!.Version);
+        public Version Version { get; } = Version.Parse(assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()!.Version);
         public string Hash { get; } = CalculateSHA512(File.ReadAllBytes(path));
         public string Path { get; } = path;
 

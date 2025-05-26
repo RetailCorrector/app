@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
-using System.Runtime.Loader;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -62,8 +61,7 @@ namespace RetailCorrector.RegistryManager
 
         private void Delete(object? s, RoutedEventArgs e)
         {
-            var path = Path.Combine(Pathes.Modules, $"{((LocalModule)Local!).Id}.dll");
-            File.Delete(path);
+            File.Delete(((LocalModule)Local!).Path);
             Local = null;
         }
 
@@ -72,7 +70,7 @@ namespace RetailCorrector.RegistryManager
             using var http = new HttpClient();
             using var resp = await http.GetAsync(Url);
             var cont = await resp.Content.ReadAsByteArrayAsync();
-            var path = Path.Combine(Pathes.Modules, $"{Id}.dll");
+            var path = Path.Combine(Pathes.Modules, Url.Split('/')[^1]);
             File.WriteAllBytes(path, cont);
             if (!File.Exists(path)) return;
             Local = ModuleManager.LoadModuleAssembly(path);
