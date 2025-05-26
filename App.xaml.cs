@@ -5,6 +5,8 @@ namespace RetailCorrector.RegistryManager;
 
 public partial class App : Application
 {
+    public static string Version => typeof(App).Assembly.GetName().Version!.ToString(3);
+
     protected override void OnLoadCompleted(NavigationEventArgs e)
     {
         Log.Logger = new LoggerConfiguration()
