@@ -10,6 +10,7 @@ public partial class App : Application
     {
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
+            .Enrich.WithProperty("Version", Version)
             .WriteTo.File(Pathes.RegistryManagerLog,
                 outputTemplate: Patterns.OutputLog,
                 flushToDiskInterval: TimeSpan.FromMilliseconds(100))
