@@ -62,19 +62,30 @@ namespace RetailCorrector.RegistryManager
             var files = Directory.GetFiles(Pathes.Modules);
             var arr = new List<LocalModule>();
             for (int i = 0; i < files.Length; i++)
-                arr.Add(LoadModuleAssembly(files[i]));
+                if(LoadModuleAssembly(files[i]) is LocalModule mod)
+                    arr.Add(mod);
             return arr;
         }
-        internal static LocalModule LoadModuleAssembly(string path)
+        internal static LocalModule? LoadModuleAssembly(string path)
         {
-            using var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var ctx = new ModuleLoadContext();
-            var assembly = ctx.LoadFromStream(fs);
-            var res = new LocalModule(assembly, path);
-            assembly = null;
-            ctx.Unload();
-            ctx = null;
-            return res;
+            try
+            {
+                using var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                var ctx = new ModuleLoadContext();
+                var assembly = ctx.LoadFromStream(fs);
+                var res = new LocalModule(assembly, path);
+                assembly = null;
+                ctx.Unload();
+                ctx = null;
+                return res;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show($"Не удалось загрузить {path.Split(Path.DirectorySeparatorChar)[^1]}...\nПодробнее в лог-файле!");
+                Log.Error(e, $"Не удалось загрузить {path.Split(Path.DirectorySeparatorChar)[^1]}...");
+                File.Delete(path);
+                return null;
+            }
         }
     }
 }
