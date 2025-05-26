@@ -1,0 +1,11 @@
+﻿<Window x:Class="RetailCorrector.RegistryManager.RegistryList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        WindowStyle="ToolWindow" ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Title="Менеджер реестров" Height="200" Width="375">
+    <TextBox Margin="5" Text="{Binding Text}" AcceptsReturn="True"
+             HorizontalScrollBarVisibility="Auto" 
+             VerticalScrollBarVisibility="Auto"/>
+</Window>
