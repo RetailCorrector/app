@@ -2,6 +2,7 @@
 {
     public static class Links
     {
-        public const string DefaultRegistry = "https://github.com/RetailCorrector/registry/raw/main/registry.json";
+        public const string DefaultRegistry = 
+            "https://raw.githubusercontent.com/RetailCorrector/registry/refs/heads/main/registry.json";        
     }
 }
