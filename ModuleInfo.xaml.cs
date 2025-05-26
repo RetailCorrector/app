@@ -9,12 +9,12 @@ namespace RetailCorrector.RegistryManager
 {
     public partial class ModuleInfo : UserControl, INotifyPropertyChanged
     {
-        public Guid Id { get; } = new Guid();
-        public string Title { get; } = "";
-        public string Description { get; } = "";
-        public string Url { get; } = "";
-        public string Hash { get; } = "";
-        public Version Version { get; } = new();
+        public Guid Id { get; init; }
+        public string Title { get; init; }
+        public string Description { get; init; }
+        public string Url { get; init; }
+        public string Hash { get; init; }
+        public Version Version { get; init; }
         public string LocalVersion =>
             Local is null ? "" : ((LocalModule)Local!).Version.ToString(3);
         public LocalModule? Local
@@ -28,13 +28,31 @@ namespace RetailCorrector.RegistryManager
                 OnPropertyChanged(nameof(LocalVersion));
             }
         }
-        private LocalModule? _local = null;
+        private LocalModule? _local;
 
         public bool IsInstalled => Local is not null;
 
-        public ModuleInfo()
+        public ModuleInfo(LocalModule local)
         {
-            LoadLocal();
+            Id = local.Id;
+            Title = local.Name;
+            Version = new Version();
+            Description = "";
+            Url = "";
+            Hash = local.Hash;
+            Local = local;
+            InitializeComponent();
+        }
+
+        public ModuleInfo(RemoteModule remote, LocalModule? local)
+        {
+            Id = remote.Id;
+            Title = remote.Name;
+            Version = remote.Version;
+            Description = remote.Description;
+            Url = remote.File;
+            Hash = remote.Hash;
+            Local = local;
             InitializeComponent();
         }
 
