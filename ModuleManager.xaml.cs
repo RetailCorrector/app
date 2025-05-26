@@ -62,16 +62,19 @@ namespace RetailCorrector.RegistryManager
             var files = Directory.GetFiles(Pathes.Modules);
             var arr = new List<LocalModule>();
             for (int i = 0; i < files.Length; i++)
-            {
-                using var fs = File.Open(files[i], FileMode.Open, FileAccess.Read, FileShare.Read);
-                var ctx = new ModuleLoadContext();
-                var assembly = ctx.LoadFromStream(fs);
-                arr[i] = new LocalModule(assembly, files[i]);
-                assembly = null;
-                ctx.Unload();
-                ctx = null;
-            }
+                arr.Add(LoadModuleAssembly(files[i]));
             return arr;
+        }
+        internal static LocalModule LoadModuleAssembly(string path)
+        {
+            using var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var ctx = new ModuleLoadContext();
+            var assembly = ctx.LoadFromStream(fs);
+            var res = new LocalModule(assembly, path);
+            assembly = null;
+            ctx.Unload();
+            ctx = null;
+            return res;
         }
     }
 }

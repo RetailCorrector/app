@@ -74,19 +74,8 @@ namespace RetailCorrector.RegistryManager
             var cont = await resp.Content.ReadAsByteArrayAsync();
             var path = Path.Combine(Pathes.Modules, $"{Id}.dll");
             File.WriteAllBytes(path, cont);
-            LoadLocal(path);
-        }
-
-        private void LoadLocal(string path)
-        {
             if (!File.Exists(path)) return;
-            using var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var ctx = new AssemblyLoadContext(Id.ToString());
-            var assembly = ctx.LoadFromStream(fs);
-            Local = new LocalModule(assembly, path);
-            assembly = null;
-            ctx.Unload();
-            ctx = null;
+            Local = ModuleManager.LoadModuleAssembly(path);
         }
     }
 }
