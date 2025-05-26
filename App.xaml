@@ -3,6 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:RetailCorrector.RegistryManager">
     <Application.Resources>
-         
+        <FontFamily x:Key="jbmono">/Resources/#JetBrains Mono</FontFamily>
     </Application.Resources>
 </Application>

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Content Include="Resources\icon.ico" />
+	<Resource Include="Resources\JetBrainsMono.ttf" />
   </ItemGroup>
 
   <ItemGroup>
