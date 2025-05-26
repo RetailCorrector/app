@@ -1,5 +1,6 @@
 ﻿using RetailCorrector.RegistryManager.Data;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
@@ -7,7 +8,7 @@ using System.Windows;
 
 namespace RetailCorrector.RegistryManager
 {
-    public partial class ModuleManager : Window
+    public partial class ModuleManager : Window, INotifyPropertyChanged
     {
         public string CurrentRegistry
         {
@@ -16,15 +17,19 @@ namespace RetailCorrector.RegistryManager
             {
                 if (_currentRegistry == value) return;
                 _currentRegistry = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentRegistry)));
                 UpdateModuleList();
             }
         }
         private string _currentRegistry;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public ObservableCollection<ModuleInfo> Modules { get; } = [];
 
         public ModuleManager()
         {
-            _currentRegistry = RegistryList.Registries.Length == 0 ?
+            _currentRegistry = RegistryList.Registries.Count == 0 ?
                 Links.DefaultRegistry : RegistryList.Registries[0];
             UpdateModuleList();
             InitializeComponent();
@@ -49,13 +54,13 @@ namespace RetailCorrector.RegistryManager
         private async Task<RemoteModules> GetRemoteModules()
         {
             using var http = new HttpClient();
-            if (!Uri.TryCreate(CurrentRegistry, UriKind.Absolute, out var uri)) 
+            if (!Uri.TryCreate(CurrentRegistry, UriKind.Absolute, out var uri))
                 return new RemoteModules { Modules = [] };
             using var req = new HttpRequestMessage(HttpMethod.Get, uri);
             req.Headers.Add("User-Agent", $"RetailCorrector/rm-{App.Version}");
             using var resp = await http.SendAsync(req);
             var content = await resp.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<RemoteModules>(content);            
+            return JsonSerializer.Deserialize<RemoteModules>(content);
         }
 
         private List<LocalModule> GetLocalModules()
@@ -87,6 +92,15 @@ namespace RetailCorrector.RegistryManager
                 File.Delete(path);
                 return null;
             }
+        }
+
+        public void ShowRegistryList(object? sender, RoutedEventArgs e)
+        {
+            var uri = _currentRegistry;
+            new RegistryList().ShowDialog();
+            if (RegistryList.Registries.Any(r => r == uri))
+                CurrentRegistry = uri;
+            else CurrentRegistry = RegistryList.Registries[0];
         }
     }
 }

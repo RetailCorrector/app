@@ -17,13 +17,15 @@
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="22"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <xctk:WatermarkTextBox Watermark="Поиск" Grid.Column="1"/>
         <xctk:WatermarkComboBox Grid.Column="3" ItemsSource="{Binding Source={x:Static l:RegistryList.Registries}}" 
                                 Watermark="Реестры модулей не найдены" SelectedItem="{Binding CurrentRegistry}"/>
-        
-        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="4" Grid.Column="1"
+        <Button Grid.Column="5" Content="..." Click="ShowRegistryList"/>
+        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="6" Grid.Column="1"
                       VerticalScrollBarVisibility="Hidden" 
                       HorizontalScrollBarVisibility="Disabled">
             <ScrollViewer.Content>

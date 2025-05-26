@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 
@@ -6,7 +7,7 @@ namespace RetailCorrector.RegistryManager
 {
     public partial class RegistryList : Window
     {
-        public static string[] Registries { get; set; } = [];
+        public static ObservableCollection<string> Registries { get; set; } = [];
         public string Text { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -15,7 +16,7 @@ namespace RetailCorrector.RegistryManager
         {
             if (!File.Exists(Pathes.RegistryList)) 
                 File.WriteAllText(Pathes.RegistryList, "");
-            Registries = File.ReadAllLines(Pathes.RegistryList);
+            Registries = [..File.ReadAllLines(Pathes.RegistryList)];
         }
 
         public RegistryList()
@@ -26,7 +27,9 @@ namespace RetailCorrector.RegistryManager
 
         protected override void OnClosed(EventArgs e)
         {
-            Registries = Text.Split("\r\n"); 
+            Registries.Clear();
+            foreach(var line in Text.Split("\r\n"))
+                Registries.Add(line); 
             File.WriteAllLines(Pathes.RegistryList, Registries);
         }
     }
