@@ -13,19 +13,6 @@ namespace RetailCorrector.RegistryManager
 
         static RegistryList()
         {
-            var fullDir = Path.GetDirectoryName(Pathes.RegistryList)!;
-            if (!Directory.Exists(fullDir))
-            {
-                var dirParts = fullDir.Split(Path.DirectorySeparatorChar);
-                var dir = dirParts[0];
-                for(var i = 0; i < dirParts.Length; i++)
-                {
-                    if (!Directory.Exists(dir))
-                        Directory.CreateDirectory(dir);
-                    if (dirParts.Length - 1 > i)
-                        dir = Path.Combine(dir, dirParts[i + 1]);
-                }
-            }
             if (!File.Exists(Pathes.RegistryList)) 
                 File.WriteAllText(Pathes.RegistryList, "");
             Registries = File.ReadAllLines(Pathes.RegistryList);
