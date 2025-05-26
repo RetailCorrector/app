@@ -1,0 +1,77 @@
+﻿using System.Collections.ObjectModel;
+using System.IO;
+using System.Net.Http;
+using System.Text.Json;
+using System.Windows;
+
+namespace RetailCorrector.RegistryManager
+{
+    public partial class ModuleManager : Window
+    {
+        public string CurrentRegistry
+        {
+            get => _currentRegistry;
+            set
+            {
+                if (_currentRegistry == value) return;
+                _currentRegistry = value;
+                UpdateModuleList();
+            }
+        }
+        private string _currentRegistry;
+        public ObservableCollection<ModuleInfo> Modules { get; } = [];
+
+        public ModuleManager()
+        {
+            _currentRegistry = RegistryList.Registries.Length == 0 ?
+                Links.DefaultRegistry : RegistryList.Registries[0];
+            UpdateModuleList();
+            InitializeComponent();
+        }
+
+        private async void UpdateModuleList()
+        {
+            Modules.Clear();
+            var remote = await GetRemoteModules();
+            var local = GetLocalModules();
+            foreach(var mod in remote.Modules)
+            {
+                var idLocal = local.FindIndex(l => l.Id == mod.Id);
+                LocalModule? currLocal = idLocal == -1 ? null : local[idLocal];
+                if (currLocal is LocalModule m) local.Remove(m);
+                Modules.Add(new ModuleInfo(mod, currLocal));
+            }
+            foreach (var mod in local)
+                Modules.Add(new ModuleInfo(mod));
+        }
+
+        private async Task<RemoteModules> GetRemoteModules()
+        {
+            using var http = new HttpClient();
+            if (!Uri.TryCreate(CurrentRegistry, UriKind.Absolute, out var uri)) 
+                return new RemoteModules { Modules = [] };
+            using var req = new HttpRequestMessage(HttpMethod.Get, uri);
+            req.Headers.Add("User-Agent", $"RetailCorrector/rm-{App.Version}");
+            using var resp = await http.SendAsync(req);
+            var content = await resp.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<RemoteModules>(content);            
+        }
+
+        private List<LocalModule> GetLocalModules()
+        {
+            var files = Directory.GetFiles(Pathes.Modules);
+            var arr = new List<LocalModule>();
+            for (int i = 0; i < files.Length; i++)
+            {
+                using var fs = File.Open(files[i], FileMode.Open, FileAccess.Read, FileShare.Read);
+                var ctx = new ModuleLoadContext();
+                var assembly = ctx.LoadFromStream(fs);
+                arr[i] = new LocalModule(assembly, files[i]);
+                assembly = null;
+                ctx.Unload();
+                ctx = null;
+            }
+            return arr;
+        }
+    }
+}
