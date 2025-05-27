@@ -12,6 +12,7 @@
             <MenuItem Header="Пространство">
                 <MenuItem Header="Создать новое"/>
                 <MenuItem Header="Получить чеки"/>
+                <MenuItem Header="Добавить чек вручную" Click="ShowReceiptWizard" InputGestureText="Ctrl + Alt + P"/>
                 <MenuItem Header="Дизайнер отчета" Click="ShowReport"/>
                 <MenuItem Header="Экспорт">
                     <MenuItem Header="Для локальной работы"/>

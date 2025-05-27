@@ -24,5 +24,8 @@ namespace RetailCorrector.Wizard.Windows
 
         private void ShowReport(object? s, RoutedEventArgs args) =>
             new Report().ShowDialog();
+
+        private void ShowReceiptWizard(object s, RoutedEventArgs args) =>
+            new ReceiptWizard().ShowDialog();
     }
 }
