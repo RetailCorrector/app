@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-	<PackageReference Include="RetailCorrector.Source" Version="1.0.0" />
+	<PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RetailCorrector.Constants\RetailCorrector.Constants.csproj" />
+    <ProjectReference Include="..\RetailCorrector.Source\RetailCorrector.Source.csproj" />
   </ItemGroup>
 
   <ItemGroup>
