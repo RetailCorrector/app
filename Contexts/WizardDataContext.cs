@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace RetailCorrector.Wizard;
+namespace RetailCorrector.Wizard.Contexts;
 
 public static class WizardDataContext
 {
