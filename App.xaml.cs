@@ -1,5 +1,4 @@
 ﻿using Serilog;
-using System.IO;
 using System.Windows;
 
 namespace RetailCorrector.Wizard
@@ -16,10 +15,8 @@ namespace RetailCorrector.Wizard
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.WithProperty("Version", Version)
-                .WriteTo.File(
-                    Path.Combine(AppContext.BaseDirectory, "logs", ".log"),
-                    outputTemplate: "{Timestamp:HH:mm:ss.ttt zzz} [{Level:u3}] ({Version}) {Message:lj}{NewLine}{Exception}",
-                    rollingInterval: RollingInterval.Day,
+                .WriteTo.File(Pathes.WizardLog,
+                    outputTemplate: Patterns.OutputLog,
                     flushToDiskInterval: TimeSpan.FromMilliseconds(100))
                 .CreateLogger();
             ModuleCollection.Load().Wait();

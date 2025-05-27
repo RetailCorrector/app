@@ -14,10 +14,10 @@ namespace RetailCorrector.Wizard.Windows
         }
 
         private void ShowLogs(object? s, RoutedEventArgs e) =>
-            Process.Start(new ProcessStartInfo("explorer", DirPath.LogsDir) { UseShellExecute = true});
+            Process.Start(new ProcessStartInfo("explorer", Pathes.Logs) { UseShellExecute = true});
 
         private void ShowDocs(object? s, RoutedEventArgs e) =>
-            Process.Start(new ProcessStartInfo("https://retailcorrector.gitbook.io/wiki") { UseShellExecute = true});
+            Process.Start(new ProcessStartInfo(Links.Wiki) { UseShellExecute = true});
 
         private void ShowAbout(object? s, RoutedEventArgs args) => 
             new About().ShowDialog();
