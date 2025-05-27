@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using RetailCorrector.Wizard.Contexts;
+using Serilog;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -86,17 +88,28 @@ namespace RetailCorrector.Wizard.Windows
             {
                 IsFreeRequest = false;
                 using var client = new HttpClient();
+                Log.Information($"Тестирование шаблона отчета: {Method}");
+                Log.Information(Url);
                 using var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Parse(Method.ToString()), Url);
                 foreach (var header in Headers)
                 {
                     if (!string.IsNullOrWhiteSpace(header.Key) && !string.IsNullOrWhiteSpace(header.Value))
+                    {
                         request.Headers.Add(header.Key, header.Value);
+                        Log.Information($"{header.Key}: {header.Value}");
+                    }
                 }
                 if (!string.IsNullOrWhiteSpace(Body))
+                {
                     request.Content = new StringContent(Body);
+                    Log.Information(Body);
+                }
                 using var resp = await client.SendAsync(request);
+                var code = (int)resp.StatusCode;
+                Log.Information($"Результат тестирования: {code}");
                 var content = await resp.Content.ReadAsStringAsync();
-                var status = (int)resp.StatusCode switch
+                Log.Information(content);
+                var status = code switch
                 {
                     (>= 100 and <= 199) or (>= 300 and <= 399) => MessageBoxImage.Asterisk,
                     >= 200 and <= 299 => MessageBoxImage.None,
@@ -106,10 +119,11 @@ namespace RetailCorrector.Wizard.Windows
                 };
                 if(resp.Content.Headers.ContentType!.MediaType == "text/html")
                     content = content.Length > 1000 ? content[..1000] + "..." : content;
-                MessageBox.Show(content, $"Результат тестирования запроса ({(int)resp.StatusCode})", MessageBoxButton.OK, status);
+                MessageBox.Show(content, $"Результат тестирования запроса ({code})", MessageBoxButton.OK, status);
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Ошибка тестирования запроса отчета");
                 MessageBox.Show(ex.Message, "Ошибка при тестировании запроса", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
