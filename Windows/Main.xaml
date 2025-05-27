@@ -10,7 +10,7 @@
         </Grid.RowDefinitions>
         <Menu IsMainMenu="True">
             <MenuItem Header="Пространство">
-                <MenuItem Header="Создать новое"/>
+                <MenuItem Header="Создать новое" Click="ClearSpace" InputGestureText="Ctrl + N"/>
                 <MenuItem Header="Получить чеки"/>
                 <MenuItem Header="Добавить чек вручную" Click="ShowReceiptWizard" InputGestureText="Ctrl + Alt + P"/>
                 <MenuItem Header="Дизайнер отчета" Click="ShowReport"/>

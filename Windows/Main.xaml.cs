@@ -27,5 +27,11 @@ namespace RetailCorrector.Wizard.Windows
 
         private void ShowReceiptWizard(object s, RoutedEventArgs args) =>
             new ReceiptWizard().ShowDialog();
+
+        private void ClearSpace(object s, RoutedEventArgs args)
+        {
+            WizardDataContext.Report = new RetailCorrector.Report();
+            WizardDataContext.Receipts.Clear();
+        }
     }
 }
