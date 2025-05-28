@@ -9,17 +9,27 @@ namespace RetailCorrector.Wizard.ModuleSystem
 {
     public static class ModuleCollection
     {
-        public static ObservableCollection<Module> Modules { get; } = [];
+        public static ReadOnlyObservableCollection<Module> Modules { get; }
+        private readonly static ObservableCollection<Module> _modules;
+        private static ModuleLoadContext? ctx;
+
+        static ModuleCollection()
+        {
+            _modules = [];
+            Modules = new ReadOnlyObservableCollection<Module>(_modules);
+        }
 
         public static async Task Load()
         {
+            ctx = new ModuleLoadContext();
             if(!Directory.Exists(Pathes.Modules)) Directory.CreateDirectory(Pathes.Modules);
             foreach (var file in Directory.GetFiles(Pathes.Modules)) await Add(file);
         }
 
-        public static async Task Add(string filepath)
+        private static async Task Add(string filepath)
         {
-            var assembly = Assembly.LoadFile(filepath);
+            var fs = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
+            var assembly = ctx!.LoadFromStream(fs);
             var guid = assembly.GetCustomAttribute<GuidAttribute>()?.Value;
             if (guid is null) return;
             var types = assembly.GetTypes();
@@ -29,12 +39,8 @@ namespace RetailCorrector.Wizard.ModuleSystem
             module.OnLog += WriteLog;
             module.OnNotify += Notify;
             await module.OnLoad();
-            Modules.Add(new Module
-            {
-                Guid = new Guid(guid),
-                Name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title,
-                EntryPoint = module,
-            });
+            var name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
+            _modules.Add(new Module(guid, name, module, fs));
         }
 
         private static void Notify(string text) => MessageBox.Show(text);
@@ -45,6 +51,25 @@ namespace RetailCorrector.Wizard.ModuleSystem
                 Log.Error(e, text);
             else
                 Log.Information(e, text);
+        }
+
+        public static async Task Unload()
+        {
+            foreach (var mod in Modules)
+            {
+                await mod.EntryPoint!.OnUnload();
+                mod.EntryPoint.OnNotify -= Notify;
+                mod.EntryPoint.OnLog -= WriteLog;
+                mod.EntryPoint = null;
+            }
+            ctx?.Unload();
+            foreach (var mod in Modules)
+            {
+                mod.Stream!.Dispose();
+                mod.Stream = null;
+            }
+            _modules.Clear();
+            ctx = null;
         }
     }
 }

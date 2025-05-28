@@ -2,5 +2,5 @@
 
 namespace RetailCorrector.Wizard.ModuleSystem
 {
-    public class ModuleLoadContext: AssemblyLoadContext { }
+    public class ModuleLoadContext(): AssemblyLoadContext(isCollectible: true) { }
 }
