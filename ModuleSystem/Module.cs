@@ -1,6 +1,6 @@
-﻿namespace RetailCorrector.Wizard
+﻿namespace RetailCorrector.Wizard.ModuleSystem
 {
-    public class LocalModule
+    public class Module
     {
         public Guid Guid { get; set; } = new Guid();
         public string Name { get; set; } = "";

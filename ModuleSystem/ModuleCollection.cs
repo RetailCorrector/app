@@ -5,17 +5,16 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace RetailCorrector.Wizard
+namespace RetailCorrector.Wizard.ModuleSystem
 {
     public static class ModuleCollection
     {
-        public static ObservableCollection<LocalModule> Modules { get; } = [];
+        public static ObservableCollection<Module> Modules { get; } = [];
 
         public static async Task Load()
         {
-            var dir = Path.Combine(AppContext.BaseDirectory, "sources");
-            if(!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-            foreach (var file in Directory.GetFiles(dir)) await Add(file);
+            if(!Directory.Exists(Pathes.Modules)) Directory.CreateDirectory(Pathes.Modules);
+            foreach (var file in Directory.GetFiles(Pathes.Modules)) await Add(file);
         }
 
         public static async Task Add(string filepath)
@@ -30,7 +29,7 @@ namespace RetailCorrector.Wizard
             module.OnLog += WriteLog;
             module.OnNotify += Notify;
             await module.OnLoad();
-            Modules.Add(new LocalModule
+            Modules.Add(new Module
             {
                 Guid = new Guid(guid),
                 Name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title,
