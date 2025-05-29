@@ -64,14 +64,14 @@ namespace RetailCorrector.Wizard.Windows
                         case "System.DateOnly":
                             item = new DatePicker();
                             bind.Converter = new DateValueConverter();
-                            item.SetBinding(DatePicker.DisplayDateProperty, bind);
+                            item.SetBinding(DatePicker.SelectedDateProperty, bind);
                             break;
                         case "System.DateTime":
                             item = new DateTimePicker
                             {
                                 Format = DateTimeFormat.SortableDateTime
                             };
-                            item.SetBinding(DatePicker.DisplayDateProperty, bind);
+                            item.SetBinding(DatePicker.SelectedDateProperty, bind);
                             break;
                         case "System.String":
                             item = new TextBox();
