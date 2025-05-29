@@ -25,6 +25,7 @@ namespace RetailCorrector.Wizard.UserControls
         {
             BorderThickness = new Thickness(1),
             Padding = new Thickness(7),
+            Margin = new Thickness(2.5),
             BorderBrush = Brushes.Black,
             CornerRadius = new CornerRadius(10),
             Width = 250,
