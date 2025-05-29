@@ -1,0 +1,55 @@
+﻿using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+
+namespace RetailCorrector.Wizard.UserControls
+{
+    public partial class ReceiptView : UserControl, INotifyPropertyChanged
+    {
+        public readonly static DependencyProperty DataSourceProperty =
+            DependencyProperty.Register(nameof(DataSource), typeof(Receipt), typeof(ReceiptView));
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private bool _isSelected = false;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                _isSelected = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+            }
+        }
+
+        public Receipt DataSource
+        {
+            get => (Receipt)GetValue(DataSourceProperty);
+            set
+            {
+                SetValue(DataSourceProperty, value);
+            }
+        }
+
+        public string OperationText => DataSource.Operation switch
+        {
+            Operation.Income => "прихода",
+            Operation.RefundIncome => "возврат прихода",
+            Operation.Outcome => "расхода",
+            Operation.RefundOutcome => "возврат расхода",
+        };
+
+        public string CorrText => DataSource.CorrectionType switch
+        {
+            CorrType.ByYourself => "Самостоятельно",
+            CorrType.ByTaxService => "По предписанию",
+        };
+
+        public ReceiptView()
+        {
+            InitializeComponent();
+        }
+
+        public void SwitchSelection(object? s, RoutedEventArgs e) => IsSelected = !IsSelected;
+    }
+}
