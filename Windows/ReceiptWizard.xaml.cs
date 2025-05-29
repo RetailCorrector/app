@@ -1,4 +1,5 @@
 ﻿using RetailCorrector.Wizard.Contexts;
+using RetailCorrector.Wizard.HistoryActions;
 using System.ComponentModel;
 using System.Windows;
 
@@ -21,6 +22,7 @@ namespace RetailCorrector.Wizard.Windows
 
         public void Save(object? s, RoutedEventArgs e)
         {
+            var index = WizardDataContext.Receipts.Count;
             WizardDataContext.Receipts.Add(new Receipt
             {
                 ActNumber = " ",
@@ -49,6 +51,7 @@ namespace RetailCorrector.Wizard.Windows
                     TotalSum = (uint)Math.Round(i.Sum * 100)
                 })]
             });
+            WizardDataContext.History.Push(new AddReceipts(index, 1));
             Close();
         }
     }
