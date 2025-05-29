@@ -2,5 +2,5 @@
 
 public static class Patterns
 {
-    public const string OutputLog = "{Timestamp:yyyy-MM-ss HH:mm:ss.ttt zzz} [{Level:u3}] ({Version}) {Message:lj}{NewLine}{Exception}";
+    public const string OutputLog = "{Timestamp:yyyy-MM-ss HH:mm:ss.fff zzz} [{Level:u3}] ({Version}) {Message:lj}{NewLine}{Exception}";
 }
