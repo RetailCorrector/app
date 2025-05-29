@@ -1,5 +1,5 @@
 ﻿using RetailCorrector.Wizard.Contexts;
-﻿using RetailCorrector.Wizard.Converters;
+using RetailCorrector.Wizard.Converters;
 using RetailCorrector.Wizard.ModuleSystem;
 using RetailCorrector.Wizard.UserControls;
 using Serilog;
@@ -24,6 +24,28 @@ namespace RetailCorrector.Wizard.Windows
             set
             {
                 _module = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _maxProgress = 1;
+        public int MaxProgress
+        {
+            get => _maxProgress;
+            set
+            {
+                _maxProgress = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _currProgress = 0;
+        public int CurrProgress
+        {
+            get => _currProgress;
+            set
+            {
+                _currProgress = value;
                 OnPropertyChanged();
             }
         }
@@ -115,16 +137,28 @@ namespace RetailCorrector.Wizard.Windows
             base.OnClosed(e);
         }
 
+        private void ParseStarted(int maxProgress)
+        {
+            MaxProgress = maxProgress;
+            CurrProgress = 0;
+        }
+
+        private void ProgressUpdate(int value) => CurrProgress = value;
+
         private async void Cancel(object? s, RoutedEventArgs e)
         {
             await CancelSource.CancelAsync();
             OnPropertyChanged(nameof(IsEnabledCancelButton));
             OnPropertyChanged(nameof(IsEnabledStartButton));
+            Module!.ParseStarted -= ParseStarted;
+            Module!.ProgressUpdated -= ProgressUpdate;
         }
 
         private async void Start(object? s, RoutedEventArgs e)
         {
             CancelSource = new();
+            Module!.ParseStarted += ParseStarted;
+            Module!.ProgressUpdated += ProgressUpdate;
             OnPropertyChanged(nameof(IsEnabledCancelButton));
             OnPropertyChanged(nameof(IsEnabledStartButton));
             try
