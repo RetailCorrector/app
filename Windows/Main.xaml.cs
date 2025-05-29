@@ -3,9 +3,6 @@ using System.Windows;
 
 namespace RetailCorrector.Wizard.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для Main.xaml
-    /// </summary>
     public partial class Main : Window
     {
         public Main()
