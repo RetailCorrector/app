@@ -49,7 +49,7 @@
             <TextBlock Margin="5,5,5,0" Text="Дата документа"/>
             <DatePicker Margin="5" SelectedDate="{Binding Context.Date, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Margin="5,5,5,0" Text="ФП документа"/>
-            <tk:WatermarkTextBox Margin="5" Text="{Binding Context.Fiscal, UpdateSourceTrigger=PropertyChanged}"/>            
+            <TextBox Margin="5" Text="{Binding Context.Fiscal, UpdateSourceTrigger=PropertyChanged}"/>            
             <TextBlock Margin="5,5,5,0" Text="Сумма наличной оплаты"/>
             <tk:DoubleUpDown Margin="5" Value="{Binding Context.Cash, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Margin="5,5,5,0" Text="Сумма безналичной оплаты"/>
@@ -76,7 +76,7 @@
                     <DataTemplate>
                         <StackPanel Width="180">
                             <TextBlock Margin="5,5,5,0" Text="Наименование"/>
-                            <tk:WatermarkTextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Тип позиции"/>
                             <ComboBox ItemsSource="{Binding Source={StaticResource posTypes}}" 
                                                     SelectedValue="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>

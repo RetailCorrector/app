@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using RetailCorrector.Wizard.Contexts;
+using System.Diagnostics;
 using System.Windows;
 
 namespace RetailCorrector.Wizard.Windows
@@ -21,6 +22,9 @@ namespace RetailCorrector.Wizard.Windows
 
         private void ShowReport(object? s, RoutedEventArgs args) =>
             new Report().ShowDialog();
+
+        private void ShowParser(object s, RoutedEventArgs args) =>
+            new Parser().ShowDialog();
 
         private void ShowReceiptWizard(object s, RoutedEventArgs args) =>
             new ReceiptWizard().ShowDialog();

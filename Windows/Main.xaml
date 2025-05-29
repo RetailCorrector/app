@@ -11,13 +11,9 @@
         <Menu IsMainMenu="True">
             <MenuItem Header="Пространство">
                 <MenuItem Header="Создать новое" Click="ClearSpace" InputGestureText="Ctrl + N"/>
-                <MenuItem Header="Получить чеки"/>
+                <MenuItem Header="Получить чеки" Click="ShowParser" InputGestureText="Ctrl + P"/>
                 <MenuItem Header="Добавить чек вручную" Click="ShowReceiptWizard" InputGestureText="Ctrl + Alt + P"/>
-                <MenuItem Header="Дизайнер отчета" Click="ShowReport"/>
-                <MenuItem Header="Экспорт">
-                    <MenuItem Header="Для локальной работы"/>
-                    <MenuItem Header="Для удалённой работы"/>
-                </MenuItem>
+                <MenuItem Header="Дизайнер отчета" Click="ShowReport" InputGestureText="Ctrl + R"/>
             </MenuItem>
             <MenuItem Header="Вид">
                 <MenuItem Header="Список чеков" IsCheckable="True"/>
