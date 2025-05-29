@@ -15,7 +15,6 @@
   <ItemGroup>
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
 	<PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
-	<PackageReference Include="wpfmasonry" Version="3.0.2503.131" />
   </ItemGroup>
 
   <ItemGroup>
