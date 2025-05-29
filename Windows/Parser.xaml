@@ -7,7 +7,7 @@
         xmlns:mod="clr-namespace:RetailCorrector.Wizard.ModuleSystem"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Title="Парсер чеков" Height="450" Width="800">
-    <Grid Margin="10">
+    <Grid Margin="10,10,5,10">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="5"/>
@@ -21,9 +21,10 @@
             <ColumnDefinition Width="75"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.ColumnSpan="7" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <m:MasonryControl/>
+        <ScrollViewer Grid.ColumnSpan="9" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+            <m:MasonryControl ItemsSource="{Binding Items}" Spacing="5"/>
         </ScrollViewer>
         <ComboBox Grid.Row="2" ItemsSource="{Binding Source={x:Static mod:ModuleCollection.Modules}}" DisplayMemberPath="Name" 
                   SelectedValuePath="EntryPoint" SelectedValue="{Binding Module}"/>
