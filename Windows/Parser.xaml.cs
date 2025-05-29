@@ -1,6 +1,8 @@
+﻿using RetailCorrector.Wizard.Contexts;
 ﻿using RetailCorrector.Wizard.Converters;
 using RetailCorrector.Wizard.ModuleSystem;
 using RetailCorrector.Wizard.UserControls;
+using Serilog;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -26,10 +28,15 @@ namespace RetailCorrector.Wizard.Windows
             }
         }
 
+        public bool IsEnabledCancelButton => !CancelSource.IsCancellationRequested;
+        public bool IsEnabledStartButton => CancelSource.IsCancellationRequested;
+
         public ObservableCollection<UIElement> Items { get; } = [];
+        public CancellationTokenSource CancelSource { get; set; } = new();
 
         public Parser()
         {
+            CancelSource.Cancel();
             ModuleCollection.Load().Wait();
             PropertyChanged += ModuleChanged;
             InitializeComponent();
@@ -103,8 +110,43 @@ namespace RetailCorrector.Wizard.Windows
 
         protected override async void OnClosed(EventArgs e)
         {
+            Cancel(null, new RoutedEventArgs());
             await ModuleCollection.Unload();
             base.OnClosed(e);
+        }
+
+        private async void Cancel(object? s, RoutedEventArgs e)
+        {
+            await CancelSource.CancelAsync();
+            OnPropertyChanged(nameof(IsEnabledCancelButton));
+            OnPropertyChanged(nameof(IsEnabledStartButton));
+        }
+
+        private async void Start(object? s, RoutedEventArgs e)
+        {
+            CancelSource = new();
+            OnPropertyChanged(nameof(IsEnabledCancelButton));
+            OnPropertyChanged(nameof(IsEnabledStartButton));
+            try
+            {
+                var receipts = await Module!.Parse(CancelSource.Token);
+                CancelSource.Token.ThrowIfCancellationRequested();
+                foreach (var receipt in receipts)
+                    WizardDataContext.Receipts.Add(receipt);
+                Cancel(null, new RoutedEventArgs());
+            }
+            catch (Exception ex)
+            {
+                if (!(ex is TaskCanceledException || ex is OperationCanceledException))
+                {
+                    System.Windows.MessageBox.Show("Не удалось спарсить чеки! Подробнее в лог-файле...");
+                    Log.Error(ex, "Не удалось спарсить чеки!");
+                }
+            }
+            finally
+            {
+                Close();
+            }
         }
     }
 }

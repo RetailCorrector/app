@@ -29,9 +29,9 @@
         </ScrollViewer>
         <tk:WatermarkComboBox Grid.Row="2" ItemsSource="{Binding Source={x:Static mod:ModuleCollection.Modules}}"
                               DisplayMemberPath="Name" SelectedValuePath="EntryPoint" SelectedValue="{Binding Module}"
-                              Watermark="Источник данных"/>
+                              Watermark="Источник данных" IsEnabled="{Binding IsEnabledStartButton}"/>
         <ProgressBar Grid.Row="2" Grid.Column="2"/>
-        <Button Grid.Row="2" Grid.Column="4" Content="Отмена"/>
-        <Button Grid.Row="2" Grid.Column="6" Content="Запуск"/>
+        <Button Grid.Row="2" Grid.Column="4" Content="Отмена" Click="Cancel" IsEnabled="{Binding IsEnabledCancelButton}"/>
+        <Button Grid.Row="2" Grid.Column="6" Content="Запуск" Click="Start" IsEnabled="{Binding IsEnabledStartButton}"/>
     </Grid>
 </Window>
