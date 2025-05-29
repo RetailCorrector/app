@@ -11,6 +11,7 @@ namespace RetailCorrector.Wizard.Windows
         public RoutedCommand ShowReceiptWizard { get; } = new RoutedCommand(nameof(ShowReceiptWizard), typeof(Main));
         public RoutedCommand ShowParser { get; } = new RoutedCommand(nameof(ShowParser), typeof(Main));
         public RoutedCommand ClearSpace { get; } = new RoutedCommand(nameof(ClearSpace), typeof(Main));
+        public RoutedCommand Undo { get; } = new RoutedCommand(nameof(Undo), typeof(Main));
 
         public Main()
         {
@@ -31,6 +32,16 @@ namespace RetailCorrector.Wizard.Windows
             {
                 WizardDataContext.Report = new RetailCorrector.Report();
                 WizardDataContext.Receipts.Clear();
+                WizardDataContext.History.Clear();
+            }));
+            Undo.InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(Undo, (_, _) =>
+            {
+                if (WizardDataContext.History.Count > 0)
+                {
+                    var action = WizardDataContext.History.Pop();
+                    action.Undo();
+                }
             }));
         }
 
