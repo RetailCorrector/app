@@ -1,6 +1,7 @@
 ﻿using RetailCorrector.Wizard.Contexts;
 using RetailCorrector.Wizard.HistoryActions;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -13,6 +14,7 @@ namespace RetailCorrector.Wizard.Windows
         public RoutedCommand ShowParser { get; } = new RoutedCommand(nameof(ShowParser), typeof(Main));
         public RoutedCommand ClearSpace { get; } = new RoutedCommand(nameof(ClearSpace), typeof(Main));
         public RoutedCommand Undo { get; } = new RoutedCommand(nameof(Undo), typeof(Main));
+        public RoutedCommand Delete { get; } = new RoutedCommand(nameof(Delete), typeof(Main));
 
         public Main()
         {
@@ -53,6 +55,8 @@ namespace RetailCorrector.Wizard.Windows
                     action.Undo();
                 }
             }));
+            Delete.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(Delete, (_, _) => panel.Delete()));
         }
 
         private void ShowLogs(object? s, RoutedEventArgs e) =>

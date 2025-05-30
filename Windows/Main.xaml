@@ -34,18 +34,7 @@
             </MenuItem>
         </Menu>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
-            <ItemsControl ItemsSource="{Binding Source={x:Static ctx:WizardDataContext.Receipts}}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <uc:ReceiptView DataSource="{Binding}" Margin="5,7"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <uc:ReceiptPanel x:Name="panel"/>
         </ScrollViewer>
     </Grid>
 </Window>

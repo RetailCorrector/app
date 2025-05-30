@@ -29,10 +29,7 @@ namespace RetailCorrector.Wizard.UserControls
         public Receipt DataSource
         {
             get => (Receipt)GetValue(DataSourceProperty);
-            set
-            {
-                SetValue(DataSourceProperty, value);
-            }
+            set => SetValue(DataSourceProperty, value);
         }
 
         public ReceiptView()
