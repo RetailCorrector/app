@@ -1,4 +1,5 @@
 ﻿using RetailCorrector.Wizard.Contexts;
+using RetailCorrector.Wizard.HistoryActions;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -26,7 +27,16 @@ namespace RetailCorrector.Wizard.Windows
             ShowParser.InputGestures.Add(new KeyGesture(Key.P, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(ShowParser, (_, _) => new Parser().ShowDialog()));
             ShowReceiptWizard.InputGestures.Add(new KeyGesture(Key.P, ModifierKeys.Control | ModifierKeys.Alt));
-            CommandBindings.Add(new CommandBinding(ShowReceiptWizard, (_, _) => new ReceiptWizard().ShowDialog()));
+            CommandBindings.Add(new CommandBinding(ShowReceiptWizard, (_, _) =>
+            {
+                var wizard = new ReceiptWizard();
+                if (wizard.ShowDialog() == true)
+                {
+                    var index = WizardDataContext.Receipts.Count;
+                    WizardDataContext.Receipts.Add(wizard.Data);
+                    WizardDataContext.History.Push(new AddReceipts(index, 1));
+                }
+            }));
             ClearSpace.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(ClearSpace, (_, _) =>
             {

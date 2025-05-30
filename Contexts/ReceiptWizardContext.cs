@@ -50,6 +50,21 @@ public class ReceiptWizardContext : INotifyPropertyChanged
         Items.CollectionChanged += (_, _) =>
             OnPropertyChanged(nameof(Done));
     }
+    
+    public ReceiptWizardContext(Receipt data) : this()
+    {
+        Operation = data.Operation;
+        Fiscal = data.FiscalSign;
+        Date = data.Created;
+        Cash = data.Payment.Cash / 100.0;
+        ECash = data.Payment.ECash / 100.0;
+        Pre = data.Payment.Pre / 100.0;
+        Post = data.Payment.Post / 100.0;
+        Provision = data.Payment.Provision / 100.0;
+        Total = (data.RoundedSum ?? 0) / 100.0;
+        foreach(var pos in data.Items)
+            Items.Add(new Position(this, pos));
+    }
 
     public double Cash
     {
@@ -132,6 +147,18 @@ public class ReceiptWizardContext : INotifyPropertyChanged
 
     public class Position(ReceiptWizardContext parent) : INotifyPropertyChanged
     {
+        public Position(ReceiptWizardContext parent, RetailCorrector.Position data) : this(parent)
+        {
+            Name = data.Name;
+            Type = data.PosType;
+            Pay = data.PayType;
+            Tax = data.TaxRate;
+            Measure = data.MeasureUnit;
+            Price = data.Price / 100.0;
+            Quantity = data.Quantity / 1000.0;
+            Sum = data.TotalSum / 100.0;
+        }
+
         public string Name
         {
             get => _name;

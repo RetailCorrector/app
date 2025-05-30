@@ -1,6 +1,10 @@
-﻿using System.ComponentModel;
+﻿using RetailCorrector.Wizard.Contexts;
+using RetailCorrector.Wizard.HistoryActions;
+using RetailCorrector.Wizard.Windows;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace RetailCorrector.Wizard.UserControls
 {
@@ -51,5 +55,16 @@ namespace RetailCorrector.Wizard.UserControls
         }
 
         public void SwitchSelection(object? s, RoutedEventArgs e) => IsSelected = !IsSelected;
+
+        private void OpenDialog(object sender, MouseButtonEventArgs e)
+        {
+            var i = WizardDataContext.Receipts.IndexOf(DataSource);
+            var wizard = new ReceiptWizard(DataSource);
+            if(wizard.ShowDialog() == true)
+            {
+                WizardDataContext.History.Push(new EditReceipts(i));
+                WizardDataContext.Receipts[i] = wizard.Data;
+            }
+        }
     }
 }

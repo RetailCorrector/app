@@ -1,6 +1,5 @@
 ﻿using RetailCorrector.Wizard.Contexts;
 using RetailCorrector.Wizard.Extensions;
-using RetailCorrector.Wizard.HistoryActions;
 using System.ComponentModel;
 using System.Windows;
 
@@ -10,6 +9,7 @@ namespace RetailCorrector.Wizard.Windows
     {
         public ReceiptWizardContext? Context { get; init; }
         public KeyValuePair<Operation, string>[] Operations { get; init; } = EnumExtensions.GetDisplayNames<Operation>();
+        public Receipt Data { get; private set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -19,13 +19,18 @@ namespace RetailCorrector.Wizard.Windows
             InitializeComponent();
         }
 
+        public ReceiptWizard(Receipt receipt)
+        {
+            Context = new(receipt);
+            InitializeComponent();
+        }
+
         public void AddPosition(object? s, RoutedEventArgs e) =>
             Context!.Items.Add(new ReceiptWizardContext.Position(Context));
 
         public void Save(object? s, RoutedEventArgs e)
         {
-            var index = WizardDataContext.Receipts.Count;
-            WizardDataContext.Receipts.Add(new Receipt
+            Data = new Receipt
             {
                 ActNumber = " ",
                 CorrectionType = CorrType.ByYourself,
@@ -52,8 +57,8 @@ namespace RetailCorrector.Wizard.Windows
                     PosType = i.Type,
                     TotalSum = (uint)Math.Round(i.Sum * 100)
                 })]
-            });
-            WizardDataContext.History.Push(new AddReceipts(index, 1));
+            };
+            DialogResult = true;
             Close();
         }
     }
