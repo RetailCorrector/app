@@ -1,4 +1,5 @@
 ﻿using RetailCorrector.Wizard.Contexts;
+using RetailCorrector.Wizard.Extensions;
 using RetailCorrector.Wizard.HistoryActions;
 using System.ComponentModel;
 using System.Windows;
@@ -8,6 +9,7 @@ namespace RetailCorrector.Wizard.Windows
     public partial class ReceiptWizard : Window, INotifyPropertyChanged
     {
         public ReceiptWizardContext? Context { get; init; }
+        public KeyValuePair<Operation, string>[] Operations { get; init; } = EnumExtensions.GetDisplayNames<Operation>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

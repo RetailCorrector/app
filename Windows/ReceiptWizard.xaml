@@ -11,15 +11,6 @@
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="DisplayMemberPath" Value="Value"/>
-            <Setter Property="SelectedValuePath" Value="Key"/>
-        </Style>
-        <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="operations">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="r:Operation"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
         <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="measures">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="r:MeasureUnit"/>
@@ -44,7 +35,8 @@
     <StackPanel Orientation="Horizontal" Margin="5">
         <StackPanel>
             <TextBlock Margin="5,5,5,0" Text="Операция документа"/>
-            <ComboBox ItemsSource="{Binding Source={StaticResource operations}}" Margin="5"
+            <ComboBox ItemsSource="{Binding Operations}" Margin="5"
+                      DisplayMemberPath="Value" SelectedValuePath="Key"
                       SelectedValue="{Binding Context.Operation, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Margin="5,5,5,0" Text="Дата документа"/>
             <DatePicker Margin="5" SelectedDate="{Binding Context.Date, UpdateSourceTrigger=PropertyChanged}"/>
@@ -79,16 +71,20 @@
                             <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Тип позиции"/>
                             <ComboBox ItemsSource="{Binding Source={StaticResource posTypes}}" 
-                                                    SelectedValue="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Ставка НДС"/>
                             <ComboBox ItemsSource="{Binding Source={StaticResource taxRates}}" 
-                                                    SelectedValue="{Binding Tax, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding Tax, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Способ оплаты"/>
                             <ComboBox ItemsSource="{Binding Source={StaticResource payTypes}}" 
-                                                    SelectedValue="{Binding Pay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding Pay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Единица измерения"/>
                             <ComboBox ItemsSource="{Binding Source={StaticResource measures}}" 
-                                                    SelectedValue="{Binding Measure, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding Measure, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Цена"/>
                             <tk:DoubleUpDown Value="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Количество"/>
