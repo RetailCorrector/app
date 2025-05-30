@@ -18,7 +18,7 @@
     <Canvas Height="{Binding ActualHeight, ConverterParameter=10, Converter={StaticResource calc}, ElementName=panel, Mode=OneWay}"
              DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
         <StackPanel Margin="5" Width="180" x:Name="panel">
-            <TextBlock Text="{Binding DataSource.Operation, Converter={StaticResource op}, StringFormat='Чек {0}'}" FontSize="13" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding DataSource.Operation, Converter={StaticResource op}}" FontSize="13" HorizontalAlignment="Center"/>
             <GridSplitter Height="3"/>
             <DockPanel>
                 <TextBlock Text="{Binding DataSource.CorrectionType, Converter={StaticResource corr}}" HorizontalAlignment="Right"/>
