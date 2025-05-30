@@ -24,7 +24,7 @@
                 <MenuItem Header="История изменений" IsCheckable="True"/>
             </MenuItem>
             <MenuItem Header="Сервисы">
-                <MenuItem Header="Менеджер модулей"/>
+                <MenuItem Header="Менеджер модулей" Click="RunModuleManager"/>
                 <MenuItem Header="Локальный кассир"/>
             </MenuItem>
             <MenuItem Header="Помощь">
