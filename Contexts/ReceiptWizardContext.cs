@@ -7,6 +7,30 @@ namespace RetailCorrector.Wizard.Contexts;
 
 public class ReceiptWizardContext : INotifyPropertyChanged
 {
+    public CorrType CorrType
+    {
+        get => _corrType;
+        set
+        {
+            _corrType = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(Done));
+        }
+    }
+    private CorrType _corrType = CorrType.ByYourself;
+
+    public string Act
+    {
+        get => _act;
+        set
+        {
+            _act = value;
+            OnPropertyChanged(nameof(Done));
+            OnPropertyChanged();
+        }
+    }
+    private string _act = " ";
+
     public Operation Operation
     {
         get => _operation;
@@ -53,6 +77,8 @@ public class ReceiptWizardContext : INotifyPropertyChanged
     
     public ReceiptWizardContext(Receipt data) : this()
     {
+        CorrType = data.CorrectionType;
+        Act = data.ActNumber ?? " ";
         Operation = data.Operation;
         Fiscal = data.FiscalSign;
         Date = data.Created;

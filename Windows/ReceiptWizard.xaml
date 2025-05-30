@@ -38,6 +38,12 @@
             <ComboBox ItemsSource="{Binding Operations}" Margin="5"
                       DisplayMemberPath="Value" SelectedValuePath="Key"
                       SelectedValue="{Binding Context.Operation, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Margin="5,5,5,0" Text="Тип коррекции"/>
+            <ComboBox ItemsSource="{Binding CorrTypes}" Margin="5" 
+                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                      SelectedValue="{Binding Context.CorrType, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Margin="5,5,5,0" Text="Номер акта"/>
+            <TextBox Margin="5" Text="{Binding Context.Act, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Margin="5,5,5,0" Text="Дата документа"/>
             <DatePicker Margin="5" SelectedDate="{Binding Context.Date, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Margin="5,5,5,0" Text="ФП документа"/>

@@ -9,6 +9,7 @@ namespace RetailCorrector.Wizard.Windows
     {
         public ReceiptWizardContext? Context { get; init; }
         public KeyValuePair<Operation, string>[] Operations { get; init; } = EnumExtensions.GetDisplayNames<Operation>();
+        public KeyValuePair<CorrType, string>[] CorrTypes { get; init; } = EnumExtensions.GetDisplayNames<CorrType>();
         public Receipt Data { get; private set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -32,9 +33,9 @@ namespace RetailCorrector.Wizard.Windows
         {
             Data = new Receipt
             {
-                ActNumber = " ",
-                CorrectionType = CorrType.ByYourself,
                 Created = (DateTime)Context!.Date!,
+                ActNumber = string.IsNullOrWhiteSpace(Context.Act) ? null : Context.Act,
+                CorrectionType = Context.CorrType,
                 FiscalSign = Context.Fiscal,
                 Operation = Context.Operation,
                 RoundedSum = (uint)Math.Round(Context.Total * 100),
