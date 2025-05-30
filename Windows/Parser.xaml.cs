@@ -133,7 +133,7 @@ namespace RetailCorrector.Wizard.Windows
 
         protected override async void OnClosed(EventArgs e)
         {
-            Cancel(null, new RoutedEventArgs());
+            await CancelSource.CancelAsync();
             await ModuleCollection.Unload();
             base.OnClosed(e);
         }

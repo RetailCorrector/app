@@ -10,7 +10,7 @@ namespace RetailCorrector.Wizard.Converters
         public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var coll = EnumExtensions.GetDisplayNames(value.GetType()) as KeyValuePair<Enum, string>[];
-            return coll.First(c => c.Key == value).Value;
+            return coll.First(c => c.Key.ToString() == ((Enum)value).ToString()).Value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
