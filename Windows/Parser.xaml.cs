@@ -171,6 +171,7 @@ namespace RetailCorrector.Wizard.Windows
                     WizardDataContext.Receipts.Add(receipt);
                 Cancel(null, new RoutedEventArgs());
                 WizardDataContext.History.Push(new AddReceipts(index, receipts.Count()));
+                System.Windows.MessageBox.Show($"Парсинг завершен! Найдено чеков: {receipts.Count()}.");
             }
             catch (Exception ex)
             {
