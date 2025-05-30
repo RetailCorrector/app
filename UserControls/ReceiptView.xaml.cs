@@ -35,20 +35,6 @@ namespace RetailCorrector.Wizard.UserControls
             }
         }
 
-        public string OperationText => DataSource.Operation switch
-        {
-            Operation.Income => "прихода",
-            Operation.RefundIncome => "возврат прихода",
-            Operation.Outcome => "расхода",
-            Operation.RefundOutcome => "возврат расхода",
-        };
-
-        public string CorrText => DataSource.CorrectionType switch
-        {
-            CorrType.ByYourself => "Самостоятельно",
-            CorrType.ByTaxService => "По предписанию",
-        };
-
         public ReceiptView()
         {
             InitializeComponent();
