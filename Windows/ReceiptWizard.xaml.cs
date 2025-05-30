@@ -14,14 +14,18 @@ namespace RetailCorrector.Wizard.Windows
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public bool IsCreate { get; }
+
         public ReceiptWizard()
         {
+            IsCreate = true;
             Context = new();
             InitializeComponent();
         }
 
         public ReceiptWizard(Receipt receipt)
         {
+            IsCreate = false;
             Context = new(receipt);
             InitializeComponent();
         }
