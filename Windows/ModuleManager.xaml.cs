@@ -53,14 +53,21 @@ namespace RetailCorrector.RegistryManager
 
         private async Task<RemoteModules> GetRemoteModules()
         {
-            using var http = new HttpClient();
-            if (!Uri.TryCreate(CurrentRegistry, UriKind.Absolute, out var uri))
+            try
+            {
+                using var http = new HttpClient();
+                if (!Uri.TryCreate(CurrentRegistry, UriKind.Absolute, out var uri))
+                    return new RemoteModules { Modules = [] };
+                using var req = new HttpRequestMessage(HttpMethod.Get, uri);
+                req.Headers.Add("User-Agent", $"RetailCorrector/rm-{App.Version}");
+                using var resp = await http.SendAsync(req);
+                var content = await resp.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<RemoteModules>(content);
+            }
+            catch
+            {
                 return new RemoteModules { Modules = [] };
-            using var req = new HttpRequestMessage(HttpMethod.Get, uri);
-            req.Headers.Add("User-Agent", $"RetailCorrector/rm-{App.Version}");
-            using var resp = await http.SendAsync(req);
-            var content = await resp.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<RemoteModules>(content);
+            }
         }
 
         private List<LocalModule> GetLocalModules()
