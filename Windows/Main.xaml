@@ -19,6 +19,10 @@
                 <MenuItem Header="Добавить чек вручную" Command="{Binding ShowReceiptWizard}" InputGestureText="Ctrl + Alt + P"/>
                 <MenuItem Header="Дизайнер отчета" Command="{Binding ShowReport}" InputGestureText="Ctrl + R"/>
             </MenuItem>
+            <MenuItem Header="Правка">
+                <MenuItem Header="Отменить" Command="{Binding Undo}" InputGestureText="Ctrl + Z"/>
+                <MenuItem Header="Инвертировать выделение" Command="{Binding InvertSelect}" InputGestureText="Ctrl + Shift + I"/>
+            </MenuItem>
             <MenuItem Header="Вид">
                 <MenuItem Header="Список чеков" IsCheckable="True"/>
                 <MenuItem Header="История изменений" IsCheckable="True"/>

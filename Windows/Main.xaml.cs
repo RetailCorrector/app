@@ -15,6 +15,7 @@ namespace RetailCorrector.Wizard.Windows
         public RoutedCommand ClearSpace { get; } = new RoutedCommand(nameof(ClearSpace), typeof(Main));
         public RoutedCommand Undo { get; } = new RoutedCommand(nameof(Undo), typeof(Main));
         public RoutedCommand Delete { get; } = new RoutedCommand(nameof(Delete), typeof(Main));
+        public RoutedCommand InvertSelect { get; } = new RoutedCommand(nameof(InvertSelect), typeof(Main));
 
         public Main()
         {
@@ -57,6 +58,8 @@ namespace RetailCorrector.Wizard.Windows
             }));
             Delete.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(Delete, (_, _) => panel.Delete()));
+            InvertSelect.InputGestures.Add(new KeyGesture(Key.I, ModifierKeys.Control | ModifierKeys.Shift));
+            CommandBindings.Add(new CommandBinding(InvertSelect, (_, _) => panel.InvertSelect()));
         }
 
         private void ShowLogs(object? s, RoutedEventArgs e) =>
