@@ -1,15 +1,31 @@
 ﻿using RetailCorrector.Wizard.Contexts;
+using RetailCorrector.Wizard.UserControls;
 using Serilog;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 
 namespace RetailCorrector.Wizard.Windows
 {
     public partial class Report : Window, INotifyPropertyChanged
     {
+        public Command WritePattern { get; } = new Command(LocalWritePattern);
+        public RoutedCommand Escape { get; } = new RoutedCommand(nameof(Escape), typeof(Report));
+
+        private static Report? Singleton { get; set; } = null;
+        private static void LocalWritePattern(object? pattern)
+        {
+            var text = $"`{(string)pattern!}`";
+            var index = Singleton!.body.CaretIndex;
+            Singleton.Body = Singleton.Body.Insert(Singleton.body.CaretIndex, text);
+            Singleton.body.CaretIndex = index + text.Length;
+        }
+
         public string Url
         {
             get => _url;
@@ -46,6 +62,18 @@ namespace RetailCorrector.Wizard.Windows
         }
         private string _content = WizardDataContext.Report.Content;
 
+        public string ContentType
+        {
+            get => _contentType;
+            set
+            {
+                if (_contentType == value) return;
+                _contentType = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _contentType = WizardDataContext.Report.ContentType;
+
         public int HeaderIndex { get; set; } = -1;
 
         public bool IsFreeRequest
@@ -79,6 +107,9 @@ namespace RetailCorrector.Wizard.Windows
 
         public Report()
         {
+            Singleton = this;
+            Escape.InputGestures.Add(new KeyGesture(Key.Escape));
+            CommandBindings.Add(new CommandBinding(Escape, (_, _) => Close()));
             InitializeComponent();
         }
 
@@ -101,8 +132,10 @@ namespace RetailCorrector.Wizard.Windows
                 }
                 if (!string.IsNullOrWhiteSpace(Body))
                 {
-                    request.Content = new StringContent(Body);
-                    Log.Information(Body);
+                    var body = $"{Body}";
+                    body = Regex.Replace(body, "`([a-z:]*?)`", "555");
+                    request.Content = new StringContent(body, MediaTypeHeaderValue.Parse(ContentType));
+                    Log.Information(body);
                 }
                 using var resp = await client.SendAsync(request);
                 var code = (int)resp.StatusCode;
@@ -158,6 +191,7 @@ namespace RetailCorrector.Wizard.Windows
                 }
             }
             WizardDataContext.Report = report;
+            Singleton = null;
             base.OnClosed(e);
         }
     }
