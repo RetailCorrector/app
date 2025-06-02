@@ -20,6 +20,7 @@
                 <MenuItem Header="Вернуть" Command="{Binding Redo}" InputGestureText="Ctrl + Y"/>
                 <MenuItem Header="Инвертировать выделение" Command="{Binding InvertSelect}" InputGestureText="Ctrl + Shift + I"/>
                 <MenuItem Header="Инвертировать тип чека" Command="{Binding InvertOperation}" InputGestureText="Ctrl + Alt + I"/>
+                <MenuItem Header="Дублировать" Command="{Binding Duplicate}" InputGestureText="Ctrl + Alt + D"/>
             </MenuItem>
             <MenuItem Header="Вид">
                 <MenuItem Header="История изменений" IsCheckable="True"/>
