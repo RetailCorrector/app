@@ -3,6 +3,7 @@ using RetailCorrector.Wizard.HistoryActions;
 using RetailCorrector.Wizard.Managers;
 using System.Diagnostics;
 using System.IO;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
 
@@ -20,6 +21,7 @@ namespace RetailCorrector.Wizard.Windows
         public RoutedCommand InvertSelect { get; } = new RoutedCommand(nameof(InvertSelect), typeof(Main));
         public RoutedCommand InvertOperation { get; } = new RoutedCommand(nameof(InvertOperation), typeof(Main));
         public RoutedCommand Duplicate { get; } = new RoutedCommand(nameof(Duplicate), typeof(Main));
+        public RoutedCommand LocalExport { get; } = new RoutedCommand(nameof(LocalExport), typeof(Main));
 
         public Main()
         {
@@ -59,6 +61,8 @@ namespace RetailCorrector.Wizard.Windows
             CommandBindings.Add(new CommandBinding(InvertOperation, (_, _) => panel.InvertOperation()));
             Duplicate.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control | ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(Duplicate, (_, _) => panel.Duplicate()));
+            LocalExport.InputGestures.Add(new KeyGesture(Key.B, ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(LocalExport, DoLocalExport));
         }
 
         private void ShowLogs(object? s, RoutedEventArgs e) =>
@@ -72,5 +76,19 @@ namespace RetailCorrector.Wizard.Windows
 
         private void RunModuleManager(object? s, RoutedEventArgs args) =>
             Process.Start(Path.Combine(Pathes.RegistryManager, "ModuleManager.exe"));
+
+        private void DoLocalExport(object? s, RoutedEventArgs args)
+        {
+            File.WriteAllText(Pathes.Report, JsonSerializer.Serialize(WizardDataContext.Report));
+            foreach (var stack in WizardDataContext.Receipts.Chunk(25))
+            {
+                string filename;
+                do
+                {
+                    filename = Path.Combine(Pathes.Receipts, $"{Path.GetRandomFileName().Replace(".", "")}.json");
+                } while (File.Exists(filename));
+                File.WriteAllText(filename, JsonSerializer.Serialize(stack));
+            }
+        }
     }
 }

@@ -15,6 +15,10 @@
                 <MenuItem Header="Получить чеки" Command="{Binding ShowParser}" InputGestureText="Ctrl + P"/>
                 <Separator/>
                 <MenuItem Header="Дизайнер отчета" Command="{Binding ShowReport}" InputGestureText="Ctrl + R"/>
+                <MenuItem Header="Экспорт">
+                    <MenuItem Header="Для локального кассира" Command="{Binding LocalExport}" InputGestureText="Alt + B"/>
+                    <MenuItem Header="Для удаленного агента" IsEnabled="False" InputGestureText="Ctrl + B"/>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Правка">
                 <MenuItem Header="Отменить" Command="{Binding Undo}" InputGestureText="Ctrl + Z"/>
@@ -24,11 +28,12 @@
                 <Separator/>
                 <MenuItem Header="Добавить" Command="{Binding ShowReceiptWizard}" InputGestureText="Ctrl + Alt + P"/>
                 <MenuItem Header="Дублировать" Command="{Binding Duplicate}" InputGestureText="Ctrl + Alt + D"/>
+                <MenuItem Header="Редактировать" Command="{Binding ManyEdit}" InputGestureText="Ctrl + Alt + E"/>
                 <MenuItem Header="Инвертировать тип чека" Command="{Binding InvertOperation}" InputGestureText="Ctrl + I"/>
                 <MenuItem Header="Удалить" Command="{Binding Delete}" InputGestureText="Ctrl + D"/>
             </MenuItem>
             <MenuItem Header="Вид">
-                <MenuItem Header="История изменений" IsCheckable="True"/>
+                <MenuItem Header="История изменений" IsCheckable="True" />
             </MenuItem>
             <MenuItem Header="Сервисы">
                 <MenuItem Header="Менеджер модулей" Click="RunModuleManager"/>
@@ -40,7 +45,7 @@
                 <MenuItem Header="О программе" Click="ShowAbout"/>
             </MenuItem>
         </Menu>
-        <uc:HistoryList DockPanel.Dock="Left"/>
+        <uc:HistoryList DockPanel.Dock="Left" Visibility="{Binding HistoryVisibility}"/>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <uc:ReceiptPanel x:Name="panel"/>
         </ScrollViewer>
