@@ -35,9 +35,17 @@ public static class Pathes
     /// <code>C:\Program Files (x86)\RetailCorrector\Modules\</code>
     /// </summary>
     public readonly static string Modules = SafeCombine(App, "Modules");
+    /// <summary>
+    /// <code>C:\Program Files (x86)\RetailCorrector\Cashier\Receipts\</code>
+    /// </summary>
+    public readonly static string Receipts = SafeCombine(Cashier, "Receipts");
     #endregion
 
     #region Файлы
+    /// <summary>
+    /// <code>C:\Program Files (x86)\RetailCorrector\Cashier\report.json</code>
+    /// </summary>
+    public readonly static string Report = Path.Combine(Cashier, "report.json");
     /// <summary>
     /// <code>C:\Program Files (x86)\RetailCorrector\registry.json</code>
     /// </summary>
