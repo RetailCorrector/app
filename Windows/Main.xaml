@@ -33,7 +33,7 @@
                 <MenuItem Header="Удалить" Command="{Binding Delete}" InputGestureText="Ctrl + D"/>
             </MenuItem>
             <MenuItem Header="Вид">
-                <MenuItem Header="История изменений" IsCheckable="True" />
+                <MenuItem Header="История изменений" IsCheckable="True" Click="SwitchVisiblity" IsChecked="True"/>
             </MenuItem>
             <MenuItem Header="Сервисы">
                 <MenuItem Header="Менеджер модулей" Click="RunModuleManager"/>
@@ -45,7 +45,7 @@
                 <MenuItem Header="О программе" Click="ShowAbout"/>
             </MenuItem>
         </Menu>
-        <uc:HistoryList DockPanel.Dock="Left" Visibility="{Binding HistoryVisibility}"/>
+        <uc:HistoryList DockPanel.Dock="Left" Visibility="{Binding HistoryVisibility, Mode=OneWay}"/>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <uc:ReceiptPanel x:Name="panel"/>
         </ScrollViewer>

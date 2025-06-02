@@ -1,15 +1,17 @@
 ﻿using RetailCorrector.Wizard.Contexts;
 using RetailCorrector.Wizard.HistoryActions;
 using RetailCorrector.Wizard.Managers;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace RetailCorrector.Wizard.Windows
 {
-    public partial class Main : Window
+    public partial class Main : Window, INotifyPropertyChanged
     {
         public RoutedCommand ShowReport { get; } = new RoutedCommand(nameof(ShowReport), typeof(Main));
         public RoutedCommand ShowReceiptWizard { get; } = new RoutedCommand(nameof(ShowReceiptWizard), typeof(Main));
@@ -28,6 +30,8 @@ namespace RetailCorrector.Wizard.Windows
             SetupHotKeys();
             InitializeComponent();
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void SetupHotKeys()
         {
@@ -89,6 +93,22 @@ namespace RetailCorrector.Wizard.Windows
                 } while (File.Exists(filename));
                 File.WriteAllText(filename, JsonSerializer.Serialize(stack));
             }
+        }
+
+        public Visibility HistoryVisibility
+        {
+            get => _historyVisibility;
+            set
+            {
+                _historyVisibility = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HistoryVisibility)));
+            }
+        }
+        private Visibility _historyVisibility = Visibility.Visible;
+
+        private void SwitchVisiblity(object? s, RoutedEventArgs args)
+        {
+            HistoryVisibility = ((MenuItem)s!).IsChecked ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }
