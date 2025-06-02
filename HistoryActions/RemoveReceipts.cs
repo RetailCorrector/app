@@ -4,10 +4,12 @@ namespace RetailCorrector.Wizard.HistoryActions
 {
     public readonly struct RemoveReceipts : IHistoryAction
     {
+        public string DisplayName { get; }
         private readonly (int, Receipt)[] _data;
 
         public RemoveReceipts(int[] indexes)
         {
+            DisplayName = $"Удаление {indexes.Length} чека(ов)";
             indexes = [.. indexes.OrderByDescending(i => i)];
             _data = new (int, Receipt)[indexes.Length];
             for (var i = 0; i < indexes.Length; i++)

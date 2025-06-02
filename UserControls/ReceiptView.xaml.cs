@@ -45,7 +45,7 @@ namespace RetailCorrector.Wizard.UserControls
             var wizard = new ReceiptWizard(DataSource);
             if(wizard.ShowDialog() == true)
             {
-                WizardDataContext.History.Push(new EditReceipts(i));
+                WizardDataContext.History.Add(new EditReceipts(i));
                 WizardDataContext.Receipts[i] = wizard.Data;
             }
         }

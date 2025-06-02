@@ -37,7 +37,7 @@ namespace RetailCorrector.Wizard.UserControls
         {
             var items = Views;
             var indexes = items.FindAllIndex(i => i.IsSelected);
-            WizardDataContext.History.Push(new RemoveReceipts([.. indexes]));
+            WizardDataContext.History.Add(new RemoveReceipts([.. indexes]));
             indexes.Reverse();
             foreach (var index in indexes)
                 WizardDataContext.Receipts.RemoveAt(index);

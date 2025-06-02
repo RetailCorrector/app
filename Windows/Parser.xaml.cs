@@ -170,7 +170,7 @@ namespace RetailCorrector.Wizard.Windows
                 foreach (var receipt in receipts)
                     WizardDataContext.Receipts.Add(receipt);
                 Cancel(null, new RoutedEventArgs());
-                WizardDataContext.History.Push(new AddReceipts(index, receipts.Count()));
+                WizardDataContext.History.Add(new AddReceipts(index, receipts.Count()));
                 System.Windows.MessageBox.Show($"Парсинг завершен! Найдено чеков: {receipts.Count()}.");
             }
             catch (Exception ex)

@@ -37,7 +37,7 @@ namespace RetailCorrector.Wizard.Windows
                 {
                     var index = WizardDataContext.Receipts.Count;
                     WizardDataContext.Receipts.Add(wizard.Data);
-                    WizardDataContext.History.Push(new AddReceipts(index, 1));
+                    WizardDataContext.History.Add(new AddReceipts(index, 1));
                 }
             }));
             ClearSpace.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
@@ -49,13 +49,7 @@ namespace RetailCorrector.Wizard.Windows
             }));
             Undo.InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(Undo, (_, _) =>
-            {
-                if (WizardDataContext.History.Count > 0)
-                {
-                    var action = WizardDataContext.History.Pop();
-                    action.Undo();
-                }
-            }));
+                WizardDataContext.History.Pop()?.Undo()));
             Delete.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(Delete, (_, _) => panel.Delete()));
             InvertSelect.InputGestures.Add(new KeyGesture(Key.I, ModifierKeys.Control | ModifierKeys.Shift));
