@@ -167,7 +167,7 @@ public class ReceiptWizardContext : INotifyPropertyChanged
     public bool Done =>
         Items.Count > 0 && Items.All(i => i.Done) &&
         Total > 0 && Total == Pre + Cash + ECash + Post + Provision &&
-        Date is not null;
+        Date is not null && Total == Items.Sum(i => i.Sum);
 
 
 
