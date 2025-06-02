@@ -40,6 +40,9 @@ namespace RetailCorrector.Wizard.UserControls
             HistoryController.Add(new RemoveReceipts([.. indexes]));
         }
 
+        public void InvertOperation() =>
+            HistoryController.Add(new InvertOperation([..Views.FindAllIndex(i => i.IsSelected)]));
+
         public void InvertSelect()
         {
             var items = Views;

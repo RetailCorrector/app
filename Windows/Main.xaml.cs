@@ -1,5 +1,6 @@
 ﻿using RetailCorrector.Wizard.Contexts;
 using RetailCorrector.Wizard.HistoryActions;
+using RetailCorrector.Wizard.Managers;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -17,6 +18,7 @@ namespace RetailCorrector.Wizard.Windows
         public RoutedCommand Redo { get; } = new RoutedCommand(nameof(Redo), typeof(Main));
         public RoutedCommand Delete { get; } = new RoutedCommand(nameof(Delete), typeof(Main));
         public RoutedCommand InvertSelect { get; } = new RoutedCommand(nameof(InvertSelect), typeof(Main));
+        public RoutedCommand InvertOperation { get; } = new RoutedCommand(nameof(InvertOperation), typeof(Main));
 
         public Main()
         {
@@ -52,6 +54,8 @@ namespace RetailCorrector.Wizard.Windows
             CommandBindings.Add(new CommandBinding(Delete, (_, _) => panel.Delete()));
             InvertSelect.InputGestures.Add(new KeyGesture(Key.I, ModifierKeys.Control | ModifierKeys.Shift));
             CommandBindings.Add(new CommandBinding(InvertSelect, (_, _) => panel.InvertSelect()));
+            InvertOperation.InputGestures.Add(new KeyGesture(Key.I, ModifierKeys.Control | ModifierKeys.Alt));
+            CommandBindings.Add(new CommandBinding(InvertOperation, (_, _) => panel.InvertOperation()));
         }
 
         private void ShowLogs(object? s, RoutedEventArgs e) =>

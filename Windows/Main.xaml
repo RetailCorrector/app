@@ -19,6 +19,7 @@
                 <MenuItem Header="Отменить" Command="{Binding Undo}" InputGestureText="Ctrl + Z"/>
                 <MenuItem Header="Вернуть" Command="{Binding Redo}" InputGestureText="Ctrl + Y"/>
                 <MenuItem Header="Инвертировать выделение" Command="{Binding InvertSelect}" InputGestureText="Ctrl + Shift + I"/>
+                <MenuItem Header="Инвертировать тип чека" Command="{Binding InvertOperation}" InputGestureText="Ctrl + Alt + I"/>
             </MenuItem>
             <MenuItem Header="Вид">
                 <MenuItem Header="История изменений" IsCheckable="True"/>
