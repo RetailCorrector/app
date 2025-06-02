@@ -70,10 +70,7 @@ namespace RetailCorrector.Wizard.Windows
         private void ShowAbout(object? s, RoutedEventArgs args) => 
             new About().ShowDialog();
 
-        private void RunModuleManager(object? s, RoutedEventArgs args)
-        {
-            var path = Path.Combine(Pathes.RegistryManager, "ModuleManager.exe");
-            Process.Start(path);
-        }
+        private void RunModuleManager(object? s, RoutedEventArgs args) =>
+            Process.Start(Path.Combine(Pathes.RegistryManager, "ModuleManager.exe"));
     }
 }

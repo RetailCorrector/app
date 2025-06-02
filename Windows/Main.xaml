@@ -11,16 +11,21 @@
         <Menu IsMainMenu="True" DockPanel.Dock="Top">
             <MenuItem Header="Пространство">
                 <MenuItem Header="Создать новое" Command="{Binding ClearSpace}" InputGestureText="Ctrl + N"/>
+                <Separator/>
                 <MenuItem Header="Получить чеки" Command="{Binding ShowParser}" InputGestureText="Ctrl + P"/>
-                <MenuItem Header="Добавить чек вручную" Command="{Binding ShowReceiptWizard}" InputGestureText="Ctrl + Alt + P"/>
+                <Separator/>
                 <MenuItem Header="Дизайнер отчета" Command="{Binding ShowReport}" InputGestureText="Ctrl + R"/>
             </MenuItem>
             <MenuItem Header="Правка">
                 <MenuItem Header="Отменить" Command="{Binding Undo}" InputGestureText="Ctrl + Z"/>
                 <MenuItem Header="Вернуть" Command="{Binding Redo}" InputGestureText="Ctrl + Y"/>
+                <Separator/>
                 <MenuItem Header="Инвертировать выделение" Command="{Binding InvertSelect}" InputGestureText="Ctrl + Shift + I"/>
-                <MenuItem Header="Инвертировать тип чека" Command="{Binding InvertOperation}" InputGestureText="Ctrl + Alt + I"/>
+                <Separator/>
+                <MenuItem Header="Добавить" Command="{Binding ShowReceiptWizard}" InputGestureText="Ctrl + Alt + P"/>
                 <MenuItem Header="Дублировать" Command="{Binding Duplicate}" InputGestureText="Ctrl + Alt + D"/>
+                <MenuItem Header="Инвертировать тип чека" Command="{Binding InvertOperation}" InputGestureText="Ctrl + I"/>
+                <MenuItem Header="Удалить" Command="{Binding Delete}" InputGestureText="Ctrl + D"/>
             </MenuItem>
             <MenuItem Header="Вид">
                 <MenuItem Header="История изменений" IsCheckable="True"/>
@@ -36,7 +41,7 @@
             </MenuItem>
         </Menu>
         <uc:HistoryList DockPanel.Dock="Left"/>
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <uc:ReceiptPanel x:Name="panel"/>
         </ScrollViewer>
     </DockPanel>

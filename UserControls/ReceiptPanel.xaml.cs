@@ -33,12 +33,8 @@ namespace RetailCorrector.Wizard.UserControls
             }
         }
 
-        public void Delete()
-        {
-            var items = Views;
-            var indexes = items.FindAllIndex(i => i.IsSelected);
-            HistoryController.Add(new RemoveReceipts([.. indexes]));
-        }
+        public void Delete() =>
+            HistoryController.Add(new RemoveReceipts([.. Views.FindAllIndex(i => i.IsSelected)]));
 
         public void InvertOperation() =>
             HistoryController.Add(new InvertOperation([..Views.FindAllIndex(i => i.IsSelected)]));
