@@ -14,6 +14,7 @@ namespace RetailCorrector.Wizard.Windows
         public RoutedCommand ShowParser { get; } = new RoutedCommand(nameof(ShowParser), typeof(Main));
         public RoutedCommand ClearSpace { get; } = new RoutedCommand(nameof(ClearSpace), typeof(Main));
         public RoutedCommand Undo { get; } = new RoutedCommand(nameof(Undo), typeof(Main));
+        public RoutedCommand Redo { get; } = new RoutedCommand(nameof(Redo), typeof(Main));
         public RoutedCommand Delete { get; } = new RoutedCommand(nameof(Delete), typeof(Main));
         public RoutedCommand InvertSelect { get; } = new RoutedCommand(nameof(InvertSelect), typeof(Main));
 
@@ -34,22 +35,19 @@ namespace RetailCorrector.Wizard.Windows
             {
                 var wizard = new ReceiptWizard();
                 if (wizard.ShowDialog() == true)
-                {
-                    var index = WizardDataContext.Receipts.Count;
-                    WizardDataContext.Receipts.Add(wizard.Data);
-                    WizardDataContext.History.Add(new AddReceipts(index, 1));
-                }
+                    HistoryController.Add(new AddReceipts(wizard.Data));
             }));
             ClearSpace.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(ClearSpace, (_, _) =>
             {
                 WizardDataContext.Report = new RetailCorrector.Report();
                 WizardDataContext.Receipts.Clear();
-                WizardDataContext.History.Clear();
+                HistoryController.Clear();
             }));
             Undo.InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Control));
-            CommandBindings.Add(new CommandBinding(Undo, (_, _) =>
-                WizardDataContext.History.Pop()?.Undo()));
+            CommandBindings.Add(new CommandBinding(Undo, (_, _) => HistoryController.Undo()));
+            Redo.InputGestures.Add(new KeyGesture(Key.Y, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(Redo, (_, _) => HistoryController.Redo()));
             Delete.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(Delete, (_, _) => panel.Delete()));
             InvertSelect.InputGestures.Add(new KeyGesture(Key.I, ModifierKeys.Control | ModifierKeys.Shift));

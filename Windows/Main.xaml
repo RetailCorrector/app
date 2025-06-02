@@ -17,6 +17,7 @@
             </MenuItem>
             <MenuItem Header="Правка">
                 <MenuItem Header="Отменить" Command="{Binding Undo}" InputGestureText="Ctrl + Z"/>
+                <MenuItem Header="Вернуть" Command="{Binding Redo}" InputGestureText="Ctrl + Y"/>
                 <MenuItem Header="Инвертировать выделение" Command="{Binding InvertSelect}" InputGestureText="Ctrl + Shift + I"/>
             </MenuItem>
             <MenuItem Header="Вид">

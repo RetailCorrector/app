@@ -4,5 +4,6 @@
     {
         string DisplayName { get; }
         void Undo();
+        void Redo();
     }
 }

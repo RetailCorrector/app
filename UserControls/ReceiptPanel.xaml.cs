@@ -1,6 +1,6 @@
-﻿using RetailCorrector.Wizard.Contexts;
-using RetailCorrector.Wizard.Extensions;
+﻿using RetailCorrector.Wizard.Extensions;
 using RetailCorrector.Wizard.HistoryActions;
+using RetailCorrector.Wizard.Managers;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -37,10 +37,7 @@ namespace RetailCorrector.Wizard.UserControls
         {
             var items = Views;
             var indexes = items.FindAllIndex(i => i.IsSelected);
-            WizardDataContext.History.Add(new RemoveReceipts([.. indexes]));
-            indexes.Reverse();
-            foreach (var index in indexes)
-                WizardDataContext.Receipts.RemoveAt(index);
+            HistoryController.Add(new RemoveReceipts([.. indexes]));
         }
 
         public void InvertSelect()

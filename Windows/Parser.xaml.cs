@@ -1,6 +1,6 @@
-﻿using RetailCorrector.Wizard.Contexts;
-using RetailCorrector.Wizard.Converters;
+﻿using RetailCorrector.Wizard.Converters;
 using RetailCorrector.Wizard.HistoryActions;
+using RetailCorrector.Wizard.Managers;
 using RetailCorrector.Wizard.ModuleSystem;
 using RetailCorrector.Wizard.UserControls;
 using Serilog;
@@ -166,11 +166,8 @@ namespace RetailCorrector.Wizard.Windows
             {
                 var receipts = await Module!.Parse(CancelSource.Token);
                 CancelSource.Token.ThrowIfCancellationRequested();
-                var index = WizardDataContext.Receipts.Count;
-                foreach (var receipt in receipts)
-                    WizardDataContext.Receipts.Add(receipt);
+                HistoryController.Add(new AddReceipts([.. receipts]));
                 Cancel(null, new RoutedEventArgs());
-                WizardDataContext.History.Add(new AddReceipts(index, receipts.Count()));
                 System.Windows.MessageBox.Show($"Парсинг завершен! Найдено чеков: {receipts.Count()}.");
             }
             catch (Exception ex)

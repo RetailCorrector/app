@@ -1,5 +1,6 @@
 ﻿using RetailCorrector.Wizard.Contexts;
 using RetailCorrector.Wizard.HistoryActions;
+using RetailCorrector.Wizard.Managers;
 using RetailCorrector.Wizard.Windows;
 using System.ComponentModel;
 using System.Windows;
@@ -44,10 +45,7 @@ namespace RetailCorrector.Wizard.UserControls
             var i = WizardDataContext.Receipts.IndexOf(DataSource);
             var wizard = new ReceiptWizard(DataSource);
             if(wizard.ShowDialog() == true)
-            {
-                WizardDataContext.History.Add(new EditReceipts(i));
-                WizardDataContext.Receipts[i] = wizard.Data;
-            }
+                HistoryController.Add(new EditReceipts(i, wizard.Data));
         }
     }
 }
