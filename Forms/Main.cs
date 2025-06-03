@@ -94,6 +94,7 @@ namespace RetailCorrector.Cashier.Forms
             if (type == typeof(int))
             {
                 var control = new NumericUpDown();
+                control.Maximum = 1_000_000_000;
                 control.DataBindings.Add(new Binding("Value", table.DataContext, info.Name));
                 return control;
             }
