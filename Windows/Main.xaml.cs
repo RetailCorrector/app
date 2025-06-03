@@ -81,6 +81,9 @@ namespace RetailCorrector.Wizard.Windows
         private void RunModuleManager(object? s, RoutedEventArgs args) =>
             Process.Start(Path.Combine(Pathes.RegistryManager, "ModuleManager.exe"));
 
+        private void RunLocalCashier(object? s, RoutedEventArgs args) =>
+            Process.Start(Path.Combine(Pathes.Cashier, "Cashier.exe"));
+
         private void DoLocalExport(object? s, RoutedEventArgs args)
         {
             File.WriteAllText(Pathes.Report, JsonSerializer.Serialize(WizardDataContext.Report));
