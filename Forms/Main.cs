@@ -49,20 +49,37 @@ namespace RetailCorrector.Cashier.Forms
             }
         }
 
-        private static Control AutoSelectControl(PropertyInfo info)
+        private Control AutoSelectControl(PropertyInfo info)
         {
             var type = info.PropertyType;
             if (type.IsEnum)
             {
                 var combobox = new ComboBox();
-                var names = ((KeyValuePair<Enum, string>[])EnumHelper.GetDisplayNames(type)).Select(p => p.Value);
-                foreach(var name in names)
+                var names = EnumHelper.GetDisplayNames(type);
+                combobox.DisplayMember = "Value";
+                combobox.Name = info.Name;
+                combobox.DropDownStyle = ComboBoxStyle.DropDownList;
+                combobox.SelectedValueChanged += (s, e) =>
+                {
+                    var _combobox = (ComboBox)s!;
+                    var type = table.DataContext!.GetType();
+                    var prop = type.GetProperty(_combobox.Name)!;
+                    var value = ((KeyValuePair<object, string>)_combobox.SelectedItem!).Key;
+                    prop.SetValue(table.DataContext, value);
+                };
+                foreach (var name in names)
                     combobox.Items.Add(name);
                 return combobox;
             }
             if (type == typeof(int))
-                return new NumericUpDown();
-            return new TextBox();
+            {
+                var control = new NumericUpDown();
+                control.DataBindings.Add(new Binding("Value", table.DataContext, info.Name));
+                return control;
+            }
+            var box = new TextBox();
+            box.DataBindings.Add(new Binding("Text", table.DataContext, info.Name));
+            return box;
         }
 
         private async void RefreshModules(object sender, EventArgs e)
