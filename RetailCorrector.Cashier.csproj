@@ -4,13 +4,30 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
-	  <PlatformTarget>x86</PlatformTarget>
+	<PlatformTarget>x86</PlatformTarget>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Cashier</AssemblyName>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <Version>0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RetailCorrector.Fiscal\RetailCorrector.Fiscal.csproj" />
+    <Content Include="Resources\icon.ico" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RetailCorrector.Fiscal\RetailCorrector.Fiscal.csproj" />
+    <ProjectReference Include="..\RetailCorrector.Constants\RetailCorrector.Constants.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="RetailCorrector.Constants" />
+  </ItemGroup>
+
 
 </Project>
