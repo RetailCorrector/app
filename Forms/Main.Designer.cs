@@ -37,13 +37,13 @@
             btnRefresh = new Button();
             btnCancel = new Button();
             btnStart = new Button();
-            numericUpDown2 = new NumericUpDown();
-            numericUpDown1 = new NumericUpDown();
+            minSizeBuffer = new NumericUpDown();
+            maxSizeBuffer = new NumericUpDown();
             label2 = new Label();
             table = new TableLayoutPanel();
             statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)minSizeBuffer).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)maxSizeBuffer).BeginInit();
             SuspendLayout();
             // 
             // fiscalModules
@@ -112,21 +112,21 @@
             btnStart.TabIndex = 5;
             btnStart.Text = "Запустить";
             btnStart.UseVisualStyleBackColor = true;
-            btnStart.Click += btnStart_Click;
+            btnStart.Click += Start;
             // 
-            // numericUpDown2
+            // minSizeBuffer
             // 
-            numericUpDown2.Location = new Point(199, 12);
-            numericUpDown2.Name = "numericUpDown2";
-            numericUpDown2.Size = new Size(75, 23);
-            numericUpDown2.TabIndex = 12;
+            minSizeBuffer.Location = new Point(199, 12);
+            minSizeBuffer.Name = "minSizeBuffer";
+            minSizeBuffer.Size = new Size(75, 23);
+            minSizeBuffer.TabIndex = 12;
             // 
-            // numericUpDown1
+            // maxSizeBuffer
             // 
-            numericUpDown1.Location = new Point(280, 12);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(75, 23);
-            numericUpDown1.TabIndex = 11;
+            maxSizeBuffer.Location = new Point(280, 12);
+            maxSizeBuffer.Name = "maxSizeBuffer";
+            maxSizeBuffer.Size = new Size(75, 23);
+            maxSizeBuffer.TabIndex = 11;
             // 
             // label2
             // 
@@ -155,8 +155,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(367, 488);
-            Controls.Add(numericUpDown2);
-            Controls.Add(numericUpDown1);
+            Controls.Add(minSizeBuffer);
+            Controls.Add(maxSizeBuffer);
             Controls.Add(label2);
             Controls.Add(table);
             Controls.Add(btnStart);
@@ -177,8 +177,8 @@
             HelpButtonClicked += OpenDocs;
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)minSizeBuffer).EndInit();
+            ((System.ComponentModel.ISupportInitialize)maxSizeBuffer).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -190,8 +190,8 @@
         private Button btnRefresh;
         private Button btnCancel;
         private Button btnStart;
-        private NumericUpDown numericUpDown2;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown minSizeBuffer;
+        private NumericUpDown maxSizeBuffer;
         private Label label2;
         public ComboBox fiscalModules;
         public ToolStripStatusLabel status;

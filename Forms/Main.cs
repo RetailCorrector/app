@@ -1,17 +1,35 @@
 ﻿using RetailCorrector.Cashier.Extensions;
 using RetailCorrector.Cashier.ModuleSystem;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Reflection;
+using System.Text.Json;
 
 namespace RetailCorrector.Cashier.Forms
 {
-    public partial class Main : Form
+    public partial class Main : Form, INotifyPropertyChanged
     {
+        private CancellationTokenSource _cancelSource = new();
+
+        private void UpdateButtons()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartEnabled)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CancelEnabled)));
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public bool StartEnabled => _cancelSource.IsCancellationRequested;
+        public bool CancelEnabled => !_cancelSource.IsCancellationRequested;
+
         public Main()
         {
             InitializeComponent();
+            btnCancel.Enabled = false;
+            btnCancel.DataBindings.Add(new Binding("Enabled", this, "CancelEnabled"));
+            btnStart.DataBindings.Add(new Binding("Enabled", this, "StartEnabled"));
+            table.DataBindings.Add(new Binding("Enabled", this, "StartEnabled"));
+            Cancel();
         }
         protected override async void OnShown(EventArgs e)
         {
@@ -20,8 +38,10 @@ namespace RetailCorrector.Cashier.Forms
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
+        private void Cancel()
         {
-
+            _cancelSource.Cancel();
+            UpdateButtons();
         }
 
         private void ModuleSelected(object sender, EventArgs e)
@@ -88,9 +108,50 @@ namespace RetailCorrector.Cashier.Forms
             await ModuleCollection.Load();
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private List<Receipt> PullReceipts()
         {
+            var res = new List<Receipt>();
+            var files = Directory.GetFiles(Pathes.Receipts);
+            foreach (var file in files)
+        {
+                var text = File.ReadAllText(file);
+                res.AddRange(JsonSerializer.Deserialize<Receipt[]>(text)!);
+            }
+            progress.Value = 0;
+            progress.Maximum = res.Count;
+            return res;
+        }
 
+        private async void Start(object sender, EventArgs e)
+        {
+            _cancelSource = new();
+            UpdateButtons();
+            ((Control)sender).Enabled = false;
+            var receipts = PullReceipts();
+            var module = ModuleCollection.Modules[fiscalModules.SelectedIndex].EntryPoint!;
+            try
+            {
+                if (!await module.Connect())
+                    throw new Exception("Не удалось подключиться...");
+                foreach (var receipt in receipts)
+                {
+                    if (await module.CountUnsendDocs() > maxSizeBuffer.Value)
+                    {
+                        do { await Task.Delay(1000); } 
+                        while (await module.CountUnsendDocs() <= minSizeBuffer.Value);
+                    }
+                    var res = await module.ProcessingReceipt(receipt);
+                    if (!res)
+                        throw new Exception("Не удалось отбить чек! Подробнее в лог-файле...");
+                    progress.Value++;
+                }
+            }
+            catch (Exception ex)
+            {
+                await module.Disconnect();
+                MessageBox.Show(ex.Message);
+                Cancel();
+            }
         }
 
         private void OpenDocs(object sender, CancelEventArgs e) =>
