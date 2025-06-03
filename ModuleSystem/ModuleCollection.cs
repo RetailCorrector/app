@@ -30,6 +30,7 @@ namespace RetailCorrector.Wizard.ModuleSystem
         {
             var fs = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
             var assembly = ctx!.LoadFromStream(fs);
+            if (assembly.GetCustomAttribute<SourceModuleAttribute>() is null) return;
             var guid = assembly.GetCustomAttribute<GuidAttribute>()?.Value;
             if (guid is null) return;
             var types = assembly.GetTypes();
