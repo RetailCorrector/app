@@ -37,13 +37,11 @@
             btnRefresh = new Button();
             btnCancel = new Button();
             btnStart = new Button();
-            panel1 = new Panel();
-            table = new TableLayoutPanel();
             numericUpDown2 = new NumericUpDown();
             numericUpDown1 = new NumericUpDown();
             label2 = new Label();
+            table = new TableLayoutPanel();
             statusStrip1.SuspendLayout();
-            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
@@ -55,7 +53,7 @@
             fiscalModules.Name = "fiscalModules";
             fiscalModules.Size = new Size(185, 23);
             fiscalModules.TabIndex = 0;
-            fiscalModules.SelectionChangeCommitted += fiscalModules_SelectionChangeCommitted;
+            fiscalModules.SelectionChangeCommitted += ModuleSelected;
             // 
             // label1
             // 
@@ -94,7 +92,7 @@
             btnRefresh.TabIndex = 3;
             btnRefresh.Text = "";
             btnRefresh.UseVisualStyleBackColor = true;
-            btnRefresh.Click += btnRefresh_Click;
+            btnRefresh.Click += RefreshModules;
             // 
             // btnCancel
             // 
@@ -115,54 +113,6 @@
             btnStart.Text = "Запустить";
             btnStart.UseVisualStyleBackColor = true;
             btnStart.Click += btnStart_Click;
-            // 
-            // panel1
-            // 
-            panel1.AutoScroll = true;
-            panel1.Controls.Add(table);
-            panel1.Location = new Point(12, 70);
-            panel1.Margin = new Padding(0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(343, 367);
-            panel1.TabIndex = 6;
-            // 
-            // table
-            // 
-            table.AutoSize = true;
-            table.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            table.ColumnCount = 2;
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            table.Location = new Point(0, 0);
-            table.Name = "table";
-            table.RowCount = 1;
-            table.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            table.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            table.Size = new Size(0, 0);
-            table.TabIndex = 8;
             // 
             // numericUpDown2
             // 
@@ -187,6 +137,19 @@
             label2.TabIndex = 10;
             label2.Text = "Предельные размеры буфера:";
             // 
+            // table
+            // 
+            table.AutoSize = true;
+            table.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            table.ColumnCount = 2;
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            table.Location = new Point(12, 70);
+            table.MaximumSize = new Size(343, 367);
+            table.MinimumSize = new Size(343, 5);
+            table.Name = "table";
+            table.TabIndex = 8;
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -195,7 +158,7 @@
             Controls.Add(numericUpDown2);
             Controls.Add(numericUpDown1);
             Controls.Add(label2);
-            Controls.Add(panel1);
+            Controls.Add(table);
             Controls.Add(btnStart);
             Controls.Add(btnCancel);
             Controls.Add(btnRefresh);
@@ -214,8 +177,6 @@
             HelpButtonClicked += OpenDocs;
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
@@ -223,19 +184,17 @@
         }
 
         #endregion
-
-        private ComboBox fiscalModules;
         private Label label1;
         private StatusStrip statusStrip1;
         private ToolStripProgressBar progress;
-        private ToolStripStatusLabel status;
         private Button btnRefresh;
         private Button btnCancel;
         private Button btnStart;
-        private Panel panel1;
-        private TableLayoutPanel table;
         private NumericUpDown numericUpDown2;
         private NumericUpDown numericUpDown1;
         private Label label2;
+        public ComboBox fiscalModules;
+        public ToolStripStatusLabel status;
+        private TableLayoutPanel table;
     }
 }

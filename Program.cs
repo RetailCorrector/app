@@ -2,16 +2,13 @@ namespace RetailCorrector.Cashier
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
+        public static Forms.Main Form { get; private set; }
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Forms.Main());
+            Form = new Forms.Main();
+            Application.Run(Form);
         }
     }
 }

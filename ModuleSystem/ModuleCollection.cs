@@ -1,5 +1,4 @@
-﻿using RetailCorrector.Cashier.Forms;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -19,7 +18,6 @@ namespace RetailCorrector.Cashier.ModuleSystem
 
         public static async Task Load()
         {
-            Program.Form.fiscalModules.Items.Clear();
             ctx = new ModuleLoadContext();
             if(!Directory.Exists(Pathes.Modules)) Directory.CreateDirectory(Pathes.Modules);
             foreach (var file in Directory.GetFiles(Pathes.Modules)) await Add(file);
@@ -27,21 +25,28 @@ namespace RetailCorrector.Cashier.ModuleSystem
 
         private static async Task Add(string filepath)
         {
-            var fs = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
-            var assembly = ctx!.LoadFromStream(fs);
-            if (assembly.GetCustomAttribute<FiscalModuleAttribute>() is null) return;
-            var guid = assembly.GetCustomAttribute<GuidAttribute>()?.Value;
-            if (guid is null) return;
-            var types = assembly.GetTypes();
-            var type = types.FirstOrDefault(t => t.BaseType == typeof(AbstractFiscalModule));
-            if (type is null) return;
-            var module = (AbstractFiscalModule)Activator.CreateInstance(type)!;
-            module.OnLog += WriteLog;
-            module.OnNotify += Notify;
-            await module.OnLoad(ctx);
-            var name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
-            _modules.Add(new Module(guid, name, module, fs));
-            Program.Form.fiscalModules.Items.Add(name);
+            try
+            {
+                var fs = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
+                var assembly = ctx!.LoadFromStream(fs);
+                if (assembly.GetCustomAttribute<FiscalModuleAttribute>() is null) return;
+                var guid = assembly.GetCustomAttribute<GuidAttribute>()?.Value;
+                if (guid is null) return;
+                var types = assembly.GetTypes();
+                var type = types.FirstOrDefault(t => t.BaseType == typeof(AbstractFiscalModule));
+                if (type is null) return;
+                var module = (AbstractFiscalModule)Activator.CreateInstance(type)!;
+                module.OnLog += WriteLog;
+                module.OnNotify += Notify;
+                await module.OnLoad(ctx);
+                var name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
+                _modules.Add(new Module(guid, name, module, fs));
+                Program.Form.fiscalModules.Items.Add(name);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
         }
 
         private static void Notify(string text) => MessageBox.Show(text);
@@ -57,6 +62,7 @@ namespace RetailCorrector.Cashier.ModuleSystem
 
         public static async Task Unload()
         {
+            Program.Form.fiscalModules.Items.Clear();
             foreach (var mod in Modules)
             {
                 await mod.EntryPoint!.OnUnload();
