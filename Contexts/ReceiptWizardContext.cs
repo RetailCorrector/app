@@ -67,6 +67,18 @@ public class ReceiptWizardContext : INotifyPropertyChanged
     }
     private DateTime? _date = null;
 
+    public bool RoundedTotal
+    {
+        get => _roundedTotal;
+        set
+        {
+            _roundedTotal = value;
+            OnPropertyChanged(nameof(Done));
+            OnPropertyChanged();
+        }
+    }
+    private bool _roundedTotal = false;
+
     public ObservableCollection<Position> Items { get; set; } = [];
 
     public ReceiptWizardContext()
@@ -87,8 +99,8 @@ public class ReceiptWizardContext : INotifyPropertyChanged
         Pre = data.Payment.Pre / 100.0;
         Post = data.Payment.Post / 100.0;
         Provision = data.Payment.Provision / 100.0;
-        Total = (data.RoundedSum ?? 0) / 100.0;
-        foreach(var pos in data.Items)
+        RoundedTotal = data.RoundedSum.HasValue && data.RoundedSum.Value != data.Items.Sum(i => i.TotalSum);
+        foreach (var pos in data.Items)
             Items.Add(new Position(this, pos));
     }
 
@@ -152,24 +164,14 @@ public class ReceiptWizardContext : INotifyPropertyChanged
     }
     private double _provision = 0;
 
-    public double Total
-    {
-        get => _total;
-        set
-        {
-            _total = value;
-            OnPropertyChanged();
-            OnPropertyChanged(nameof(Done));
-        }
-    }
-    private double _total = 0;
-
     public bool Done =>
         Items.Count > 0 && Items.All(i => i.Done) &&
-        Total > 0 && Total == Pre + Cash + ECash + Post + Provision &&
-        Date is not null && Total == Items.Sum(i => i.Sum);
+        Total == Pre + Cash + ECash + Post + Provision &&
+        Date is not null;
 
-
+    public double Total => RoundedTotal ? 
+        Math.Floor(Items.Sum(i => i.Sum)) : 
+        Math.Round(Items.Sum(i => i.Sum), 2);
 
     public class Position(ReceiptWizardContext parent) : INotifyPropertyChanged
     {

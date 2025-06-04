@@ -42,7 +42,7 @@ namespace RetailCorrector.Wizard.Windows
                 CorrectionType = Context.CorrType,
                 FiscalSign = Context.Fiscal,
                 Operation = Context.Operation,
-                RoundedSum = (uint)Math.Round(Context.Total * 100),
+                RoundedSum = Context.RoundedTotal ? (uint)Math.Round(Context.Total * 100) : null,
                 Payment = new Payment
                 {
                     Cash = (uint)Math.Round(Context.Cash * 100),

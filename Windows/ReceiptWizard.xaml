@@ -58,8 +58,7 @@
             <tk:DoubleUpDown Margin="5" Value="{Binding Context.Post, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Margin="5,5,5,0" Text="Встречное представление"/>
             <tk:DoubleUpDown Margin="5" Value="{Binding Context.Provision, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Margin="5,5,5,0" Text="Итоговая сумма чека"/>
-            <tk:DoubleUpDown Margin="5" Value="{Binding Context.Total, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Margin="5" Content="Округлять итог?" IsChecked="{Binding Context.RoundedTotal, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Content="Добавить позицию" Click="AddPosition" Margin="5"/>
             <Button Content="Сохранить чек" Margin="5,10,5,5" Click="Save" IsEnabled="{Binding Context.Done}"/>
         </StackPanel>
