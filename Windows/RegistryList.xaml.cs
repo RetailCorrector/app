@@ -2,8 +2,9 @@
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace RetailCorrector.RegistryManager
+namespace RetailCorrector.ModuleManager
 {
     public partial class RegistryList : Window
     {
@@ -22,7 +23,27 @@ namespace RetailCorrector.RegistryManager
         public RegistryList()
         {
             Text = string.Join("\r\n", Registries);
-            InitializeComponent();
+            Draw();
+        }
+
+        private void Draw()
+        {
+            WindowStyle = WindowStyle.ToolWindow;
+            ResizeMode = ResizeMode.CanMinimize;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            Title = "Менеджер реестров";
+            Height = 200;
+            DataContext = this;
+            Width = 375;
+            var textBox = new TextBox
+            {
+                Margin = new Thickness(5),
+                AcceptsReturn = true,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            };
+            textBox.SetBinding(TextBox.TextProperty, nameof(Text));
+            Content = textBox;
         }
 
         protected override void OnClosed(EventArgs e)

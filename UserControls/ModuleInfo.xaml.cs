@@ -1,11 +1,11 @@
-﻿using RetailCorrector.RegistryManager.Data;
+﻿using RetailCorrector.ModuleManager.Data;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RetailCorrector.RegistryManager
+namespace RetailCorrector.ModuleManager
 {
     public partial class ModuleInfo : UserControl, INotifyPropertyChanged
     {

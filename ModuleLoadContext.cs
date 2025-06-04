@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Loader;
 
-namespace RetailCorrector.RegistryManager;
+namespace RetailCorrector.ModuleManager;
 
 public class ModuleLoadContext() : 
     AssemblyLoadContext(isCollectible: true) { }

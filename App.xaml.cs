@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RetailCorrector.RegistryManager;
+namespace RetailCorrector.ModuleManager;
 
 public partial class App : Application
 {

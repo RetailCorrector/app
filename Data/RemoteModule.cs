@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace RetailCorrector.RegistryManager.Data;
+namespace RetailCorrector.ModuleManager.Data;
 
 public struct RemoteModules
 {

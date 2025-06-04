@@ -1,10 +1,10 @@
-﻿<Window x:Class="RetailCorrector.RegistryManager.ModuleManager"
+﻿<Window x:Class="RetailCorrector.ModuleManager.ModuleManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:m="clr-namespace:Masonry;assembly=Masonry" ResizeMode="NoResize"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        xmlns:l="clr-namespace:RetailCorrector.RegistryManager"
+        xmlns:l="clr-namespace:RetailCorrector.ModuleManager"
         Title="Менеджер модулей" Height="450" Width="885">
     <Grid Margin="0,10">
         <Grid.RowDefinitions>

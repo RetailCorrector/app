@@ -1,4 +1,4 @@
-﻿using RetailCorrector.RegistryManager.Data;
+﻿using RetailCorrector.ModuleManager.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Windows;
 
-namespace RetailCorrector.RegistryManager
+namespace RetailCorrector.ModuleManager
 {
     public partial class ModuleManager : Window, INotifyPropertyChanged
     {
