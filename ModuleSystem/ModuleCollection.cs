@@ -28,20 +28,29 @@ namespace RetailCorrector.Wizard.ModuleSystem
 
         private static async Task Add(string filepath)
         {
-            var fs = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
-            var assembly = ctx!.LoadFromStream(fs);
-            if (assembly.GetCustomAttribute<SourceModuleAttribute>() is null) return;
-            var guid = assembly.GetCustomAttribute<GuidAttribute>()?.Value;
-            if (guid is null) return;
-            var types = assembly.GetTypes();
-            var type = types.FirstOrDefault(t => t.BaseType == typeof(AbstractSourceModule));
-            if (type is null) return;
-            var module = (AbstractSourceModule)Activator.CreateInstance(type)!;
-            module.OnLog += WriteLog;
-            module.OnNotify += Notify;
-            await module.OnLoad();
-            var name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
-            _modules.Add(new Module(guid, name, module, fs));
+            try
+            {
+                Log.Information("Подключение модуля: {file}...", Path.GetFileName(filepath));
+                var fs = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
+                var assembly = ctx!.LoadFromStream(fs);
+                if (assembly.GetCustomAttribute<SourceModuleAttribute>() is null) return;
+                var guid = assembly.GetCustomAttribute<GuidAttribute>()?.Value;
+                if (guid is null) return;
+                var types = assembly.GetTypes();
+                var type = types.FirstOrDefault(t => t.BaseType == typeof(AbstractSourceModule));
+                if (type is null) return;
+                var module = (AbstractSourceModule)Activator.CreateInstance(type)!;
+                module.OnLog += WriteLog;
+                module.OnNotify += Notify;
+                await module.OnLoad();
+                var name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
+                _modules.Add(new Module(guid, name, module, fs));
+            }
+            catch(Exception e)
+            {
+                Log.Error(e, "Не удалось подключить модуль!");
+                return;
+            }
         }
 
         private static void Notify(string text) => MessageBox.Show(text);
@@ -62,6 +71,7 @@ namespace RetailCorrector.Wizard.ModuleSystem
                 mod.EntryPoint.OnNotify -= Notify;
                 mod.EntryPoint.OnLog -= WriteLog;
                 mod.EntryPoint = null;
+                Log.Information("Отключение модуля {name}", Path.GetFileName(mod.Stream!.Name));
             }
             ctx?.Unload();
             foreach (var mod in Modules)

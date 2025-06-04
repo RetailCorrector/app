@@ -96,6 +96,7 @@ namespace RetailCorrector.Wizard.Windows
                 } while (File.Exists(filename));
                 File.WriteAllText(filename, JsonSerializer.Serialize(stack));
             }
+            Alert("Экспорт чеков для локального отбития завершён!");
         }
 
         public Visibility HistoryVisibility

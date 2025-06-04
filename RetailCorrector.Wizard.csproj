@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <Using Include="RetailCorrector.Constants" />
+    <Using Include="Serilog" />
+    <Using Include="RetailCorrector.Wizard.Extensions.AlertHelper" Static="true" />
   </ItemGroup>
 
 </Project>

@@ -119,7 +119,7 @@ namespace RetailCorrector.Wizard.Windows
             {
                 IsFreeRequest = false;
                 using var client = new HttpClient();
-                Log.Information($"Тестирование шаблона отчета: {Method}");
+                Log.Information($"Тестирование шаблона отчета: {Method:F}");
                 Log.Information(Url);
                 using var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Parse(Method.ToString()), Url);
                 foreach (var header in Headers)
@@ -156,8 +156,7 @@ namespace RetailCorrector.Wizard.Windows
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Ошибка тестирования запроса отчета");
-                MessageBox.Show(ex.Message, "Ошибка при тестировании запроса", MessageBoxButton.OK, MessageBoxImage.Error);
+                ErrorAlert(ex, "Ошибка тестирования запроса отчета");
             }
             finally
             {

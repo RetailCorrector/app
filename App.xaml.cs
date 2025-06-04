@@ -1,5 +1,4 @@
-﻿using Serilog;
-using System.Windows;
+﻿using System.Windows;
 
 namespace RetailCorrector.Wizard
 {

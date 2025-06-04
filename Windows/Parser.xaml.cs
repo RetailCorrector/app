@@ -3,7 +3,6 @@ using RetailCorrector.Wizard.HistoryActions;
 using RetailCorrector.Wizard.Managers;
 using RetailCorrector.Wizard.ModuleSystem;
 using RetailCorrector.Wizard.UserControls;
-using Serilog;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -173,10 +172,8 @@ namespace RetailCorrector.Wizard.Windows
             catch (Exception ex)
             {
                 if (!(ex is TaskCanceledException || ex is OperationCanceledException))
-                {
-                    System.Windows.MessageBox.Show("Не удалось спарсить чеки! Подробнее в лог-файле...");
-                    Log.Error(ex, "Не удалось спарсить чеки!");
-                }
+                    ErrorAlert(ex, "Не удалось спарсить чеки!");
+                else Log.Information("Парсинг отменен пользователем.");
             }
             finally
             {
