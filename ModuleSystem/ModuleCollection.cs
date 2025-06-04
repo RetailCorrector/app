@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace RetailCorrector.Cashier.ModuleSystem
 {
@@ -38,8 +37,9 @@ namespace RetailCorrector.Cashier.ModuleSystem
                 module.OnNotify += Notify;
                 await module.OnLoad(ctx);
                 var name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
-                _modules.Add(new Module(name, module, fs));
-                Program.Form.fiscalModules.Items.Add(name);
+                var infoName = Patterns.AssemblyNameRegex().Match(name);
+                _modules.Add(new Module(infoName.Groups["name"].Value, module, fs));
+                Program.Form.fiscalModules.Items.Add(infoName.Groups["name"].Value);
             }
             catch (Exception ex)
             {
