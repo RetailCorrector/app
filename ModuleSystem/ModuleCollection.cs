@@ -30,8 +30,6 @@ namespace RetailCorrector.Cashier.ModuleSystem
                 var fs = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
                 var assembly = ctx!.LoadFromStream(fs);
                 if (assembly.GetCustomAttribute<FiscalModuleAttribute>() is null) return;
-                var guid = assembly.GetCustomAttribute<GuidAttribute>()?.Value;
-                if (guid is null) return;
                 var types = assembly.GetTypes();
                 var type = types.FirstOrDefault(t => t.BaseType == typeof(AbstractFiscalModule));
                 if (type is null) return;
@@ -40,7 +38,7 @@ namespace RetailCorrector.Cashier.ModuleSystem
                 module.OnNotify += Notify;
                 await module.OnLoad(ctx);
                 var name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
-                _modules.Add(new Module(guid, name, module, fs));
+                _modules.Add(new Module(name, module, fs));
                 Program.Form.fiscalModules.Items.Add(name);
             }
             catch (Exception ex)
