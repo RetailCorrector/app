@@ -22,7 +22,6 @@ public struct RemoteModule
     public string Author { get; set; }
     public string Description { get; set; }
     public string File { get; set; }
-    public string Hash { get; set; }
 }
 
 
@@ -62,9 +61,6 @@ public class RemoteModuleConverter : JsonConverter<RemoteModule>
                     break;
                 case "file":
                     module.File = reader.GetString() ?? string.Empty;
-                    break;
-                case "hash":
-                    module.Hash = reader.GetString() ?? string.Empty;
                     break;
                 default:
                     throw new JsonException($"Unexpected property: {propertyName}");

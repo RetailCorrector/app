@@ -13,7 +13,6 @@ namespace RetailCorrector.ModuleManager
         public string Title { get; init; }
         public string Description { get; init; }
         public string Url { get; init; }
-        public string Hash { get; init; }
         public Version Version { get; init; }
         public string LocalVersion =>
             Local is null ? "" : ((LocalModule)Local!).Version.ToString(3);
@@ -39,7 +38,6 @@ namespace RetailCorrector.ModuleManager
             Version = new Version();
             Description = "";
             Url = "";
-            Hash = local.Hash;
             Local = local;
             InitializeComponent();
         }
@@ -51,7 +49,6 @@ namespace RetailCorrector.ModuleManager
             Version = remote.Version;
             Description = remote.Description;
             Url = remote.File;
-            Hash = remote.Hash;
             Local = local;
             InitializeComponent();
         }
