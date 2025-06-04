@@ -1,8 +1,6 @@
-﻿using Serilog;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace RetailCorrector.Wizard.ModuleSystem
@@ -34,8 +32,6 @@ namespace RetailCorrector.Wizard.ModuleSystem
                 var fs = File.Open(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
                 var assembly = ctx!.LoadFromStream(fs);
                 if (assembly.GetCustomAttribute<SourceModuleAttribute>() is null) return;
-                var guid = assembly.GetCustomAttribute<GuidAttribute>()?.Value;
-                if (guid is null) return;
                 var types = assembly.GetTypes();
                 var type = types.FirstOrDefault(t => t.BaseType == typeof(AbstractSourceModule));
                 if (type is null) return;
@@ -44,7 +40,7 @@ namespace RetailCorrector.Wizard.ModuleSystem
                 module.OnNotify += Notify;
                 await module.OnLoad();
                 var name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
-                _modules.Add(new Module(guid, name, module, fs));
+                _modules.Add(new Module(name, module, fs));
             }
             catch(Exception e)
             {
