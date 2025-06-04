@@ -40,7 +40,8 @@ namespace RetailCorrector.Wizard.ModuleSystem
                 module.OnNotify += Notify;
                 await module.OnLoad();
                 var name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
-                _modules.Add(new Module(name, module, fs));
+                var infoName = Patterns.AssemblyNameRegex().Match(name);
+                _modules.Add(new Module(infoName.Groups["name"].Value, module, fs));
             }
             catch(Exception e)
             {
