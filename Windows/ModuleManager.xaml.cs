@@ -83,20 +83,12 @@ namespace RetailCorrector.ModuleManager
         {
             try
             {
-                using var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-                var ctx = new ModuleLoadContext();
-                var assembly = ctx.LoadFromStream(fs);
-                var res = new LocalModule(assembly, path);
-                assembly = null;
-                ctx.Unload();
-                ctx = null;
-                return res;
+                return new LocalModule(path);
             }
             catch(Exception e)
             {
-                MessageBox.Show($"Не удалось загрузить {path.Split(Path.DirectorySeparatorChar)[^1]}...\nПодробнее в лог-файле!");
-                Log.Error(e, $"Не удалось загрузить {path.Split(Path.DirectorySeparatorChar)[^1]}...");
-                File.Delete(path);
+                MessageBox.Show($"Не удалось получить информацию модуля {Path.GetFileNameWithoutExtension(path)}...");
+                Log.Error(e, $"Не удалось получить информацию модуля {Path.GetFileNameWithoutExtension(path)}...");
                 return null;
             }
         }

@@ -1,13 +1,25 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using System.Text.RegularExpressions;
 
 namespace RetailCorrector.ModuleManager.Data
 {
-    public readonly struct LocalModule(Assembly assembly, string path)
+    public readonly partial struct LocalModule
     {
-        public Guid Id { get; } = new Guid(assembly.GetCustomAttribute<GuidAttribute>()!.Value);
-        public string Name { get; } = assembly.GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
-        public Version Version { get; } = Version.Parse(assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()!.Version);
-        public string Path { get; } = path;
+        public Guid Id { get; }
+        public string Name { get; }
+        public Version Version { get; }
+        public string Path { get; }
+
+        public LocalModule(string filepath)
+        {
+            var assemblyName = System.Reflection.AssemblyName.GetAssemblyName(filepath)!;
+            var infoName = AssemblyNameRegex().Match(assemblyName.Name!);
+            Id = new Guid(infoName.Groups["guid"].Value);
+            Name = infoName.Groups["guid"].Value;
+            Version = assemblyName.Version!;
+            Path = filepath;
+        }
+
+        [GeneratedRegex(@"^(?'name'[a-zA-Z _-]+) \((?'guid'[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12})\)$")]
+        private static partial Regex AssemblyNameRegex();
     }
 }
