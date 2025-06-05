@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Printing;
+using System.Windows;
 using System.Windows.Controls;
 using RetailCorrector.History;
 using RetailCorrector.History.Actions;
@@ -8,8 +9,11 @@ namespace RetailCorrector.Editor.Receipt
 {
     public partial class ReceiptPanel : ItemsControl
     {
+        private static ReceiptPanel _instance;
+
         public ReceiptPanel()
         {
+            _instance = this;
             InitializeComponent();
         }
 
@@ -33,18 +37,18 @@ namespace RetailCorrector.Editor.Receipt
             }
         }
 
-        public void Delete() =>
-            HistoryController.Add(new RemoveReceipts([.. Views.FindAllIndex(i => i.IsSelected)]));
+        public static void Delete() =>
+            HistoryController.Add(new RemoveReceipts([.. _instance.Views.FindAllIndex(i => i.IsSelected)]));
 
-        public void InvertOperation() =>
-            HistoryController.Add(new InvertOperation([..Views.FindAllIndex(i => i.IsSelected)]));
+        public static void InvertOperation() =>
+            HistoryController.Add(new InvertOperation([.. _instance.Views.FindAllIndex(i => i.IsSelected)]));
 
-        public void Duplicate() =>
-            HistoryController.Add(new DuplicateReceipts([.. Views.FindAllIndex(i => i.IsSelected)]));
+        public static void Duplicate() =>
+            HistoryController.Add(new DuplicateReceipts([.. _instance.Views.FindAllIndex(i => i.IsSelected)]));
 
-        public void InvertSelect()
+        public static void InvertSelect()
         {
-            var items = Views;
+            var items = _instance.Views;
             var indexes = items.FindAllIndex(i => i.IsSelected);
             foreach(var i in items.Where(i => !i.IsSelected))
                 i.IsSelected = true;
