@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\icon.ico" />
+	<Resource Include="Resources\JetBrainsMono.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+    <PackageReference Include="wpfmasonry" Version="3.0.2503.131" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <Using Include="RetailCorrector.Constants" />
+    <Using Include="Serilog" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ModuleManager\Windows\ModuleManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ModuleManager\UserControls\ModuleInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+	
+</Project>

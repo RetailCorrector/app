@@ -15,7 +15,6 @@ public struct RemoteModule
     [JsonConverter(typeof(JsonStringEnumConverter<ModuleType>))]
     public enum ModuleType { Fiscal, Source }
 
-    public Guid Id { get; set; }
     public string Name { get; set; }
     public Version Version { get; set; }
     public ModuleType Type { get; set; }
@@ -41,9 +40,6 @@ public class RemoteModuleConverter : JsonConverter<RemoteModule>
             reader.Read();
             switch (propertyName)
             {
-                case "id":
-                    module.Id = reader.GetGuid();
-                    break;
                 case "name":
                     module.Name = reader.GetString() ?? string.Empty;
                     break;
@@ -69,8 +65,6 @@ public class RemoteModuleConverter : JsonConverter<RemoteModule>
         return module;
     }
 
-    public override void Write(Utf8JsonWriter writer, RemoteModule value, JsonSerializerOptions options)
-    {
+    public override void Write(Utf8JsonWriter writer, RemoteModule value, JsonSerializerOptions options) => 
         throw new NotImplementedException();
-    }
 }

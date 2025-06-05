@@ -1,6 +1,6 @@
 ﻿namespace RetailCorrector.ModuleManager.Data
 {
-    public readonly partial struct LocalModule
+    public readonly struct LocalModule
     {
         public Guid Id { get; }
         public string Name { get; }
