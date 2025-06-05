@@ -11,22 +11,22 @@
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
-        <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="measures">
+        <ObjectDataProvider ObjectType="{x:Type e:EnumHelper}" MethodName="GetDisplayNames" x:Key="measures">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="r:MeasureUnit"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="payTypes">
+        <ObjectDataProvider ObjectType="{x:Type e:EnumHelper}" MethodName="GetDisplayNames" x:Key="payTypes">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="r:PaymentType"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="posTypes">
+        <ObjectDataProvider ObjectType="{x:Type e:EnumHelper}" MethodName="GetDisplayNames" x:Key="posTypes">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="r:PositionType"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="taxRates">
+        <ObjectDataProvider ObjectType="{x:Type e:EnumHelper}" MethodName="GetDisplayNames" x:Key="taxRates">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="r:TaxRate"/>
             </ObjectDataProvider.MethodParameters>

@@ -5,9 +5,9 @@ using System.Windows.Media.Imaging;
 
 namespace RetailCorrector.Wizard.Windows;
 
-public class About : Window
+public class AboutWindow : Window
 {
-    public About()
+    public AboutWindow()
     {
         var icon = new Image
         {

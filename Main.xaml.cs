@@ -76,7 +76,7 @@ namespace RetailCorrector.Wizard.Windows
             Process.Start(new ProcessStartInfo(Links.Wiki) { UseShellExecute = true});
 
         private void ShowAbout(object? s, RoutedEventArgs args) => 
-            new About().ShowDialog();
+            new AboutWindow().ShowDialog();
 
         private void RunModuleManager(object? s, RoutedEventArgs args) =>
             Process.Start(Path.Combine(Pathes.RegistryManager, "ModuleManager.exe"));

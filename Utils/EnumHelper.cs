@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace RetailCorrector.Wizard.Extensions
 {
-    public static class EnumExtensions
+    public static class EnumHelper
     {
         public static KeyValuePair<TEnum, string>[] GetDisplayNames<TEnum>()
             where TEnum : struct, Enum
