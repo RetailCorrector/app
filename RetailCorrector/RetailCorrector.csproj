@@ -80,5 +80,9 @@
   <ItemGroup>
     <Folder Include="Contexts\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RetailCorrector.PluginAPI\RetailCorrector.PluginAPI.csproj" />
+  </ItemGroup>
 	
 </Project>
