@@ -1,0 +1,41 @@
+﻿<Window x:Class="RetailCorrector.Wizard.Windows.Parser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:RetailCorrector.Wizard.Windows"
+        xmlns:mod="clr-namespace:RetailCorrector.Wizard.ModuleSystem"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Title="Парсер чеков" Height="450" Width="796">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="22"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="75"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.ColumnSpan="8" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Items}" IsEnabled="{Binding IsEnabledStartButton}" Margin="-2.5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+        <tk:WatermarkComboBox Grid.Row="2" ItemsSource="{Binding Source={x:Static mod:ModuleCollection.Modules}}"
+                              DisplayMemberPath="Name" SelectedValuePath="EntryPoint" SelectedValue="{Binding Module}"
+                              Watermark="Источник данных" IsEnabled="{Binding IsEnabledStartButton}"/>
+        <ProgressBar Grid.Row="2" Grid.Column="2" Maximum="{Binding MaxProgress}" Value="{Binding CurrProgress}"/>
+        <Button Grid.Row="2" Grid.Column="4" Content="Отмена" Click="Cancel" IsEnabled="{Binding IsEnabledCancelButton}"/>
+        <Button Grid.Row="2" Grid.Column="6" Content="Запуск" Click="Start" IsEnabled="{Binding IsEnabledStartButton}"/>
+    </Grid>
+</Window>

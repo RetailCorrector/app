@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>RetailCorrector.Wizard</RootNamespace>
+    <AssemblyName>RetailCorrector</AssemblyName>
+    <Version>0.1</Version>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+	<PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RetailCorrector.Constants\RetailCorrector.Constants.csproj" />
+    <ProjectReference Include="..\RetailCorrector.Source\RetailCorrector.Source.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="RetailCorrector.Constants" />
+    <Using Include="Serilog" />
+    <Using Include="RetailCorrector.Wizard.Extensions.AlertHelper" Static="true" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,76 @@
+﻿<Window x:Class="RetailCorrector.Wizard.Windows.Report" Height="450"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="clr-namespace:System;assembly=mscorlib" Width="800"
+        xmlns:inp="clr-namespace:System.Windows.Input;assembly=PresentationFramework"
+        xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"        
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        xmlns:const="clr-namespace:RetailCorrector.Constants;assembly=RetailCorrector.Constants"
+        xmlns:d="clr-namespace:RetailCorrector;assembly=RetailCorrector.Data"
+        Title="Дизайнер отчета" WindowStyle="ToolWindow">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="httpMethods" ObjectType="{x:Type s:Enum}" MethodName="GetValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="d:HttpMethod"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid Margin="10" IsEnabled="{Binding IsFreeRequest}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ComboBox ItemsSource="{Binding Source={StaticResource httpMethods}}" SelectedItem="{Binding Method}"/>
+        <TextBox Grid.ColumnSpan="3" Grid.Column="2" Text="{Binding Url}" VerticalContentAlignment="Center"/>
+        <Button Grid.Column="6" Click="TestRequest" Content="Тестировать" IsEnabled="True"/>
+
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" Text="Заголовки" FontSize="20"/>
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="4" Text="Содержание" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+
+        <DataGrid Grid.Row="3" Grid.ColumnSpan="3" ItemsSource="{Binding Headers}" Grid.RowSpan="3"
+                  SelectedIndex="{Binding HeaderIndex, Mode=OneWay}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить" Click="AddHeader"/>
+                    <MenuItem Header="Удалить" Click="RemoveHeader"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ключ" Binding="{Binding Key}" Width="*"/>
+                <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <tk:WatermarkTextBox AcceptsReturn="True" Grid.Row="3" Text="{Binding ContentType, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Grid.Column="4" Watermark="Тип содержания" VerticalContentAlignment="Center"/>
+        <TextBox AcceptsReturn="True" Grid.Row="5" Text="{Binding Body, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Grid.Column="4" x:Name="body">
+            <TextBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Количество отправленных чеков" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.CurrentSession_Successes}}"/>
+                    <MenuItem Header="Количество ошибок" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.CurrentSession_Errors}}"/>
+                    <MenuItem Header="Общее количество чеков" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.TotalCount}}"/>
+                    <Separator/>
+                    <MenuItem Header="Осталось чеков" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.LeftReceiptCount}}"/>
+                    <MenuItem Header="Осталось часов" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.LeftHours}}"/>
+                    <MenuItem Header="Осталось минут" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.LeftMinutes}}"/>
+                    <MenuItem Header="Осталось сессий" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.LeftSessionCount}}"/>
+                </ContextMenu>
+            </TextBox.ContextMenu>
+        </TextBox>
+    </Grid>
+</Window>

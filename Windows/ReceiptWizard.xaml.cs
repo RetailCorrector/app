@@ -1,0 +1,70 @@
+﻿using RetailCorrector.Wizard.Contexts;
+using RetailCorrector.Wizard.Extensions;
+using System.ComponentModel;
+using System.Windows;
+
+namespace RetailCorrector.Wizard.Windows
+{
+    public partial class ReceiptWizard : Window, INotifyPropertyChanged
+    {
+        public ReceiptWizardContext? Context { get; init; }
+        public KeyValuePair<Operation, string>[] Operations { get; init; } = EnumExtensions.GetDisplayNames<Operation>();
+        public KeyValuePair<CorrType, string>[] CorrTypes { get; init; } = EnumExtensions.GetDisplayNames<CorrType>();
+        public Receipt Data { get; private set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public bool IsCreate { get; }
+
+        public ReceiptWizard()
+        {
+            IsCreate = true;
+            Context = new();
+            InitializeComponent();
+        }
+
+        public ReceiptWizard(Receipt receipt)
+        {
+            IsCreate = false;
+            Context = new(receipt);
+            InitializeComponent();
+        }
+
+        public void AddPosition(object? s, RoutedEventArgs e) =>
+            Context!.Items.Add(new ReceiptWizardContext.Position(Context));
+
+        public void Save(object? s, RoutedEventArgs e)
+        {
+            Data = new Receipt
+            {
+                Created = (DateTime)Context!.Date!,
+                ActNumber = string.IsNullOrWhiteSpace(Context.Act) ? null : Context.Act,
+                CorrectionType = Context.CorrType,
+                FiscalSign = Context.Fiscal,
+                Operation = Context.Operation,
+                RoundedSum = Context.RoundedTotal ? (uint)Math.Round(Context.Total * 100) : null,
+                Payment = new Payment
+                {
+                    Cash = (uint)Math.Round(Context.Cash * 100),
+                    ECash = (uint)Math.Round(Context.ECash * 100),
+                    Post = (uint)Math.Round(Context.Post * 100),
+                    Pre = (uint)Math.Round(Context.Pre * 100),
+                    Provision = (uint)Math.Round(Context.Provision * 100)
+                },
+                Items = [..Context.Items.Select(i => new Position
+                {
+                    Name = i.Name,
+                    Price = (uint)Math.Round(i.Price * 100),
+                    Quantity = (uint)Math.Round(i.Quantity* 1000),
+                    TaxRate = i.Tax,
+                    MeasureUnit = i.Measure,
+                    PayType = i.Pay,
+                    PosType = i.Type,
+                    TotalSum = (uint)Math.Round(i.Sum * 100)
+                })]
+            };
+            DialogResult = true;
+            Close();
+        }
+    }
+}

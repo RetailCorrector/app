@@ -1,0 +1,107 @@
+﻿<Window x:Class="RetailCorrector.Wizard.Windows.ReceiptWizard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:e="clr-namespace:RetailCorrector.Wizard.Extensions"
+        WindowStartupLocation="CenterScreen"
+        xmlns:r="clr-namespace:RetailCorrector;assembly=RetailCorrector.Data"
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStyle="ToolWindow"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="measures">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="r:MeasureUnit"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="payTypes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="r:PaymentType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="posTypes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="r:PositionType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider ObjectType="{x:Type e:EnumExtensions}" MethodName="GetDisplayNames" x:Key="taxRates">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="r:TaxRate"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <StackPanel Orientation="Horizontal" Margin="5">
+        <StackPanel>
+            <TextBlock Margin="5,5,5,0" Text="Операция документа"/>
+            <ComboBox ItemsSource="{Binding Operations}" Margin="5"
+                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                      SelectedValue="{Binding Context.Operation, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Margin="5,5,5,0" Text="Тип коррекции"/>
+            <ComboBox ItemsSource="{Binding CorrTypes}" Margin="5" 
+                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                      SelectedValue="{Binding Context.CorrType, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Margin="5,5,5,0" Text="Номер акта"/>
+            <TextBox Margin="5" Text="{Binding Context.Act, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Margin="5,5,5,0" Text="Дата документа"/>
+            <DatePicker Margin="5" SelectedDate="{Binding Context.Date, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Margin="5,5,5,0" Text="ФП документа"/>
+            <TextBox Margin="5" Text="{Binding Context.Fiscal, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCreate}"/>            
+            <TextBlock Margin="5,5,5,0" Text="Сумма наличной оплаты"/>
+            <tk:DoubleUpDown Margin="5" Value="{Binding Context.Cash, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Margin="5,5,5,0" Text="Сумма безналичной оплаты"/>
+            <tk:DoubleUpDown Margin="5" Value="{Binding Context.ECash, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Margin="5,5,5,0" Text="Сумма предоплаты"/>
+            <tk:DoubleUpDown Margin="5" Value="{Binding Context.Pre, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Margin="5,5,5,0" Text="Сумма постоплаты"/>
+            <tk:DoubleUpDown Margin="5" Value="{Binding Context.Post, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Margin="5,5,5,0" Text="Встречное представление"/>
+            <tk:DoubleUpDown Margin="5" Value="{Binding Context.Provision, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Margin="5" Content="Округлять итог?" IsChecked="{Binding Context.RoundedTotal, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="Добавить позицию" Click="AddPosition" Margin="5"/>
+            <Button Content="Сохранить чек" Margin="5,10,5,5" Click="Save" IsEnabled="{Binding Context.Done}"/>
+        </StackPanel>
+        <ScrollViewer MaxWidth="540" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Context.Items}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Width="180">
+                            <TextBlock Margin="5,5,5,0" Text="Наименование"/>
+                            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBlock Margin="5,5,5,0" Text="Тип позиции"/>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource posTypes}}" 
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBlock Margin="5,5,5,0" Text="Ставка НДС"/>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource taxRates}}" 
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding Tax, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBlock Margin="5,5,5,0" Text="Способ оплаты"/>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource payTypes}}" 
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding Pay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBlock Margin="5,5,5,0" Text="Единица измерения"/>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource measures}}" 
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding Measure, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBlock Margin="5,5,5,0" Text="Цена"/>
+                            <tk:DoubleUpDown Value="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBlock Margin="5,5,5,0" Text="Количество"/>
+                            <tk:DoubleUpDown Value="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBlock Margin="5,5,5,0" Text="Стоимость"/>
+                            <tk:DoubleUpDown Value="{Binding Sum, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <Button Content="Удалить" Margin="5" Command="{Binding Remove}" 
+                                    CommandParameter="{Binding}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </StackPanel>
+</Window>
