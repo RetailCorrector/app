@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RetailCorrector.Wizard
+namespace RetailCorrector
 {
     public partial class App : Application
     {
@@ -11,8 +11,9 @@ namespace RetailCorrector.Wizard
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.WithProperty("Version", Version)
-                .WriteTo.File(Pathes.WizardLog,
+                .WriteTo.File(Pathes.Log,
                     outputTemplate: Patterns.OutputLog,
+                    rollingInterval: RollingInterval.Day,
                     flushToDiskInterval: TimeSpan.FromMilliseconds(100))
                 .CreateLogger();
         }

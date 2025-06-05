@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RetailCorrector.ModuleManager
+namespace RetailCorrector.PluginSystem
 {
     public partial class RegistryList : Window
     {

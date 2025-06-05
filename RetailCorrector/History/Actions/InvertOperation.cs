@@ -1,6 +1,4 @@
-﻿using RetailCorrector.Wizard.Contexts;
-
-namespace RetailCorrector.Wizard.HistoryActions
+﻿namespace RetailCorrector.History.Actions
 {
     public readonly struct InvertOperation(int[] indexes) : IHistoryAction
     {
@@ -9,9 +7,9 @@ namespace RetailCorrector.Wizard.HistoryActions
         {
             foreach (var index in indexes)
             {
-                var receipt = WizardDataContext.Receipts[index];
+                var receipt = Env.Receipts[index];
                 receipt.Operation = (int)receipt.Operation % 2 == 0 ? receipt.Operation - 1 : receipt.Operation + 1;
-                WizardDataContext.Receipts[index] = receipt;
+                Env.Receipts[index] = receipt;
             }
         }
 

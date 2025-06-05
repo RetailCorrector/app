@@ -1,6 +1,6 @@
-﻿using RetailCorrector.Wizard.Extensions;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
+using RetailCorrector.Utils;
 
 namespace RetailCorrector.Wizard.Converters
 {

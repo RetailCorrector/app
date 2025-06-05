@@ -1,7 +1,4 @@
-﻿using RetailCorrector.Wizard.Contexts;
-using RetailCorrector.Wizard.UserControls;
-using Serilog;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -9,15 +6,16 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using RetailCorrector.Utils;
 
-namespace RetailCorrector.Wizard.Windows
+namespace RetailCorrector.Editor.Report
 {
     public partial class Report : Window, INotifyPropertyChanged
     {
-        public Command WritePattern { get; } = new Command(LocalWritePattern);
-        public RoutedCommand Escape { get; } = new RoutedCommand(nameof(Escape), typeof(Report));
+        public Command WritePattern { get; } = new(LocalWritePattern);
+        public RoutedCommand Escape { get; } = new(nameof(Escape), typeof(Report));
 
-        private static Report? Singleton { get; set; } = null;
+        private static Report? Singleton { get; set; }
         private static void LocalWritePattern(object? pattern)
         {
             var text = $"`{(string)pattern!}`";
@@ -36,7 +34,7 @@ namespace RetailCorrector.Wizard.Windows
                 OnPropertyChanged();
             }
         }
-        private string _url = WizardDataContext.Report.Url;
+        private string _url = Env.Report.Url;
 
         public HttpMethod Method
         {
@@ -48,7 +46,7 @@ namespace RetailCorrector.Wizard.Windows
                 OnPropertyChanged();
             }
         }
-        private HttpMethod _method = WizardDataContext.Report.Method;
+        private HttpMethod _method = Env.Report.Method;
 
         public string Body
         {
@@ -60,7 +58,7 @@ namespace RetailCorrector.Wizard.Windows
                 OnPropertyChanged();
             }
         }
-        private string _content = WizardDataContext.Report.Content;
+        private string _content = Env.Report.Content;
 
         public string ContentType
         {
@@ -72,7 +70,7 @@ namespace RetailCorrector.Wizard.Windows
                 OnPropertyChanged();
             }
         }
-        private string _contentType = WizardDataContext.Report.ContentType;
+        private string _contentType = Env.Report.ContentType;
 
         public int HeaderIndex { get; set; } = -1;
 
@@ -96,9 +94,9 @@ namespace RetailCorrector.Wizard.Windows
         private static ObservableCollection<StringsPair> GenHeaders()
         {
             var headers = new ObservableCollection<StringsPair>();
-            if (WizardDataContext.Report.Headers is not null)
+            if (Env.Report.Headers is not null)
             {
-                foreach (var header in WizardDataContext.Report.Headers)
+                foreach (var header in Env.Report.Headers)
                     foreach (var value in header.Value)
                         headers.Add(new StringsPair(header.Key, value));
             }
@@ -144,7 +142,8 @@ namespace RetailCorrector.Wizard.Windows
                 Log.Information(content);
                 var status = code switch
                 {
-                    (>= 100 and <= 199) or (>= 300 and <= 399) => MessageBoxImage.Asterisk,
+                    >= 100 and <= 199 or >= 300 and <= 399 
+                        => MessageBoxImage.Asterisk,
                     >= 200 and <= 299 => MessageBoxImage.None,
                     >= 400 and <= 499 => MessageBoxImage.Error,
                     >= 500 and <= 599 => MessageBoxImage.Stop,
@@ -156,7 +155,7 @@ namespace RetailCorrector.Wizard.Windows
             }
             catch (Exception ex)
             {
-                ErrorAlert(ex, "Ошибка тестирования запроса отчета");
+                AlertHelper.ErrorAlert(ex, "Ошибка тестирования запроса отчета");
             }
             finally
             {
@@ -175,7 +174,7 @@ namespace RetailCorrector.Wizard.Windows
 
         protected override void OnClosed(EventArgs e)
         {
-            var report = WizardDataContext.Report;
+            var report = Env.Report;
             report.Method = Method;
             report.Url = Url;
             report.Content = Body;
@@ -189,7 +188,7 @@ namespace RetailCorrector.Wizard.Windows
                     report.Headers[header.Key].Add(header.Value);
                 }
             }
-            WizardDataContext.Report = report;
+            Env.Report = report;
             Singleton = null;
             base.OnClosed(e);
         }

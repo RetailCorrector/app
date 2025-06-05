@@ -1,29 +1,31 @@
-﻿using RetailCorrector.Wizard.Contexts;
-using RetailCorrector.Wizard.HistoryActions;
-using RetailCorrector.Wizard.Managers;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using RetailCorrector.Cashier;
+using RetailCorrector.Editor.Receipt;
+using RetailCorrector.History;
+using RetailCorrector.History.Actions;
+using RetailCorrector.Utils;
 
-namespace RetailCorrector.Wizard.Windows
+namespace RetailCorrector
 {
     public partial class Main : Window, INotifyPropertyChanged
     {
-        public RoutedCommand ShowReport { get; } = new RoutedCommand(nameof(ShowReport), typeof(Main));
-        public RoutedCommand ShowReceiptWizard { get; } = new RoutedCommand(nameof(ShowReceiptWizard), typeof(Main));
-        public RoutedCommand ShowParser { get; } = new RoutedCommand(nameof(ShowParser), typeof(Main));
-        public RoutedCommand ClearSpace { get; } = new RoutedCommand(nameof(ClearSpace), typeof(Main));
-        public RoutedCommand Undo { get; } = new RoutedCommand(nameof(Undo), typeof(Main));
-        public RoutedCommand Redo { get; } = new RoutedCommand(nameof(Redo), typeof(Main));
-        public RoutedCommand Delete { get; } = new RoutedCommand(nameof(Delete), typeof(Main));
-        public RoutedCommand InvertSelect { get; } = new RoutedCommand(nameof(InvertSelect), typeof(Main));
-        public RoutedCommand InvertOperation { get; } = new RoutedCommand(nameof(InvertOperation), typeof(Main));
-        public RoutedCommand Duplicate { get; } = new RoutedCommand(nameof(Duplicate), typeof(Main));
-        public RoutedCommand LocalExport { get; } = new RoutedCommand(nameof(LocalExport), typeof(Main));
+        public RoutedCommand ShowReport { get; } = new(nameof(ShowReport), typeof(Main));
+        public RoutedCommand ShowReceiptWizard { get; } = new(nameof(ShowReceiptWizard), typeof(Main));
+        public RoutedCommand ShowParser { get; } = new(nameof(ShowParser), typeof(Main));
+        public RoutedCommand ClearSpace { get; } = new(nameof(ClearSpace), typeof(Main));
+        public RoutedCommand Undo { get; } = new(nameof(Undo), typeof(Main));
+        public RoutedCommand Redo { get; } = new(nameof(Redo), typeof(Main));
+        public RoutedCommand Delete { get; } = new(nameof(Delete), typeof(Main));
+        public RoutedCommand InvertSelect { get; } = new(nameof(InvertSelect), typeof(Main));
+        public RoutedCommand InvertOperation { get; } = new(nameof(InvertOperation), typeof(Main));
+        public RoutedCommand Duplicate { get; } = new(nameof(Duplicate), typeof(Main));
+        public RoutedCommand LocalExport { get; } = new(nameof(LocalExport), typeof(Main));
 
         public Main()
         {
@@ -36,9 +38,9 @@ namespace RetailCorrector.Wizard.Windows
         private void SetupHotKeys()
         {
             ShowReport.InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
-            CommandBindings.Add(new CommandBinding(ShowReport, (_, _) => new Report().ShowDialog()));
+            CommandBindings.Add(new CommandBinding(ShowReport, (_, _) => new Editor.Report.Report().ShowDialog()));
             ShowParser.InputGestures.Add(new KeyGesture(Key.P, ModifierKeys.Control));
-            CommandBindings.Add(new CommandBinding(ShowParser, (_, _) => new Parser().ShowDialog()));
+            CommandBindings.Add(new CommandBinding(ShowParser, (_, _) => new Parser.Parser().ShowDialog()));
             ShowReceiptWizard.InputGestures.Add(new KeyGesture(Key.P, ModifierKeys.Control | ModifierKeys.Alt));
             CommandBindings.Add(new CommandBinding(ShowReceiptWizard, (_, _) =>
             {
@@ -49,8 +51,8 @@ namespace RetailCorrector.Wizard.Windows
             ClearSpace.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(ClearSpace, (_, _) =>
             {
-                WizardDataContext.Report = new RetailCorrector.Report();
-                WizardDataContext.Receipts.Clear();
+                Env.Report = new Report();
+                Env.Receipts.Clear();
                 HistoryController.Clear();
             }));
             Undo.InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Control));
@@ -77,17 +79,18 @@ namespace RetailCorrector.Wizard.Windows
 
         private void ShowAbout(object? s, RoutedEventArgs args) => 
             new AboutWindow().ShowDialog();
-
+/*
         private void RunModuleManager(object? s, RoutedEventArgs args) =>
-            Process.Start(Path.Combine(Pathes.RegistryManager, "ModuleManager.exe"));
+            Process.Start(Path.Combine(Pathes.RegistryManager, "ModuleManager.exe"));*/
 
         private void RunLocalCashier(object? s, RoutedEventArgs args) =>
-            Process.Start(Path.Combine(Pathes.Cashier, "Cashier.exe"));
+            new CashierView().ShowDialog();
+            //Process.Start(Path.Combine(Pathes.Cashier, "Cashier.exe"));
 
         private void DoLocalExport(object? s, RoutedEventArgs args)
         {
-            File.WriteAllText(Pathes.Report, JsonSerializer.Serialize(WizardDataContext.Report));
-            foreach (var stack in WizardDataContext.Receipts.Chunk(25))
+            File.WriteAllText(Pathes.Report, JsonSerializer.Serialize(Env.Report));
+            foreach (var stack in Env.Receipts.Chunk(25))
             {
                 string filename;
                 do
@@ -96,7 +99,7 @@ namespace RetailCorrector.Wizard.Windows
                 } while (File.Exists(filename));
                 File.WriteAllText(filename, JsonSerializer.Serialize(stack));
             }
-            Alert("Экспорт чеков для локального отбития завершён!");
+            AlertHelper.Alert("Экспорт чеков для локального отбития завершён!");
         }
 
         public Visibility HistoryVisibility

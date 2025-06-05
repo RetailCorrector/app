@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace RetailCorrector.Wizard.UserControls
+namespace RetailCorrector.Parser
 {
     public class OptionControl : StackPanel 
     {

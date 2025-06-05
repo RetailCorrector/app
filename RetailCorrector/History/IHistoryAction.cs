@@ -1,4 +1,4 @@
-﻿namespace RetailCorrector.Wizard
+﻿namespace RetailCorrector.History
 {
     public interface IHistoryAction
     {

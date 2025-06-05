@@ -1,22 +1,20 @@
-﻿using RetailCorrector.ModuleManager.Data;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RetailCorrector.ModuleManager
+namespace RetailCorrector.PluginSystem
 {
-    public partial class ModuleInfo : UserControl, INotifyPropertyChanged
+    public partial class PluginInfo : UserControl, INotifyPropertyChanged
     {
-        public Guid Id { get; init; }
         public string Title { get; init; }
         public string Description { get; init; }
         public string Url { get; init; }
         public Version Version { get; init; }
         public string LocalVersion =>
-            Local is null ? "" : ((LocalModule)Local!).Version.ToString(3);
-        public LocalModule? Local
+            Local is null ? "" : ((LocalPluginInfo)Local!).Version.ToString(3);
+        public LocalPluginInfo? Local
         {
             get => _local;
             set
@@ -27,13 +25,12 @@ namespace RetailCorrector.ModuleManager
                 OnPropertyChanged(nameof(LocalVersion));
             }
         }
-        private LocalModule? _local;
+        private LocalPluginInfo? _local;
 
         public bool IsInstalled => Local is not null;
 
-        public ModuleInfo(LocalModule local)
+        public PluginInfo(LocalPluginInfo local)
         {
-            Id = local.Id;
             Title = local.Name;
             Version = new Version();
             Description = "";
@@ -42,9 +39,8 @@ namespace RetailCorrector.ModuleManager
             InitializeComponent();
         }
 
-        public ModuleInfo(RemoteModule remote, LocalModule? local)
+        public PluginInfo(RemotePlugin remote, LocalPluginInfo? local)
         {
-            Id = remote.Id;
             Title = remote.Name;
             Version = remote.Version;
             Description = remote.Description;
@@ -59,7 +55,7 @@ namespace RetailCorrector.ModuleManager
 
         private void Delete(object? s, RoutedEventArgs e)
         {
-            File.Delete(((LocalModule)Local!).Path);
+            File.Delete(((LocalPluginInfo)Local!).Path);
             Local = null;
         }
 
@@ -71,7 +67,7 @@ namespace RetailCorrector.ModuleManager
             var path = Path.Combine(Pathes.Modules, Url.Split('/')[^1]);
             File.WriteAllBytes(path, cont);
             if (!File.Exists(path)) return;
-            Local = ModuleManager.LoadModuleAssembly(path);
+            Local = PluginManager.LoadPluginAssembly(path);
         }
     }
 }

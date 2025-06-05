@@ -1,7 +1,6 @@
-﻿using RetailCorrector.Wizard.UserControls;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
-namespace RetailCorrector.Wizard.Managers
+namespace RetailCorrector.History
 {
     public static class HistoryController
     {

@@ -1,9 +1,9 @@
-﻿using RetailCorrector.Wizard.UserControls;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using RetailCorrector.Utils;
 
-namespace RetailCorrector.Wizard.Contexts;
+namespace RetailCorrector.Editor.Receipt;
 
 public class ReceiptWizardContext : INotifyPropertyChanged
 {
@@ -87,7 +87,7 @@ public class ReceiptWizardContext : INotifyPropertyChanged
             OnPropertyChanged(nameof(Done));
     }
     
-    public ReceiptWizardContext(Receipt data) : this()
+    public ReceiptWizardContext(RetailCorrector.Receipt data) : this()
     {
         CorrType = data.CorrectionType;
         Act = data.ActNumber ?? " ";

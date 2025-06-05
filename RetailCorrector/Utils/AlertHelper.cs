@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RetailCorrector.Wizard.Extensions
+namespace RetailCorrector.Utils
 {
     public static class AlertHelper
     {

@@ -1,16 +1,15 @@
-﻿using RetailCorrector.Wizard.Contexts;
-using RetailCorrector.Wizard.Extensions;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
+using RetailCorrector.Utils;
 
-namespace RetailCorrector.Wizard.Windows
+namespace RetailCorrector.Editor.Receipt
 {
     public partial class ReceiptWizard : Window, INotifyPropertyChanged
     {
         public ReceiptWizardContext? Context { get; init; }
         public KeyValuePair<Operation, string>[] Operations { get; init; } = EnumHelper.GetDisplayNames<Operation>();
         public KeyValuePair<CorrType, string>[] CorrTypes { get; init; } = EnumHelper.GetDisplayNames<CorrType>();
-        public Receipt Data { get; private set; }
+        public RetailCorrector.Receipt Data { get; private set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -23,7 +22,7 @@ namespace RetailCorrector.Wizard.Windows
             InitializeComponent();
         }
 
-        public ReceiptWizard(Receipt receipt)
+        public ReceiptWizard(RetailCorrector.Receipt receipt)
         {
             IsCreate = false;
             Context = new(receipt);
@@ -35,7 +34,7 @@ namespace RetailCorrector.Wizard.Windows
 
         public void Save(object? s, RoutedEventArgs e)
         {
-            Data = new Receipt
+            Data = new RetailCorrector.Receipt
             {
                 Created = (DateTime)Context!.Date!,
                 ActNumber = string.IsNullOrWhiteSpace(Context.Act) ? null : Context.Act,

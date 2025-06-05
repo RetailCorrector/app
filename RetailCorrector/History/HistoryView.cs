@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace RetailCorrector.Wizard.UserControls
+namespace RetailCorrector.History
 {
     public class HistoryView: Border
     {

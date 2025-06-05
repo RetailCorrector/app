@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="RetailCorrector.Wizard.UserControls.ReceiptView"
+﻿<UserControl x:Class="RetailCorrector.Editor.Receipt.ReceiptView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:c="clr-namespace:RetailCorrector.Wizard.Converters"
              VerticalAlignment="Top"

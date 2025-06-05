@@ -1,6 +1,4 @@
-﻿using RetailCorrector.Wizard.Contexts;
-
-namespace RetailCorrector.Wizard.HistoryActions
+﻿namespace RetailCorrector.History.Actions
 {
     public readonly struct DuplicateReceipts(int[] indexes) : IHistoryAction
     {
@@ -10,15 +8,15 @@ namespace RetailCorrector.Wizard.HistoryActions
         {
             foreach(var index in indexes.Reverse())
             {
-                var receipt = WizardDataContext.Receipts[index].Clone();
-                WizardDataContext.Receipts.Insert(index, receipt);
+                var receipt = Env.Receipts[index].Clone();
+                Env.Receipts.Insert(index, receipt);
             }
         }
 
         public void Undo()
         {
             foreach (var index in indexes)
-                WizardDataContext.Receipts.RemoveAt(index);
+                Env.Receipts.RemoveAt(index);
         }
     }
 }

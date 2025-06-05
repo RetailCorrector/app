@@ -1,13 +1,13 @@
 ﻿using System.Windows.Input;
 
-namespace RetailCorrector.Wizard.UserControls
+namespace RetailCorrector.Utils
 {
     public class Command(Action<object?> execute, Predicate<object?>? canExecute = null) : ICommand
     {
         public event EventHandler? CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value; 
+            remove => CommandManager.RequerySuggested -= value; 
         }
 
         public bool CanExecute(object? parameter) =>

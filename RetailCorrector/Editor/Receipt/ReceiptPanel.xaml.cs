@@ -1,10 +1,10 @@
-﻿using RetailCorrector.Wizard.Extensions;
-using RetailCorrector.Wizard.HistoryActions;
-using RetailCorrector.Wizard.Managers;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using RetailCorrector.History;
+using RetailCorrector.History.Actions;
+using RetailCorrector.Utils;
 
-namespace RetailCorrector.Wizard.UserControls
+namespace RetailCorrector.Editor.Receipt
 {
     public partial class ReceiptPanel : ItemsControl
     {
@@ -17,7 +17,7 @@ namespace RetailCorrector.Wizard.UserControls
         {
             get
             {
-                var rawItems = new Receipt[Items.Count];
+                var rawItems = new RetailCorrector.Receipt[Items.Count];
                 var items = new ReceiptView[Items.Count];
                 Items.CopyTo(rawItems, 0);
                 for (var i = 0; i < Items.Count; i++)

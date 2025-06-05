@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
-	  <Resource Include="Resources\JetBrainsMono.ttf" />
+    <Resource Include="Resources\JetBrainsMono.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,63 +22,6 @@
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <Using Include="RetailCorrector.Constants" />
     <Using Include="Serilog" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="History\HistoryList.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="ModuleSystem\ModuleManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="ModuleSystem\ModuleInfo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="ReceiptEditor\ReceiptPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="ReceiptEditor\ReceiptView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="ReceiptEditor\ReceiptWizard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Parser\Parser.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="ReportEditor\Report.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Main.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Contexts\" />
   </ItemGroup>
 
   <ItemGroup>

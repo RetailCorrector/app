@@ -1,18 +1,16 @@
-﻿using RetailCorrector.Wizard.Contexts;
-using RetailCorrector.Wizard.HistoryActions;
-using RetailCorrector.Wizard.Managers;
-using RetailCorrector.Wizard.Windows;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using RetailCorrector.History;
+using RetailCorrector.History.Actions;
 
-namespace RetailCorrector.Wizard.UserControls
+namespace RetailCorrector.Editor.Receipt
 {
     public partial class ReceiptView : UserControl, INotifyPropertyChanged
     {
         public readonly static DependencyProperty DataSourceProperty =
-            DependencyProperty.Register(nameof(DataSource), typeof(Receipt), typeof(ReceiptView));
+            DependencyProperty.Register(nameof(DataSource), typeof(RetailCorrector.Receipt), typeof(ReceiptView));
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -27,9 +25,9 @@ namespace RetailCorrector.Wizard.UserControls
             }
         }
 
-        public Receipt DataSource
+        public RetailCorrector.Receipt DataSource
         {
-            get => (Receipt)GetValue(DataSourceProperty);
+            get => (RetailCorrector.Receipt)GetValue(DataSourceProperty);
             set => SetValue(DataSourceProperty, value);
         }
 
@@ -42,7 +40,7 @@ namespace RetailCorrector.Wizard.UserControls
 
         private void OpenDialog(object sender, MouseButtonEventArgs e)
         {
-            var i = WizardDataContext.Receipts.IndexOf(DataSource);
+            var i = Env.Receipts.IndexOf(DataSource);
             var wizard = new ReceiptWizard(DataSource);
             if(wizard.ShowDialog() == true)
                 HistoryController.Add(new EditReceipts(i, wizard.Data));

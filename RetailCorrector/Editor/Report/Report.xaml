@@ -1,13 +1,12 @@
-﻿<Window x:Class="RetailCorrector.Wizard.Windows.Report" Height="450"
+﻿<Window x:Class="RetailCorrector.Editor.Report.Report" Height="450"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:System;assembly=mscorlib" Width="800"
-        xmlns:inp="clr-namespace:System.Windows.Input;assembly=PresentationFramework"
         xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"        
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        xmlns:const="clr-namespace:RetailCorrector.Constants;assembly=RetailCorrector.Constants"
-        xmlns:d="clr-namespace:RetailCorrector;assembly=RetailCorrector.Data"
+        xmlns:const="clr-namespace:RetailCorrector.Constants"
+        xmlns:d="clr-namespace:RetailCorrector;assembly=RetailCorrector.PluginAPI"
         Title="Дизайнер отчета" WindowStyle="ToolWindow">
     <Window.Resources>
         <ObjectDataProvider x:Key="httpMethods" ObjectType="{x:Type s:Enum}" MethodName="GetValues">

@@ -1,8 +1,4 @@
 ﻿using RetailCorrector.Wizard.Converters;
-using RetailCorrector.Wizard.HistoryActions;
-using RetailCorrector.Wizard.Managers;
-using RetailCorrector.Wizard.ModuleSystem;
-using RetailCorrector.Wizard.UserControls;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -11,19 +7,24 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using RetailCorrector.History;
+using RetailCorrector.History.Actions;
+using RetailCorrector.Plugin;
+using RetailCorrector.PluginSystem;
+using RetailCorrector.Utils;
 using Xceed.Wpf.Toolkit;
 
-namespace RetailCorrector.Wizard.Windows
+namespace RetailCorrector.Parser
 {
     public partial class Parser : Window, INotifyPropertyChanged
     {
-        private AbstractSourceModule? _module;
-        public AbstractSourceModule? Module
+        private SourcePlugin? _plugin;
+        public SourcePlugin? Plugin
         {
-            get => _module;
+            get => _plugin;
             set
             {
-                _module = value;
+                _plugin = value;
                 OnPropertyChanged();
             }
         }
@@ -59,7 +60,7 @@ namespace RetailCorrector.Wizard.Windows
         public Parser()
         {
             CancelSource.Cancel();
-            ModuleCollection.Load().Wait();
+            PluginCollection.Load().Wait();
             PropertyChanged += ModuleChanged;
             InitializeComponent();
         }
@@ -67,15 +68,15 @@ namespace RetailCorrector.Wizard.Windows
         private void ModuleChanged(object? sender, PropertyChangedEventArgs e)
         {
             Items.Clear();
-            if (Module is null) return;
-            foreach(var prop in Module.GetType().GetProperties())
+            if (Plugin is null) return;
+            foreach(var prop in Plugin.GetType().GetProperties())
             {
                 var attr = prop.GetCustomAttribute<DisplayNameAttribute>();
                 if (attr is null) continue;
                 var control = new OptionControl(attr.DisplayName);
                 var name = prop.PropertyType.FullName;
                 FrameworkElement item = null!;
-                var bind = new Binding(prop.Name) { Source = Module };
+                var bind = new Binding(prop.Name) { Source = Plugin };
                 if (prop.PropertyType.IsEnum)
                 {
                     var items = prop.PropertyType.GetFields(BindingFlags.Public | BindingFlags.Static).Where(i => i.GetCustomAttribute<DisplayAttribute>() is not null);
@@ -133,7 +134,7 @@ namespace RetailCorrector.Wizard.Windows
         protected override async void OnClosed(EventArgs e)
         {
             await CancelSource.CancelAsync();
-            await ModuleCollection.Unload();
+            await PluginCollection.Unload();
             base.OnClosed(e);
         }
 
@@ -150,20 +151,20 @@ namespace RetailCorrector.Wizard.Windows
             await CancelSource.CancelAsync();
             OnPropertyChanged(nameof(IsEnabledCancelButton));
             OnPropertyChanged(nameof(IsEnabledStartButton));
-            Module!.ParseStarted -= ParseStarted;
-            Module!.ProgressUpdated -= ProgressUpdate;
+            Plugin!.ParseStarted -= ParseStarted;
+            Plugin!.ProgressUpdated -= ProgressUpdate;
         }
 
         private async void Start(object? s, RoutedEventArgs e)
         {
             CancelSource = new();
-            Module!.ParseStarted += ParseStarted;
-            Module!.ProgressUpdated += ProgressUpdate;
+            Plugin!.ParseStarted += ParseStarted;
+            Plugin!.ProgressUpdated += ProgressUpdate;
             OnPropertyChanged(nameof(IsEnabledCancelButton));
             OnPropertyChanged(nameof(IsEnabledStartButton));
             try
             {
-                var receipts = await Module!.Parse(CancelSource.Token);
+                var receipts = await Plugin!.Parse(CancelSource.Token);
                 CancelSource.Token.ThrowIfCancellationRequested();
                 HistoryController.Add(new AddReceipts([.. receipts]));
                 Cancel(null, new RoutedEventArgs());
@@ -172,7 +173,7 @@ namespace RetailCorrector.Wizard.Windows
             catch (Exception ex)
             {
                 if (!(ex is TaskCanceledException || ex is OperationCanceledException))
-                    ErrorAlert(ex, "Не удалось спарсить чеки!");
+                    AlertHelper.ErrorAlert(ex, "Не удалось спарсить чеки!");
                 else Log.Information("Парсинг отменен пользователем.");
             }
             finally

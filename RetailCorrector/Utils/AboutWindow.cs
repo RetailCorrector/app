@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 
-namespace RetailCorrector.Wizard.Windows;
+namespace RetailCorrector.Utils;
 
 public class AboutWindow : Window
 {

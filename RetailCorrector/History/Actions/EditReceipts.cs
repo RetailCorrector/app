@@ -1,16 +1,14 @@
-﻿using RetailCorrector.Wizard.Contexts;
-
-namespace RetailCorrector.Wizard.HistoryActions
+﻿namespace RetailCorrector.History.Actions
 {
     public readonly struct EditReceipts(int index, Receipt edited) : IHistoryAction
     {
         public string DisplayName => "Редактирование чека";
-        private readonly Receipt original = WizardDataContext.Receipts[index];
+        private readonly Receipt original = Env.Receipts[index];
 
         public void Undo() =>
-            WizardDataContext.Receipts[index] = original;
+            Env.Receipts[index] = original;
 
         public void Redo() =>
-            WizardDataContext.Receipts[index] = edited;
+            Env.Receipts[index] = edited;
     }
 }

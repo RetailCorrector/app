@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace RetailCorrector.Wizard.Extensions
+namespace RetailCorrector.Utils
 {
     public static class EnumHelper
     {
@@ -24,7 +24,6 @@ namespace RetailCorrector.Wizard.Extensions
         {
             var values = Enum.GetValues(type);
             var list = new List<KeyValuePair<Enum, string>>();
-            //var arr = Array.CreateInstance(typeof(KeyValuePair<Enum, string>), values.Length);
             for(var i = 0; i < values.Length; i++)
             {
                 var value = values.GetValue(i)!;

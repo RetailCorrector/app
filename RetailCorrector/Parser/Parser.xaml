@@ -1,10 +1,9 @@
-﻿<Window x:Class="RetailCorrector.Wizard.Windows.Parser"
+﻿<Window x:Class="RetailCorrector.Parser.Parser"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:local="clr-namespace:RetailCorrector.Wizard.Windows"
-        xmlns:mod="clr-namespace:RetailCorrector.Wizard.ModuleSystem"
+        xmlns:mod="clr-namespace:RetailCorrector.PluginSystem"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Title="Парсер чеков" Height="450" Width="796">
     <Grid Margin="10">
@@ -31,7 +30,7 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
-        <tk:WatermarkComboBox Grid.Row="2" ItemsSource="{Binding Source={x:Static mod:ModuleCollection.Modules}}"
+        <tk:WatermarkComboBox Grid.Row="2" ItemsSource="{Binding Source={x:Static mod:PluginCollection.Plugins}}"
                               DisplayMemberPath="Name" SelectedValuePath="EntryPoint" SelectedValue="{Binding Module}"
                               Watermark="Источник данных" IsEnabled="{Binding IsEnabledStartButton}"/>
         <ProgressBar Grid.Row="2" Grid.Column="2" Maximum="{Binding MaxProgress}" Value="{Binding CurrProgress}"/>

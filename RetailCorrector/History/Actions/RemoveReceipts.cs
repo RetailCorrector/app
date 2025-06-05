@@ -1,6 +1,4 @@
-﻿using RetailCorrector.Wizard.Contexts;
-
-namespace RetailCorrector.Wizard.HistoryActions
+﻿namespace RetailCorrector.History.Actions
 {
     public readonly struct RemoveReceipts(int[] indexes) : IHistoryAction
     {
@@ -10,13 +8,13 @@ namespace RetailCorrector.Wizard.HistoryActions
         public void Undo()
         {
             foreach (var (index, receipt) in _data)
-                WizardDataContext.Receipts.Insert(index, receipt);
+                Env.Receipts.Insert(index, receipt);
         }
 
         public void Redo()
         {
             foreach (var index in indexes.Reverse())
-                WizardDataContext.Receipts.RemoveAt(index);
+                Env.Receipts.RemoveAt(index);
         }
 
         private static (int, Receipt)[] InitData(int[] indexes)
@@ -25,7 +23,7 @@ namespace RetailCorrector.Wizard.HistoryActions
             for (var i = 0; i < indexes.Length; i++)
             {
                 var index = indexes[indexes.Length - i - 1];
-                res[i] = (index, WizardDataContext.Receipts[index]);
+                res[i] = (index, Env.Receipts[index]);
             }
             return res;
         }
