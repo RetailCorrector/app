@@ -7,8 +7,11 @@
 
         public void Undo()
         {
-            foreach (var (index, receipt) in _data)
-                Env.Receipts.Insert(index, receipt);
+            foreach (var (index, receipt) in _data.Reverse())
+                if(index == Env.Receipts.Count)
+                    Env.Receipts.Add(receipt);
+                else
+                    Env.Receipts.Insert(index, receipt);
         }
 
         public void Redo()
