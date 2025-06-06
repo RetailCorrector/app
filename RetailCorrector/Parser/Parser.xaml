@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:mod="clr-namespace:RetailCorrector.PluginSystem"
+        xmlns:mod="clr-namespace:RetailCorrector.Plugin"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Title="Парсер чеков" Height="450" Width="796">
     <Grid Margin="10">
@@ -30,8 +30,9 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
-        <tk:WatermarkComboBox Grid.Row="2" ItemsSource="{Binding Source={x:Static mod:PluginCollection.Plugins}}"
-                              DisplayMemberPath="Name" SelectedValuePath="EntryPoint" SelectedValue="{Binding Module}"
+        <tk:WatermarkComboBox Grid.Row="2" 
+                              ItemsSource="{Binding Source={x:Static mod:PluginController.SourcePlugins}}"
+                              DisplayMemberPath="Name" SelectedValue="{Binding Plugin}"
                               Watermark="Источник данных" IsEnabled="{Binding IsEnabledStartButton}"/>
         <ProgressBar Grid.Row="2" Grid.Column="2" Maximum="{Binding MaxProgress}" Value="{Binding CurrProgress}"/>
         <Button Grid.Row="2" Grid.Column="4" Content="Отмена" Click="Cancel" IsEnabled="{Binding IsEnabledCancelButton}"/>

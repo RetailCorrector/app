@@ -10,7 +10,6 @@ using System.Windows.Data;
 using RetailCorrector.History;
 using RetailCorrector.History.Actions;
 using RetailCorrector.Plugin;
-using RetailCorrector.PluginSystem;
 using RetailCorrector.Utils;
 using Xceed.Wpf.Toolkit;
 
@@ -60,7 +59,6 @@ namespace RetailCorrector.Parser
         public Parser()
         {
             CancelSource.Cancel();
-            PluginCollection.Load().Wait();
             PropertyChanged += ModuleChanged;
             InitializeComponent();
         }
@@ -134,7 +132,6 @@ namespace RetailCorrector.Parser
         protected override async void OnClosed(EventArgs e)
         {
             await CancelSource.CancelAsync();
-            await PluginCollection.Unload();
             base.OnClosed(e);
         }
 

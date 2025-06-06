@@ -10,5 +10,23 @@
                     indexes.Add(i);
             return indexes;
         }
+
+        public static T GetValueOrDefault<T>(this IList<T> coll, Index index, T defaultValue) =>
+            coll.Count <= index.Value ? defaultValue : coll[index];
+
+        public static bool TryFirstPop<T>(this List<T> coll, Predicate<T> cond, out T? value)
+            where T : struct
+        {
+            var index = coll.FindIndex(cond);
+            if (index == -1)
+            {
+                value = null;
+                return false;
+            }
+            value = coll[index];
+            coll.RemoveAt(index);
+            return true;
+        }
+
     }
 }

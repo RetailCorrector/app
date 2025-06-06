@@ -22,9 +22,9 @@ public static class Pathes
     /// </summary>
     public static readonly string Logs = SafeCombine(App, "Logs");
     /// <summary>
-    /// <code>C:\Program Files (x86)\RetailCorrector\Modules\</code>
+    /// <code>C:\Program Files (x86)\RetailCorrector\Plugins\</code>
     /// </summary>
-    public static readonly string Modules = SafeCombine(App, "Modules");
+    public static readonly string Plugins = SafeCombine(App, "Plugins");
     /// <summary>
     /// <code>C:\Program Files (x86)\RetailCorrector\Receipts\</code>
     /// </summary>

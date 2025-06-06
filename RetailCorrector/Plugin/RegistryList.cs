@@ -4,11 +4,11 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RetailCorrector.PluginSystem
+namespace RetailCorrector.Plugin
 {
-    public partial class RegistryList : Window
+    public class RegistryList : Window
     {
-        public static ObservableCollection<string> Registries { get; set; } = [];
+        public static ObservableCollection<string> Registries { get; } = [];
         public string Text { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;

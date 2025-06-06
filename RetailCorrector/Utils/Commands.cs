@@ -2,9 +2,9 @@
 using RetailCorrector.Editor.Receipt;
 using RetailCorrector.History;
 using RetailCorrector.History.Actions;
-using RetailCorrector.PluginSystem;
 using System.Diagnostics;
 using System.Windows.Input;
+using RetailCorrector.Plugin;
 
 namespace RetailCorrector.Utils
 {
@@ -50,7 +50,7 @@ namespace RetailCorrector.Utils
                 new CommandBinding(DuplicateReceipts, (_,_) => ReceiptPanel.Duplicate()),
                 new CommandBinding(RemoveReceipts, (_,_) => ReceiptPanel.Delete()),
 
-                new CommandBinding(OpenPluginManager, (_,_) => new PluginManager().ShowDialog()),
+                new CommandBinding(OpenPluginManager, (_,_) => new AssemblyDownloader().ShowDialog()),
                 new CommandBinding(OpenReportEditor, (_,_) => new Editor.Report.Report().ShowDialog()),
                 new CommandBinding(OpenCashier, (_,_) => new CashierView().ShowDialog()),
                 //new CommandBinding(OpenSettings, (_,_) => panel.Delete()),

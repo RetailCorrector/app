@@ -1,5 +1,6 @@
 ﻿using RetailCorrector.Utils;
 using System.Windows;
+using RetailCorrector.Plugin;
 
 namespace RetailCorrector
 {
@@ -20,6 +21,7 @@ namespace RetailCorrector
                     rollingInterval: RollingInterval.Day,
                     flushToDiskInterval: TimeSpan.FromMilliseconds(100))
                 .CreateLogger();
+            PluginController.Load();
         }
     }
 }
