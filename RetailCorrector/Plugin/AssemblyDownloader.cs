@@ -2,14 +2,13 @@
 using RetailCorrector.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Net.Http;
-using System.Runtime.Loader;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
 
 namespace RetailCorrector.Plugin;
@@ -38,14 +37,14 @@ public class AssemblyDownloader : Window, INotifyPropertyChanged
     {
         PropertyChanged += (_, e) =>
         {
-            if(e.PropertyName == nameof(CurrentRegistry)) UpdateModuleListAsync();
+            if(e.PropertyName == nameof(CurrentRegistry)) UpdateModuleList();
         };
         CommandBindings.Add(new CommandBinding(Commands.ExitDialog, (_, _) => Close()));
         CurrentRegistry = RegistryList.Registries.GetValueOrDefault(0, Links.DefaultRegistry);
         Draw();
     }
     
-    private void UpdateModuleListAsync()
+    private void UpdateModuleList()
     {
         Items.Clear();
         var remote = PullRemote().Result;
@@ -57,6 +56,8 @@ public class AssemblyDownloader : Window, INotifyPropertyChanged
                 Items.Add(new AssemblyView(local, this));
         }
     }
+
+    private void Refresh(object? s, RoutedEventArgs e) => UpdateModuleList();
 
     private async Task<RemoteAssemblies> PullRemote()
     {
@@ -83,9 +84,9 @@ public class AssemblyDownloader : Window, INotifyPropertyChanged
         var grid = new Grid { Margin = new Thickness(0, 10, 0, 10) };
         
         grid.AddColumn(new GridLength(10));
-        grid.AddColumn(new GridLength(5, GridUnitType.Star));
+        grid.AddColumn(new GridLength(1, GridUnitType.Star));
         grid.AddColumn(new GridLength(5));
-        grid.AddColumn(new GridLength(3, GridUnitType.Star));
+        grid.AddColumn(new GridLength(22));
         grid.AddColumn(new GridLength(5));
         grid.AddColumn(new GridLength(22));
         grid.AddColumn(new GridLength(10));
@@ -108,13 +109,16 @@ public class AssemblyDownloader : Window, INotifyPropertyChanged
     {
         ConfigureWindow();
         var grid = GenerateParent();
-        var search = new WatermarkTextBox { Watermark = "Поиск", IsEnabled = false };
-        // todo searching
-        grid.AddChild(search, 1);
         var registries = new WatermarkComboBox { Watermark = "Реестры плагинов не найдены" };
         registries.SetBinding(ItemsControl.ItemsSourceProperty, new Binding { Source = RegistryList.Registries });
         registries.SetBinding(ComboBox.SelectedItemProperty, nameof(CurrentRegistry));
-        grid.AddChild(registries, 3);
+        grid.AddChild(registries, 1);
+        var refresh = new Button { 
+            Content = "",
+            FontFamily = new FontFamily("Segoe MDL2 Assets")
+        };
+        refresh.Click += Refresh;
+        grid.AddChild(refresh, 3);
         grid.AddChild(new Button { Content = "...", Command = ShowRegistries }, 5);
         var masonry = new MasonryControl { Spacing = 5 };
         masonry.SetBinding(ItemsControl.ItemsSourceProperty, nameof(Items));
