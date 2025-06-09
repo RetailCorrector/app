@@ -51,9 +51,11 @@ public class AssemblyDownloader : Window, INotifyPropertyChanged
         var remote = PullRemote().Result;
         foreach (var assembly in remote.Assemblies)
             Items.Add(new AssemblyView(assembly, this));
-        foreach (var assembly in PluginController.Assemblies.Where(a =>
-                     Items.All(i => i.Remote!.Value.Info.Id == a.Info!.Value.Id)))
-            Items.Add(new AssemblyView(assembly, this));
+        foreach (var local in PluginController.Assemblies)
+        {
+            if(!remote.Assemblies.Any(a => a.Info.Id == ((AssemblyInfo)local.Info!).Id))
+                Items.Add(new AssemblyView(local, this));
+        }
     }
 
     private async Task<RemoteAssemblies> PullRemote()
