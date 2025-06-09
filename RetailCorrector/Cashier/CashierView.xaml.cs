@@ -198,15 +198,16 @@ namespace RetailCorrector.Cashier{
                         while (await Plugin.CountDocsInBuffer() <= MinBuffer);
                     }
                     var res = await Plugin.ProcessingReceipt(receipt);
-                    if (!res)
-                        throw new Exception("Не удалось отбить чек! Подробнее в лог-файле...");
+                    if (!res) throw new Exception();
                     Progress++;
                 }
             }
             catch (Exception ex)
             {
                 await Plugin.Disconnect();
-                AlertHelper.ErrorAlert(ex.Message);
+            }
+            finally
+            {
                 SetCancelling(true);
             }
         }
