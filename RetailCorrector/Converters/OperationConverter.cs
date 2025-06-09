@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace RetailCorrector.Wizard.Converters
+namespace RetailCorrector.Converters
 {
     public class OperationConverter : EnumDisplayNameConverter
     {

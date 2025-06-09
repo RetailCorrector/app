@@ -1,4 +1,4 @@
-﻿using RetailCorrector.Wizard.Converters;
+﻿using RetailCorrector.Converters;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using RetailCorrector.Utils;
 
-namespace RetailCorrector.Wizard.Converters
+namespace RetailCorrector.Converters
 {
 
     public class EnumDisplayNameConverter : IValueConverter

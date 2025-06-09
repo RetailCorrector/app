@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace RetailCorrector.Wizard.Converters
+namespace RetailCorrector.Converters
 {
     public class BoolValueConverter : IValueConverter
     {
