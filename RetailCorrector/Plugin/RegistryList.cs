@@ -15,8 +15,9 @@ namespace RetailCorrector.Plugin
 
         static RegistryList()
         {
-            if (!File.Exists(Pathes.RegistryList)) 
-                File.WriteAllText(Pathes.RegistryList, "");
+            if (!File.Exists(Pathes.RegistryList) || 
+                string.IsNullOrWhiteSpace(File.ReadAllText(Pathes.RegistryList))) 
+                File.WriteAllText(Pathes.RegistryList, Links.DefaultRegistry);
             Registries = [..File.ReadAllLines(Pathes.RegistryList)];
         }
 
