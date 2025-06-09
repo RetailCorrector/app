@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
 using System.Windows.Media;
 using RetailCorrector.Utils;
 using Path = System.Windows.Shapes.Path;
@@ -26,8 +24,7 @@ public class AssemblyView : UserControl, INotifyPropertyChanged
         PluginController.Unload();
         File.Delete(path);
         PluginController.Load();
-        if (Remote is not null) UpdateLocalInfo();
-        else _parent.Items.Remove(this);
+        _parent.UpdateModuleList();
     }
 
     private void Install(object? s, RoutedEventArgs e)
@@ -43,7 +40,7 @@ public class AssemblyView : UserControl, INotifyPropertyChanged
             content.CopyTo(file);
         }
         PluginController.Load();
-        UpdateLocalInfo();
+        _parent.UpdateModuleList();
     }
 
     public AssemblyView(RemoteAssembly origin, AssemblyDownloader parent)

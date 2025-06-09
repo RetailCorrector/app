@@ -44,7 +44,7 @@ public class AssemblyDownloader : Window, INotifyPropertyChanged
         Draw();
     }
     
-    private void UpdateModuleList()
+    public void UpdateModuleList()
     {
         Items.Clear();
         var remote = PullRemote().Result;
