@@ -41,7 +41,7 @@ namespace RetailCorrector.Editor.Receipt
                 CorrectionType = Context.CorrType,
                 FiscalSign = Context.Fiscal,
                 Operation = Context.Operation,
-                RoundedSum = Context.RoundedTotal ? (uint)Math.Round(Context.Total * 100) : null,
+                TotalSum = (uint)Math.Round(Context.Total * 100),
                 Payment = new Payment
                 {
                     Cash = (uint)Math.Round(Context.Cash * 100),

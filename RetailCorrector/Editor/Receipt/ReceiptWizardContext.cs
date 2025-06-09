@@ -99,7 +99,7 @@ public class ReceiptWizardContext : INotifyPropertyChanged
         Pre = data.Payment.Pre / 100.0;
         Post = data.Payment.Post / 100.0;
         Provision = data.Payment.Provision / 100.0;
-        RoundedTotal = data.RoundedSum.HasValue && data.RoundedSum.Value != data.Items.Sum(i => i.TotalSum);
+        RoundedTotal = data.TotalSum != data.Items.Sum(i => i.TotalSum);
         foreach (var pos in data.Items)
             Items.Add(new Position(this, pos));
     }

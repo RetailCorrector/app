@@ -48,7 +48,7 @@
             </ItemsControl>
             <DockPanel>
                 <TextBlock Text="ИТОГ" FontWeight="Bold" FontSize="14"/>
-                <TextBlock Text="{Binding DataSource.RoundedSum, StringFormat='≡{0:F2}', Converter={StaticResource calc}, ConverterParameter=/100}" HorizontalAlignment="Right" FontSize="14" FontWeight="Bold"/>
+                <TextBlock Text="{Binding DataSource.TotalSum, StringFormat='≡{0:F2}', Converter={StaticResource calc}, ConverterParameter=/100}" HorizontalAlignment="Right" FontSize="14" FontWeight="Bold"/>
             </DockPanel>
             <DockPanel Visibility="{Binding DataSource.Payment.Cash, Converter={StaticResource bool}, ConverterParameter=!0}">
                 <TextBlock Text="НАЛИЧНЫЕ" Margin="5,0,0,0"/>
