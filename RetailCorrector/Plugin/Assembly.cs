@@ -19,8 +19,8 @@ public class Assembly: IDisposable
         Plugins = [..types.Select(t => (IPlugin)Activator.CreateInstance(t)!)];
         foreach (var plugin in Plugins)
         {
-            plugin!.Notification -= Notify;
-            plugin.Logging -= Logging;
+            plugin!.Notification += Notify;
+            plugin.Logging += Logging;
             plugin.OnLoad(ctx).Wait();
         }
     }
