@@ -33,6 +33,8 @@ namespace RetailCorrector.Utils
 
         public static RoutedCommand InvertOperation { get; } = new(nameof(InvertOperation), typeof(Commands));
 
+        public static RoutedCommand ExitDialog { get; } = new(nameof(ExitDialog), typeof(Commands));
+
         public static CommandBinding[] Init()
         {
             SetupHotKeys();
@@ -94,6 +96,8 @@ namespace RetailCorrector.Utils
             InvertSelection.InputGestures.Add(HotKeys.InvertSelection);
 
             InvertOperation.InputGestures.Add(HotKeys.InvertOperation);
+
+            ExitDialog.InputGestures.Add(HotKeys.ExitDialog);
         }
     }
 }

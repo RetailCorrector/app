@@ -26,6 +26,7 @@ namespace RetailCorrector.Constants
         public readonly static KeyGesture InvertSelection = new(Key.I, ModifierKeys.Control);
 
         public readonly static KeyGesture InvertOperation = new(Key.I, ModifierKeys.Alt);
+        public readonly static KeyGesture ExitDialog = new(Key.Escape);
 
     }
 }

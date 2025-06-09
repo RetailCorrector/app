@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
+﻿using RetailCorrector.Utils;
+using System.ComponentModel;
 using System.Windows;
-using RetailCorrector.Utils;
+using System.Windows.Input;
 
 namespace RetailCorrector.Editor.Receipt
 {
@@ -17,6 +18,7 @@ namespace RetailCorrector.Editor.Receipt
 
         public ReceiptWizard()
         {
+            CommandBindings.Add(new CommandBinding(Commands.ExitDialog, (_, _) => Close()));
             IsCreate = true;
             Context = new();
             InitializeComponent();
@@ -24,6 +26,7 @@ namespace RetailCorrector.Editor.Receipt
 
         public ReceiptWizard(RetailCorrector.Receipt receipt)
         {
+            CommandBindings.Add(new CommandBinding(Commands.ExitDialog, (_, _) => Close()));
             IsCreate = false;
             Context = new(receipt);
             InitializeComponent();

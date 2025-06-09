@@ -106,6 +106,7 @@ namespace RetailCorrector.Editor.Report
         public Report()
         {
             Singleton = this;
+            CommandBindings.Add(new CommandBinding(Commands.ExitDialog, (_, _) => Close()));
             Escape.InputGestures.Add(new KeyGesture(Key.Escape));
             CommandBindings.Add(new CommandBinding(Escape, (_, _) => Close()));
             InitializeComponent();

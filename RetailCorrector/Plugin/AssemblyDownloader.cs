@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Masonry;
+using RetailCorrector.Utils;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
@@ -7,8 +9,7 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Masonry;
-using RetailCorrector.Utils;
+using System.Windows.Input;
 using Xceed.Wpf.Toolkit;
 
 namespace RetailCorrector.Plugin;
@@ -39,6 +40,7 @@ public class AssemblyDownloader : Window, INotifyPropertyChanged
         {
             if(e.PropertyName == nameof(CurrentRegistry)) UpdateModuleListAsync();
         };
+        CommandBindings.Add(new CommandBinding(Commands.ExitDialog, (_, _) => Close()));
         CurrentRegistry = RegistryList.Registries.GetValueOrDefault(0, Links.DefaultRegistry);
         Draw();
     }

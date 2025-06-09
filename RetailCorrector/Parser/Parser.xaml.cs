@@ -12,6 +12,7 @@ using RetailCorrector.History.Actions;
 using RetailCorrector.Plugin;
 using RetailCorrector.Utils;
 using Xceed.Wpf.Toolkit;
+using System.Windows.Input;
 
 namespace RetailCorrector.Parser
 {
@@ -58,6 +59,7 @@ namespace RetailCorrector.Parser
 
         public Parser()
         {
+            CommandBindings.Add(new CommandBinding(Commands.ExitDialog, (_, _) => Close()));
             CancelSource.Cancel();
             PropertyChanged += ModuleChanged;
             InitializeComponent();

@@ -1,15 +1,16 @@
-﻿using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
-using RetailCorrector.Plugin;
+﻿using RetailCorrector.Plugin;
 using RetailCorrector.Utils;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Data;
-using Xceed.Wpf.Toolkit;
+using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Windows;
-using System.IO;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using Xceed.Wpf.Toolkit;
 
 namespace RetailCorrector.Cashier{
     public partial class CashierView : Window, INotifyPropertyChanged
@@ -92,6 +93,8 @@ namespace RetailCorrector.Cashier{
                 if(e.PropertyName == nameof(Plugin))
                     UpdateSettings();
             };
+
+            CommandBindings.Add(new CommandBinding(Commands.ExitDialog, (_, _) => Close()));
             InitializeComponent();
         }
 
