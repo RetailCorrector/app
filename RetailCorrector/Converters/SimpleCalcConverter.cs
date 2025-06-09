@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
+using System.Text;
 using System.Windows.Data;
+using System.Data;
 
 namespace RetailCorrector.Converters
 {
@@ -7,31 +9,12 @@ namespace RetailCorrector.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double v = 0;
-            if(value is double)
-                v = (double)value;
-            else if(value is uint)
-                v = (uint)value / 1.0;
-            var s = (string)parameter;
-            if (s.StartsWith("*"))
-            {
-
-                s = s[1..];
-                if (double.TryParse(s, out var p))
-                    return v * p;
-            }
-            else if (s.StartsWith("/"))
-            {
-                s = s[1..];
-                if (double.TryParse(s, out var p))
-                    return v / p;
-            }
-            else
-            {
-                if (double.TryParse(s, out var p))
-                    return v + p;
-            }
-            return 0;
+            var expression = new StringBuilder($"{value}");
+            if (long.TryParse((string)parameter, out _) ||
+                double.TryParse((string)parameter, out _))
+                expression.Append('+');
+            expression.Append($"{parameter}");
+            return new DataTable().Compute(expression.ToString(), null);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
