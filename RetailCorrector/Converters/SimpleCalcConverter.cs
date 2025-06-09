@@ -14,6 +14,7 @@ namespace RetailCorrector.Converters
                 double.TryParse((string)parameter, out _))
                 expression.Append('+');
             expression.Append($"{parameter}");
+            expression.Replace(',', '.');
             return new DataTable().Compute(expression.ToString(), null);
         }
 
