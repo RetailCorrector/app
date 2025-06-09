@@ -1,5 +1,4 @@
-﻿using Masonry;
-using RetailCorrector.Utils;
+﻿using RetailCorrector.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
@@ -43,17 +42,17 @@ public class AssemblyDownloader : Window, INotifyPropertyChanged
         CurrentRegistry = RegistryList.Registries.GetValueOrDefault(0, Links.DefaultRegistry);
         Draw();
     }
-    
+
     public void UpdateModuleList()
     {
         Items.Clear();
         var remote = PullRemote().Result;
         foreach (var assembly in remote.Assemblies)
-            Items.Add(new AssemblyView(assembly, this));
+            Items.Add(new AssemblyView(assembly, this) { Margin = new Thickness(2.5) });
         foreach (var local in PluginController.Assemblies)
         {
-            if(!remote.Assemblies.Any(a => a.Info.Id == ((AssemblyInfo)local.Info!).Id))
-                Items.Add(new AssemblyView(local, this));
+            if (!remote.Assemblies.Any(a => a.Info.Id == ((AssemblyInfo)local.Info!).Id))
+                Items.Add(new AssemblyView(local, this) { Margin = new Thickness(2.5) });
         }
     }
 
@@ -120,13 +119,17 @@ public class AssemblyDownloader : Window, INotifyPropertyChanged
         refresh.Click += Refresh;
         grid.AddChild(refresh, 3);
         grid.AddChild(new Button { Content = "...", Command = ShowRegistries }, 5);
-        var masonry = new MasonryControl { Spacing = 5 };
-        masonry.SetBinding(ItemsControl.ItemsSourceProperty, nameof(Items));
+        var panel = new ItemsControl
+        {
+            ItemsPanel = new ItemsPanelTemplate { VisualTree = new FrameworkElementFactory(typeof(WrapPanel)) },
+            Margin = new Thickness(-2.5)
+        };
+        panel.SetBinding(ItemsControl.ItemsSourceProperty, nameof(Items));
         var scroll = new ScrollViewer
         {
             VerticalScrollBarVisibility=ScrollBarVisibility.Hidden,
             HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled,
-            Content = masonry
+            Content = panel
         };
         grid.AddChild(scroll, 1, 2, 6);
         Content = grid;
