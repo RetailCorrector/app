@@ -32,8 +32,16 @@ namespace RetailCorrector.Editor.Receipt
             set => SetValue(DataSourceProperty, value);
         }
 
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+            if (e.Property.Name == nameof(DataSource))
+                InvalidateVisual();
+        }
+
         public ReceiptView()
         {
+            PropertyChanged += (_, _) => InvalidateVisual();
             Width = 190;
             MouseLeftButtonDown += SwitchSelection;
             MouseRightButtonDown += OpenDialog;
