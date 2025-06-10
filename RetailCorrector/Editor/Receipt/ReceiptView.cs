@@ -120,7 +120,8 @@ namespace RetailCorrector.Editor.Receipt
             var text = GenText(pos.Name);
             ctx.DrawText(text, new Point(5, y));
             y += text.Height;
-            text = GenText($"{(pos.Price / 100.0):F2} x {(pos.Quantity / 1000.0):0.###}");
+            var unit = DisplayInfo.ShortMeasureUnits.GetValueOrDefault(pos.MeasureUnit, "");
+            text = GenText($"{(pos.Price / 100.0):F2} x {(pos.Quantity / 1000.0):0.###} {unit}");
             ctx.DrawText(text, new Point(15, y));
             text = GenText($"{(pos.TotalSum / 100.0):F2}");
             ctx.DrawText(text, new Point(185 - text.Width, y));
