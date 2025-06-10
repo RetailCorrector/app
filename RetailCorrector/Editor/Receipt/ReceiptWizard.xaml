@@ -11,35 +11,15 @@
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
-        <ObjectDataProvider ObjectType="{x:Type e:EnumHelper}" MethodName="GetDisplayNames" x:Key="measures">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="r:MeasureUnit"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider ObjectType="{x:Type e:EnumHelper}" MethodName="GetDisplayNames" x:Key="payTypes">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="r:PaymentType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider ObjectType="{x:Type e:EnumHelper}" MethodName="GetDisplayNames" x:Key="posTypes">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="r:PositionType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider ObjectType="{x:Type e:EnumHelper}" MethodName="GetDisplayNames" x:Key="taxRates">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="r:TaxRate"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
     </Window.Resources>
     <StackPanel Orientation="Horizontal" Margin="5">
         <StackPanel>
             <TextBlock Margin="5,5,5,0" Text="Операция документа"/>
-            <ComboBox ItemsSource="{Binding Operations}" Margin="5"
+            <ComboBox ItemsSource="{StaticResource operations}" Margin="5"
                       DisplayMemberPath="Value" SelectedValuePath="Key"
                       SelectedValue="{Binding Context.Operation, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Margin="5,5,5,0" Text="Тип коррекции"/>
-            <ComboBox ItemsSource="{Binding CorrTypes}" Margin="5" 
+            <ComboBox ItemsSource="{StaticResource correctionTypes}" Margin="5" 
                       DisplayMemberPath="Value" SelectedValuePath="Key"
                       SelectedValue="{Binding Context.CorrType, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Margin="5,5,5,0" Text="Номер акта"/>
@@ -75,19 +55,19 @@
                             <TextBlock Margin="5,5,5,0" Text="Наименование"/>
                             <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Тип позиции"/>
-                            <ComboBox ItemsSource="{Binding Source={StaticResource posTypes}}" 
+                            <ComboBox ItemsSource="{StaticResource posTypes}" 
                                       DisplayMemberPath="Value" SelectedValuePath="Key"
                                       SelectedValue="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Ставка НДС"/>
-                            <ComboBox ItemsSource="{Binding Source={StaticResource taxRates}}" 
+                            <ComboBox ItemsSource="{StaticResource taxes}" 
                                       DisplayMemberPath="Value" SelectedValuePath="Key"
                                       SelectedValue="{Binding Tax, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Способ оплаты"/>
-                            <ComboBox ItemsSource="{Binding Source={StaticResource payTypes}}" 
+                            <ComboBox ItemsSource="{StaticResource payTypes}" 
                                       DisplayMemberPath="Value" SelectedValuePath="Key"
                                       SelectedValue="{Binding Pay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Единица измерения"/>
-                            <ComboBox ItemsSource="{Binding Source={StaticResource measures}}" 
+                            <ComboBox ItemsSource="{StaticResource measures}" 
                                       DisplayMemberPath="Value" SelectedValuePath="Key"
                                       SelectedValue="{Binding Measure, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Цена"/>

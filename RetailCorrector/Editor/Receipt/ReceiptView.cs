@@ -1,6 +1,5 @@
 ﻿using RetailCorrector.History;
 using RetailCorrector.History.Actions;
-using RetailCorrector.Utils;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
@@ -51,11 +50,11 @@ namespace RetailCorrector.Editor.Receipt
         protected override void OnRender(DrawingContext ctx)
         {
             var pen = new Pen(Brushes.Black, IsSelected ? 2 : 1);
-            var operation = EnumHelper.GetDisplayNames<Operation>().ToDictionary()[DataSource.Operation];
+            var operation = DisplayInfo.Operations[DataSource.Operation];
             if (!operation.EndsWith('а')) operation += 'а';
             var text = GenText($"Чек {operation.ToLower()}", 13);
             ctx.DrawText(text, new Point((190 - text.Width) / 2, 5));
-            text = GenText(EnumHelper.GetDisplayNames<CorrType>().ToDictionary()[DataSource.CorrectionType]);
+            text = GenText(DisplayInfo.CorrectionTypes[DataSource.CorrectionType]);
             ctx.DrawText(text, new Point(5, 21));
             text = GenText(DataSource.ActNumber ?? "");
             ctx.DrawText(text, new Point(185 - text.Width, 21));

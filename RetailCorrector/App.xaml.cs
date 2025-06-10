@@ -23,5 +23,15 @@ namespace RetailCorrector
                 .CreateLogger();
             PluginController.Load();
         }
+
+        public App()
+        {
+            Resources.Add("measures", DisplayInfo.MeasureUnits.ToArray());
+            Resources.Add("taxes", DisplayInfo.TaxRates.ToArray());
+            Resources.Add("posTypes", DisplayInfo.PositionTypes.ToArray());
+            Resources.Add("payTypes", DisplayInfo.PaymentTypes.ToArray());
+            Resources.Add("operations", DisplayInfo.Operations.ToArray());
+            Resources.Add("correctionTypes", DisplayInfo.CorrectionTypes.ToArray());
+        }
     }
 }

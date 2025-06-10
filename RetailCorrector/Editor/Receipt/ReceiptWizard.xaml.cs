@@ -8,8 +8,6 @@ namespace RetailCorrector.Editor.Receipt
     public partial class ReceiptWizard : Window, INotifyPropertyChanged
     {
         public ReceiptWizardContext? Context { get; init; }
-        public KeyValuePair<Operation, string>[] Operations { get; init; } = EnumHelper.GetDisplayNames<Operation>();
-        public KeyValuePair<CorrType, string>[] CorrTypes { get; init; } = EnumHelper.GetDisplayNames<CorrType>();
         public RetailCorrector.Receipt Data { get; private set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
