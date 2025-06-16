@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,40 +15,11 @@ using System.Windows.Input;
 
 namespace RetailCorrector.Parser
 {
-    public partial class Parser : Window, INotifyPropertyChanged
+    public partial class Parser : Window
     {
-        private SourcePlugin? _plugin;
-        public SourcePlugin? Plugin
-        {
-            get => _plugin;
-            set
-            {
-                _plugin = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private int _maxProgress = 1;
-        public int MaxProgress
-        {
-            get => _maxProgress;
-            set
-            {
-                _maxProgress = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private int _currProgress = 0;
-        public int CurrProgress
-        {
-            get => _currProgress;
-            set
-            {
-                _currProgress = value;
-                OnPropertyChanged();
-            }
-        }
+        [NotifyUpdated] private SourcePlugin? _plugin;
+        [NotifyUpdated] private int _maxProgress = 1;
+        [NotifyUpdated] private int _currProgress = 0;
 
         public bool IsEnabledCancelButton => !CancelSource.IsCancellationRequested;
         public bool IsEnabledStartButton => CancelSource.IsCancellationRequested;
@@ -126,10 +96,6 @@ namespace RetailCorrector.Parser
                 Items.Add(control.WrapBorder());
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string property = "") =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
         protected override async void OnClosed(EventArgs e)
         {

@@ -5,12 +5,10 @@ using System.Windows.Input;
 
 namespace RetailCorrector.Editor.Receipt
 {
-    public partial class ReceiptWizard : Window, INotifyPropertyChanged
+    public partial class ReceiptWizard : Window
     {
         public ReceiptWizardContext? Context { get; init; }
         public RetailCorrector.Receipt Data { get; private set; }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public bool IsCreate { get; }
 

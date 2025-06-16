@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -10,7 +8,7 @@ using RetailCorrector.Utils;
 
 namespace RetailCorrector.Editor.Report
 {
-    public partial class Report : Window, INotifyPropertyChanged
+    public partial class Report : Window
     {
         public Command WritePattern { get; } = new(LocalWritePattern);
         public RoutedCommand Escape { get; } = new(nameof(Escape), typeof(Report));
@@ -20,76 +18,19 @@ namespace RetailCorrector.Editor.Report
         {
             var text = $"`{(string)pattern!}`";
             var index = Singleton!.body.CaretIndex;
-            Singleton.Body = Singleton.Body.Insert(Singleton.body.CaretIndex, text);
+            Singleton.Content = Singleton.Content.Insert(Singleton.body.CaretIndex, text);
             Singleton.body.CaretIndex = index + text.Length;
         }
 
-        public string Url
-        {
-            get => _url;
-            set
-            {
-                if (_url == value) return;
-                _url = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _url = Env.Report.Url;
-
-        public HttpMethod Method
-        {
-            get => _method;
-            set
-            {
-                if (_method == value) return;
-                _method = value;
-                OnPropertyChanged();
-            }
-        }
-        private HttpMethod _method = Env.Report.Method;
-
-        public string Body
-        {
-            get => _content;
-            set
-            {
-                if (_content == value) return;
-                _content = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _content = Env.Report.Content;
-
-        public string ContentType
-        {
-            get => _contentType;
-            set
-            {
-                if (_contentType == value) return;
-                _contentType = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _contentType = Env.Report.ContentType;
-
         public int HeaderIndex { get; set; } = -1;
 
-        public bool IsFreeRequest
-        {
-            get => _isFreeRequest;
-            set {
-                if (_isFreeRequest == value) return;
-                _isFreeRequest = value;
-                OnPropertyChanged();
-            }
-        }
-        private bool _isFreeRequest = true;
+        [NotifyUpdated] private string _url = Env.Report.Url;
+        [NotifyUpdated] private HttpMethod _method = Env.Report.Method;
+        [NotifyUpdated] private string _content = Env.Report.Content;
+        [NotifyUpdated] private string _contentType = Env.Report.ContentType;
+        [NotifyUpdated] private bool _isFreeRequest = true;
 
         public ObservableCollection<StringsPair> Headers { get; set; } = GenHeaders();
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "") =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         private static ObservableCollection<StringsPair> GenHeaders()
         {
@@ -129,9 +70,9 @@ namespace RetailCorrector.Editor.Report
                         Log.Information($"{header.Key}: {header.Value}");
                     }
                 }
-                if (!string.IsNullOrWhiteSpace(Body))
+                if (!string.IsNullOrWhiteSpace(Content))
                 {
-                    var body = $"{Body}";
+                    var body = $"{Content}";
                     body = Regex.Replace(body, "`([a-z:]*?)`", "555");
                     request.Content = new StringContent(body, MediaTypeHeaderValue.Parse(ContentType));
                     Log.Information(body);
@@ -178,7 +119,7 @@ namespace RetailCorrector.Editor.Report
             var report = Env.Report;
             report.Method = Method;
             report.Url = Url;
-            report.Content = Body;
+            report.Content = Content;
             report.Headers = [];
             foreach (var header in Headers)
             {

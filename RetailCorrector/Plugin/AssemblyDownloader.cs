@@ -1,6 +1,5 @@
 ﻿using RetailCorrector.Utils;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Net.Http;
 using System.Text.Json;
 using System.Windows;
@@ -12,23 +11,12 @@ using Xceed.Wpf.Toolkit;
 
 namespace RetailCorrector.Plugin;
 
-public class AssemblyDownloader : Window, INotifyPropertyChanged
+public partial class AssemblyDownloader : Window
 {
     public ObservableCollection<AssemblyView> Items { get; } = [];
     
-    private string _currentRegistry;
-    public string CurrentRegistry
-    {
-        get => _currentRegistry;
-        set
-        {
-            if (_currentRegistry == value) return;
-            _currentRegistry = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentRegistry)));
-        }
-    }
+    [NotifyUpdated] private string _currentRegistry;
     
-    public event PropertyChangedEventHandler? PropertyChanged;
     
     private Command ShowRegistries { get; } = new(_ => new RegistryList().ShowDialog());
     

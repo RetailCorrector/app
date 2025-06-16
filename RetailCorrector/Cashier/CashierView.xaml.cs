@@ -2,10 +2,7 @@
 using RetailCorrector.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,67 +10,19 @@ using System.Windows.Input;
 using Xceed.Wpf.Toolkit;
 
 namespace RetailCorrector.Cashier{
-    public partial class CashierView : Window, INotifyPropertyChanged
+    public partial class CashierView : Window
     {
-        public int MinBuffer
-        {
-            get => _minBuffer;
-            set
-            {
-                _minBuffer = value;
-                OnPropertyChanged();
-            }
-        }
-        private int _minBuffer = 20;
-        public int MaxBuffer
-        {
-            get => _maxBuffer;
-            set
-            {
-                _maxBuffer = value;
-                OnPropertyChanged();
-            }
-        }
-        private int _maxBuffer = 30;
-        public int Progress
-        {
-            get => _progress;
-            set
-            {
-                _progress = value;
-                OnPropertyChanged();
-            }
-        }
-        private int _progress = 0;
-        public int MaxProgress
-        {
-            get => _maxProgress;
-            set
-            {
-                _maxProgress = value;
-                OnPropertyChanged();
-            }
-        }
-        private int _maxProgress = 1;
-        public FiscalPlugin? Plugin
-        {
-            get => _current;
-            set
-            {
-                _current = value;
-                OnPropertyChanged();
-            }
-        }
-        private FiscalPlugin? _current;
         public ObservableCollection<UIElement> SettingsElements { get; } = [];
 
         private CancellationTokenSource _cancelSource = new();
         public bool Cancelled => _cancelSource.IsCancellationRequested;
         public bool Running => !_cancelSource.IsCancellationRequested;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propName = "")=>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        [NotifyUpdated] private int _minBuffer = 20;
+        [NotifyUpdated] private int _maxBuffer = 30;
+        [NotifyUpdated] private int _progress = 0;
+        [NotifyUpdated] private int _maxProgress = 1;
+        [NotifyUpdated] private FiscalPlugin? _plugin;
 
         private void SetCancelling(bool cancelling)
         {

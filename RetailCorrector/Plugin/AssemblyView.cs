@@ -9,7 +9,7 @@ using Path = System.Windows.Shapes.Path;
 
 namespace RetailCorrector.Plugin;
 
-public class AssemblyView : UserControl, INotifyPropertyChanged
+public class AssemblyView : UserControl
 {
     public RemoteAssembly? Remote { get; init; }
     private Assembly? _local;

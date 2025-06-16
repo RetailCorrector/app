@@ -1,6 +1,5 @@
 ﻿using RetailCorrector.History;
 using RetailCorrector.History.Actions;
-using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
@@ -8,23 +7,13 @@ using System.Windows.Media;
 
 namespace RetailCorrector.Editor.Receipt
 {
-    public partial class ReceiptView : FrameworkElement, INotifyPropertyChanged
+    public partial class ReceiptView : FrameworkElement
     {
         public readonly static DependencyProperty DataSourceProperty =
             DependencyProperty.Register(nameof(DataSource), typeof(RetailCorrector.Receipt), typeof(ReceiptView));
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        [NotifyUpdated] private bool _isSelected = false;
 
-        private bool _isSelected = false;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
-            }
-        }
         public RetailCorrector.Receipt DataSource
         {
             get => (RetailCorrector.Receipt)GetValue(DataSourceProperty);
