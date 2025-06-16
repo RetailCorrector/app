@@ -8,33 +8,8 @@ using RetailCorrector.Plugin;
 
 namespace RetailCorrector.Utils
 {
-    public static class Commands
+    public static partial class Commands
     {
-        public static RoutedCommand Undo { get; } = new(nameof(Undo), typeof(Commands));
-        public static RoutedCommand Redo { get; } = new(nameof(Redo), typeof(Commands));
-
-        public static RoutedCommand AddReceipt { get; } = new(nameof(AddReceipt), typeof(Commands));
-        public static RoutedCommand ParseReceipts { get; } = new(nameof(ParseReceipts), typeof(Commands));
-        public static RoutedCommand PasteReceipt { get; } = new(nameof(PasteReceipt), typeof(Commands));
-        public static RoutedCommand DuplicateReceipts { get; } = new(nameof(DuplicateReceipts), typeof(Commands));
-        public static RoutedCommand RemoveReceipts { get; } = new(nameof(RemoveReceipts), typeof(Commands));
-
-        public static RoutedCommand OpenPluginManager { get; } = new(nameof(OpenPluginManager), typeof(Commands));
-        public static RoutedCommand OpenReportEditor { get; } = new(nameof(OpenReportEditor), typeof(Commands));
-        public static RoutedCommand OpenCashier { get; } = new(nameof(OpenCashier), typeof(Commands));
-        public static RoutedCommand OpenSettings { get; } = new(nameof(OpenSettings), typeof(Commands));
-        public static RoutedCommand OpenConsole { get; } = new(nameof(OpenConsole), typeof(Commands));
-        public static RoutedCommand OpenAbout { get; } = new(nameof(OpenAbout), typeof(Commands));
-        public static RoutedCommand OpenDocs { get; } = new(nameof(OpenDocs), typeof(Commands));
-
-        public static RoutedCommand Clear { get; } = new(nameof(Clear), typeof(Commands));
-
-        public static RoutedCommand InvertSelection { get; } = new(nameof(InvertSelection), typeof(Commands));
-
-        public static RoutedCommand InvertOperation { get; } = new(nameof(InvertOperation), typeof(Commands));
-
-        public static RoutedCommand ExitDialog { get; } = new(nameof(ExitDialog), typeof(Commands));
-
         public static CommandBinding[] Init()
         {
             SetupHotKeys();
@@ -72,32 +47,5 @@ namespace RetailCorrector.Utils
             ];
         }
 
-        private static void SetupHotKeys()
-        {
-            Undo.InputGestures.Add(HotKeys.Undo);
-            Redo.InputGestures.Add(HotKeys.Redo);
-
-            AddReceipt.InputGestures.Add(HotKeys.AddReceipt);
-            ParseReceipts.InputGestures.Add(HotKeys.ParseReceipts);
-            PasteReceipt.InputGestures.Add(HotKeys.PasteReceipt);
-            DuplicateReceipts.InputGestures.Add(HotKeys.DuplicateReceipts);
-            RemoveReceipts.InputGestures.Add(HotKeys.RemoveReceipts);
-
-            OpenPluginManager.InputGestures.Add(HotKeys.OpenPluginManager);
-            OpenReportEditor.InputGestures.Add(HotKeys.OpenReportEditor);
-            OpenCashier.InputGestures.Add(HotKeys.OpenCashier);
-            OpenSettings.InputGestures.Add(HotKeys.OpenSettings);
-            OpenDocs.InputGestures.Add(HotKeys.OpenDocs);
-            OpenConsole.InputGestures.Add(HotKeys.OpenConsole);
-            OpenAbout.InputGestures.Add(HotKeys.OpenAbout);
-
-            Clear.InputGestures.Add(HotKeys.Clear);
-
-            InvertSelection.InputGestures.Add(HotKeys.InvertSelection);
-
-            InvertOperation.InputGestures.Add(HotKeys.InvertOperation);
-
-            ExitDialog.InputGestures.Add(HotKeys.ExitDialog);
-        }
     }
 }
