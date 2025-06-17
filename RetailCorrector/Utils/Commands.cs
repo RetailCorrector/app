@@ -44,6 +44,7 @@ namespace RetailCorrector.Utils
                 new CommandBinding(InvertSelection, (_,_) => ReceiptPanel.InvertSelect()),
 
                 new CommandBinding(InvertOperation, (_,_) => ReceiptPanel.InvertOperation()),
+                new CommandBinding(MultiEditor, (_,_) => new Editor.Multi.Window().ShowDialog()),
             ];
         }
     }

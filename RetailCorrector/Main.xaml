@@ -26,6 +26,7 @@
                 <MenuItem Header="Инвертировать выделение" Command="{Binding Source={x:Static u:Commands.InvertSelection}}"/>
                 <Separator/>
                 <MenuItem Header="Добавить" Command="{Binding Source={x:Static u:Commands.AddReceipt}}"/>
+                <MenuItem Header="Массовые редактор" Command="{Binding Source={x:Static u:Commands.MultiEditor}}"/>
                 <MenuItem Header="Дублировать" Command="{Binding Source={x:Static u:Commands.DuplicateReceipts}}"/>
                 <MenuItem Header="Инвертировать тип чека" Command="{Binding Source={x:Static u:Commands.InvertOperation}}" />
                 <MenuItem Header="Удалить" Command="{Binding Source={x:Static u:Commands.RemoveReceipts}}"/>
