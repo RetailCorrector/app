@@ -59,15 +59,15 @@ namespace RetailCorrector.Editor.Report
             {
                 IsFreeRequest = false;
                 using var client = new HttpClient();
-                Log.Information($"Тестирование шаблона отчета: {Method:F}");
-                Log.Information(Url);
+                Alert.Debug($"Тестирование шаблона отчета: {Method:F}");
+                Alert.Debug(Url);
                 using var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Parse(Method.ToString()), Url);
                 foreach (var header in Headers)
                 {
                     if (!string.IsNullOrWhiteSpace(header.Key) && !string.IsNullOrWhiteSpace(header.Value))
                     {
                         request.Headers.Add(header.Key, header.Value);
-                        Log.Information($"{header.Key}: {header.Value}");
+                        Alert.Debug($"{header.Key}: {header.Value}");
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(Body))
@@ -75,13 +75,13 @@ namespace RetailCorrector.Editor.Report
                     var body = $"{Body}";
                     body = Regex.Replace(body, "`([a-z:]*?)`", "555");
                     request.Content = new StringContent(body, MediaTypeHeaderValue.Parse(ContentType));
-                    Log.Information(body);
+                    Alert.Debug(body);
                 }
                 using var resp = await client.SendAsync(request);
                 var code = (int)resp.StatusCode;
-                Log.Information($"Результат тестирования: {code}");
+                Alert.Debug($"Результат тестирования: {code}");
                 var content = await resp.Content.ReadAsStringAsync();
-                Log.Information(content);
+                Alert.Debug(content);
                 var status = code switch
                 {
                     >= 100 and <= 199 or >= 300 and <= 399 
@@ -97,7 +97,7 @@ namespace RetailCorrector.Editor.Report
             }
             catch (Exception ex)
             {
-                AlertHelper.ErrorAlert(ex, "Ошибка тестирования запроса отчета");
+                Alert.Error("Ошибка тестирования запроса отчета", ex);
             }
             finally
             {

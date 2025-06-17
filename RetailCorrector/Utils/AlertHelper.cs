@@ -4,22 +4,47 @@ namespace RetailCorrector.Utils
 {
     public static class AlertHelper
     {
-        public static void ErrorAlert(Exception e, string text)
+        /// <summary>
+        /// Ошибка, вызывающая завершение работы программы
+        /// </summary>
+        public static void Fatal(string text, Exception? e = null)
+        {
+            Log.Fatal(e, text);
+            MessageBox.Show(text, "КРИТИЧЕСКАЯ ОШИБКА!!!", MessageBoxButton.OK, MessageBoxImage.Hand);
+            Environment.Exit(-1);
+        }
+
+        /// <summary>
+        /// Ошибка
+        /// </summary>
+        public static void Error(string text, Exception? e = null)
         {
             Log.Error(e, text);
-            MessageBox.Show(e.Message, text, 0, MessageBoxImage.Error);
+            MessageBox.Show(text, "", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        public static void ErrorAlert(string text)
+        /// <summary>
+        /// Предупреждение
+        /// </summary>
+        public static void Warning(string text, Exception? e = null)
         {
-            Log.Error(text);
-            MessageBox.Show(text, "", 0, MessageBoxImage.Error);
+            Log.Warning(e, text);
+            MessageBox.Show(text, "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
 
-        public static void Alert(string text)
+        /// <summary>
+        /// Запись в лог с оповщением
+        /// </summary>
+        public static void Info(string text, Exception? e = null)
         {
-            Log.Information(text);
-            MessageBox.Show(text);
+            Log.Information(e, text);
+            MessageBox.Show(text, "", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        /// <summary>
+        /// Тихая запись в лог
+        /// </summary>
+        public static void Debug(string text, Exception? e = null) =>
+            Log.Debug(e, text);
     }
 }

@@ -24,7 +24,7 @@
     <Using Include="RetailCorrector.Constants" />
     <Using Include="Serilog" />
     <Using Include="RetailCorrector.Attributes" />
-    <Using Include="RetailCorrector.Utils.AlertHelper" Static="true"/>
+    <Using Include="RetailCorrector.Utils.AlertHelper" Alias="Alert"/>
   </ItemGroup>
 
   <ItemGroup>

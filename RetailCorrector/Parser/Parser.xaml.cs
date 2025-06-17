@@ -138,8 +138,8 @@ namespace RetailCorrector.Parser
             catch (Exception ex)
             {
                 if (!(ex is TaskCanceledException || ex is OperationCanceledException))
-                    AlertHelper.ErrorAlert(ex, "Не удалось спарсить чеки!");
-                else Log.Information("Парсинг отменен пользователем.");
+                    Alert.Error("Не удалось спарсить чеки!", ex);
+                else Alert.Debug("Парсинг отменен пользователем.");
             }
             finally
             {

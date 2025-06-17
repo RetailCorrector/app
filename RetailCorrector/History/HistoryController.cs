@@ -11,8 +11,8 @@ namespace RetailCorrector.History
 
         public static void Undo()
         {
-            if (_currentIndex == -1) return; 
-            Log.Information("Отменяется действие: {Action}...", _current!.Action.DisplayName);
+            if (_currentIndex == -1) return;
+            Alert.Info($"Отменяется действие: {_current!.Action.DisplayName}...");
             _current.Action.Undo();
             var _previous = _current.Previous;
             _current = _previous;
@@ -25,7 +25,7 @@ namespace RetailCorrector.History
             if (_currentIndex == DisplayItems.Count - 1) return;
             var _next = (_current?.Next) ?? _begin;
             if (_next is null) return;
-            Log.Information("Выполняется действие: {Action}...", _next.Action.DisplayName);
+            Alert.Info($"Выполняется действие: {_next.Action.DisplayName}...");
             _next.Action.Redo();
             _current = _next;
             _currentIndex++;
@@ -34,7 +34,7 @@ namespace RetailCorrector.History
 
         public static void Add(IHistoryAction action)
         {
-            Log.Information("Выполняется действие: {Action}...", action.DisplayName);
+            Alert.Info($"Выполняется действие: {action.DisplayName}...");
             action.Redo();
             if (_currentIndex == -1)
                 _begin = _current = new Item(action);
@@ -52,7 +52,7 @@ namespace RetailCorrector.History
 
         public static void Clear()
         {
-            Log.Information("Очистка истории...");
+            Alert.Info("Очистка истории...");
             _currentIndex = -1;
             _current = _begin = null;
             DisplayItems.Clear();

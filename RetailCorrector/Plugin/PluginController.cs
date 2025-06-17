@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Loader;
-using RetailCorrector.Utils;
 
 namespace RetailCorrector.Plugin;
 
@@ -27,7 +26,7 @@ public static class PluginController
             catch(Exception ex)
             {
                 _stream.Dispose();
-                AlertHelper.ErrorAlert(ex, $"Не удалось загрузить сборку {Path.GetFileNameWithoutExtension(file)}");
+                Alert.Error($"Не удалось загрузить сборку {Path.GetFileNameWithoutExtension(file)}", ex);
             }
         }
         foreach (var plugin in assemblies.SelectMany(SearchPlugins<SourcePlugin>))
