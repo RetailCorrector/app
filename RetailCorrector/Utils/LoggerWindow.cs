@@ -22,6 +22,7 @@ namespace RetailCorrector.Utils
             textBox.Foreground = Brushes.White;
             textBox.IsReadOnly = true;
             textBox.FontSize = 12;
+            textBox.ClipToBounds = true;
             textBox.TextWrapping = TextWrapping.WrapWithOverflow;
             textBox.FontFamily = new FontFamily("Cascadia Mono");
             textBox.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;

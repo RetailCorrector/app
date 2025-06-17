@@ -18,7 +18,7 @@ namespace RetailCorrector.Editor.Report
         {
             var text = $"`{(string)pattern!}`";
             var index = Singleton!.body.CaretIndex;
-            Singleton.Content = Singleton.Content.Insert(Singleton.body.CaretIndex, text);
+            Singleton.Body = Singleton.Body.Insert(Singleton.body.CaretIndex, text);
             Singleton.body.CaretIndex = index + text.Length;
         }
 
@@ -26,7 +26,7 @@ namespace RetailCorrector.Editor.Report
 
         [NotifyUpdated] private string _url = Env.Report.Url;
         [NotifyUpdated] private HttpMethod _method = Env.Report.Method;
-        [NotifyUpdated] private string _content = Env.Report.Content;
+        [NotifyUpdated] private string _body = Env.Report.Content;
         [NotifyUpdated] private string _contentType = Env.Report.ContentType;
         [NotifyUpdated] private bool _isFreeRequest = true;
 
@@ -70,9 +70,9 @@ namespace RetailCorrector.Editor.Report
                         Log.Information($"{header.Key}: {header.Value}");
                     }
                 }
-                if (!string.IsNullOrWhiteSpace(Content))
+                if (!string.IsNullOrWhiteSpace(Body))
                 {
-                    var body = $"{Content}";
+                    var body = $"{Body}";
                     body = Regex.Replace(body, "`([a-z:]*?)`", "555");
                     request.Content = new StringContent(body, MediaTypeHeaderValue.Parse(ContentType));
                     Log.Information(body);
@@ -119,7 +119,7 @@ namespace RetailCorrector.Editor.Report
             var report = Env.Report;
             report.Method = Method;
             report.Url = Url;
-            report.Content = Content;
+            report.Content = Body;
             report.Headers = [];
             foreach (var header in Headers)
             {
