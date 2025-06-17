@@ -38,6 +38,7 @@
                 <MenuItem Header="Локальный кассир" Command="{Binding Source={x:Static u:Commands.OpenCashier}}"/>
             </MenuItem>
             <MenuItem Header="Помощь">
+                <MenuItem Header="Открыть журнал сессии" Command="{Binding Source={x:Static u:Commands.OpenConsole}}"/>
                 <MenuItem Header="Открыть лог-папку" Click="ShowLogs"/>
                 <MenuItem Header="Документация" Command="{Binding Source={x:Static u:Commands.OpenDocs}}"/>
                 <MenuItem Header="О программе" Command="{Binding Source={x:Static u:Commands.OpenAbout}}"/>

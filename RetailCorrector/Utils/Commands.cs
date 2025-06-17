@@ -32,7 +32,7 @@ namespace RetailCorrector.Utils
                 new CommandBinding(OpenCashier, (_,_) => new CashierView().ShowDialog()),
                 //new CommandBinding(OpenSettings, (_,_) => panel.Delete()),
                 new CommandBinding(OpenDocs, (_,_) => Process.Start(new ProcessStartInfo(Links.Wiki) { UseShellExecute = true})),
-                //new CommandBinding(OpenConsole, (_,_) => panel.Delete()),
+                new CommandBinding(OpenConsole, (_,_) => new LoggerWindow().ShowDialog()),
                 new CommandBinding(OpenAbout, (_,_) => new AboutWindow().ShowDialog()),
 
                 new CommandBinding(Clear, (_,_) => {
@@ -46,6 +46,5 @@ namespace RetailCorrector.Utils
                 new CommandBinding(InvertOperation, (_,_) => ReceiptPanel.InvertOperation()),
             ];
         }
-
     }
 }
