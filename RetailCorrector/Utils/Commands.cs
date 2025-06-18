@@ -3,6 +3,7 @@ using RetailCorrector.Editor.Receipt;
 using RetailCorrector.History;
 using RetailCorrector.History.Actions;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Input;
 using RetailCorrector.Plugin;
 
@@ -44,7 +45,15 @@ namespace RetailCorrector.Utils
                 new CommandBinding(InvertSelection, (_,_) => ReceiptPanel.InvertSelect()),
 
                 new CommandBinding(InvertOperation, (_,_) => ReceiptPanel.InvertOperation()),
-                new CommandBinding(MultiEditor, (_,_) => new Editor.Multi.Window().ShowDialog()),
+                new CommandBinding(MultiEditor, (_,_) => {
+                    var path = Path.Combine(Path.GetTempPath(), "RetailCorrectorMultiEdit.sql");
+                    Process.Start("notepad",path)!.WaitForExit();
+                    if(!File.Exists(path)) return;
+                    var query = File.ReadAllText(path);
+                    if(string.IsNullOrWhiteSpace(query)) return;
+                    HistoryController.Add(new MultiEditReceipts(query));
+                    File.Delete(path);
+                }),
             ];
         }
     }
