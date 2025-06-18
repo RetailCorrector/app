@@ -1,7 +1,7 @@
 ﻿using RetailCorrector.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RetailCorrector.Storage.Models
+namespace RetailCorrector.Editor.Multi.Models
 {
     [Table("code")]
     public class PositionCode
