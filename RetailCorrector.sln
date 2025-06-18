@@ -7,13 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailCorrector.PluginAPI",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailCorrector", "RetailCorrector\RetailCorrector.csproj", "{A0D4B84E-1690-4840-963C-A5E09BB4C299}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailCorrector.Generators", "RetailCorrector.Generators\RetailCorrector.Generators.csproj", "{79744390-8D7E-1A36-0664-985D0D30CB91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{19A493DB-6769-4A19-84AC-FAED97B5C27B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -24,5 +23,15 @@ Global
 		{A0D4B84E-1690-4840-963C-A5E09BB4C299}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0D4B84E-1690-4840-963C-A5E09BB4C299}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0D4B84E-1690-4840-963C-A5E09BB4C299}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79744390-8D7E-1A36-0664-985D0D30CB91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79744390-8D7E-1A36-0664-985D0D30CB91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79744390-8D7E-1A36-0664-985D0D30CB91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79744390-8D7E-1A36-0664-985D0D30CB91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94E644F9-C826-4C15-9913-1A2B328C0198}
 	EndGlobalSection
 EndGlobal
