@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RetailCorrector.Storage;
+using RetailCorrector.Editor.Multi;
 
 namespace RetailCorrector.History.Actions
 {

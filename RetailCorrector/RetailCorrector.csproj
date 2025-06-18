@@ -26,13 +26,12 @@
     <Using Include="RetailCorrector.Constants" />
     <Using Include="Serilog" />
     <Using Include="RetailCorrector.Attributes" />
-    <Using Include="RetailCorrector.Utils.AlertHelper" Alias="Alert"/>
+    <Using Include="RetailCorrector.Utils.AlertHelper" Alias="Alert" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RetailCorrector.PluginAPI\RetailCorrector.PluginAPI.csproj" />
-    <ProjectReference Include="..\RetailCorrector.Generators\RetailCorrector.Generators.csproj" 
-					  OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    <ProjectReference Include="..\RetailCorrector.Generators\RetailCorrector.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 	
 </Project>

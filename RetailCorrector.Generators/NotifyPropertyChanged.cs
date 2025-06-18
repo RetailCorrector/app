@@ -68,7 +68,7 @@ namespace {ns}
     public partial class {className} : INotifyPropertyChanged
     {{
         public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged(string propertyName) =>
+        public void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 ");
 
