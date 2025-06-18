@@ -31,7 +31,7 @@
             <TextBlock Margin="5,5,5,0" Text="Сумма наличной оплаты"/>
             <tk:DoubleUpDown Margin="5" Value="{Binding Context.Cash, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Margin="5,5,5,0" Text="Сумма безналичной оплаты"/>
-            <tk:DoubleUpDown Margin="5" Value="{Binding Context.ECash, UpdateSourceTrigger=PropertyChanged}"/>
+            <tk:DoubleUpDown Margin="5" Value="{Binding Context.Ecash, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Margin="5,5,5,0" Text="Сумма предоплаты"/>
             <tk:DoubleUpDown Margin="5" Value="{Binding Context.Pre, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Margin="5,5,5,0" Text="Сумма постоплаты"/>

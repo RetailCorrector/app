@@ -1,5 +1,4 @@
 ﻿using RetailCorrector.Utils;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -7,7 +6,7 @@ namespace RetailCorrector.Editor.Receipt
 {
     public partial class ReceiptWizard : Window
     {
-        public ReceiptWizardContext? Context { get; init; }
+        public ReceiptViewModel Context { get; init; } = null!;
         public RetailCorrector.Receipt Data { get; private set; }
 
         public bool IsCreate { get; }
@@ -29,13 +28,13 @@ namespace RetailCorrector.Editor.Receipt
         }
 
         public void AddPosition(object? s, RoutedEventArgs e) =>
-            Context!.Items.Add(new ReceiptWizardContext.Position(Context));
+            Context.Items.Add(new PositionViewModel(Context));
 
         public void Save(object? s, RoutedEventArgs e)
         {
             Data = new RetailCorrector.Receipt
             {
-                Created = (DateTime)Context!.Date!,
+                Created = (DateTime)Context.Date!,
                 ActNumber = string.IsNullOrWhiteSpace(Context.Act) ? null : Context.Act,
                 CorrectionType = Context.CorrType,
                 FiscalSign = Context.Fiscal,
@@ -44,7 +43,7 @@ namespace RetailCorrector.Editor.Receipt
                 Payment = new Payment
                 {
                     Cash = (uint)Math.Round(Context.Cash * 100),
-                    ECash = (uint)Math.Round(Context.ECash * 100),
+                    ECash = (uint)Math.Round(Context.Ecash * 100),
                     Post = (uint)Math.Round(Context.Post * 100),
                     Pre = (uint)Math.Round(Context.Pre * 100),
                     Provision = (uint)Math.Round(Context.Provision * 100)
