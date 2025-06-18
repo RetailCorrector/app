@@ -63,7 +63,7 @@ namespace RetailCorrector.Editor.Receipt
                     PosType = i.Type,
                     TotalSum = (uint)Math.Round(i.Sum * 100),
                     IndustryData = [..i.Industry],
-                    Codes = [],
+                    Codes = i.Codes,
                 })]
             };
             DialogResult = true;

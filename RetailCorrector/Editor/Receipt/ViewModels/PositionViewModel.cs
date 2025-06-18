@@ -18,6 +18,7 @@ public partial class PositionViewModel(ReceiptViewModel parent)
         Price = data.Price / 100.0;
         Quantity = data.Quantity / 1000.0;
         Sum = data.TotalSum / 100.0;
+        Codes = data.Codes;
         foreach (var i in data.IndustryData)
             Industry.Add(i);
     }
@@ -30,6 +31,7 @@ public partial class PositionViewModel(ReceiptViewModel parent)
     [NotifyUpdated] private double _price = 0;
     [NotifyUpdated] private double _quantity = 1;
     [NotifyUpdated] private double _sum = 0;
+    [NotifyUpdated] private CodeViewModel _codes = null!;
 
     public bool Done =>
         !string.IsNullOrWhiteSpace(Name) &&
@@ -40,4 +42,6 @@ public partial class PositionViewModel(ReceiptViewModel parent)
         new(pos => parent.Items.Remove((PositionViewModel)pos!));
     public Command EditIndustry { get; } = 
         new(pos => new IndustryEditor((PositionViewModel)pos!).ShowDialog());
+    public Command EditCodes { get; } = 
+        new(pos => new ProductCodeEditor((PositionViewModel)pos!).ShowDialog());
 }

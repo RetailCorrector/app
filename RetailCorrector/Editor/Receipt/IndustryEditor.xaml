@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner"
+        WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen"
         Height="250" Width="500">
     <DataGrid ItemsSource="{Binding DataContext.Industry}" 
               DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"

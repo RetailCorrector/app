@@ -78,6 +78,7 @@
                             <TextBlock Margin="5,5,5,0" Text="Стоимость"/>
                             <tk:DoubleUpDown Value="{Binding Sum, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <Button Content="Отрасль" Margin="5" Command="{Binding EditIndustry}" CommandParameter="{Binding}"/>
+                            <Button Content="Коды товара" Margin="5" Command="{Binding EditCodes}" CommandParameter="{Binding}"/>
                             <Button Content="Удалить" Margin="5" Command="{Binding Remove}" CommandParameter="{Binding}"/>
                         </StackPanel>
                     </DataTemplate>

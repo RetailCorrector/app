@@ -1,0 +1,79 @@
+﻿<Window x:Class="RetailCorrector.Editor.Receipt.ProductCodeEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen"
+        SizeToContent="Height" Width="250">
+    <Grid Margin="5" DataContext="{Binding DataContext.Codes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="Неизвестно"/>
+        <TextBlock Grid.Row="2" Text="EAN-8"/>
+        <TextBlock Grid.Row="4" Text="EAN-13"/>
+        <TextBlock Grid.Row="6" Text="ITF-14"/>
+        <TextBlock Grid.Row="8" Text="GS1.0"/>
+        <TextBlock Grid.Row="10" Text="GS1.M"/>
+        <TextBlock Grid.Row="12" Text="КМК"/>
+        <TextBlock Grid.Row="14" Text="МИ"/>
+        <TextBlock Grid.Row="16" Text="ЕГАИС-2.0"/>
+        <TextBlock Grid.Row="18" Text="ЕГАИС-3.0"/>
+        <TextBlock Grid.Row="20" Text="Ф.1"/>
+        <TextBlock Grid.Row="22" Text="Ф.2"/>
+        <TextBlock Grid.Row="24" Text="Ф-3"/>
+        <TextBlock Grid.Row="26" Text="Ф-4"/>
+        <TextBlock Grid.Row="28" Text="Ф-5"/>
+        <TextBlock Grid.Row="30" Text="Ф-6"/>
+
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Unknown, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding EAN8, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding EAN13, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding ITF14, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding GS1_0, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding GS1_M, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="12" Text="{Binding KMK, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="14" Text="{Binding MI, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="16" Text="{Binding EGAIS2, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="18" Text="{Binding EGAIS3, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="20" Text="{Binding F1, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="22" Text="{Binding F2, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="24" Text="{Binding F3, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="26" Text="{Binding F4, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="28" Text="{Binding F5, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="30" Text="{Binding F6, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</Window>
