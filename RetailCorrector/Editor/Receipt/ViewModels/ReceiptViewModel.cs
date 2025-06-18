@@ -6,6 +6,7 @@ namespace RetailCorrector.Editor.Receipt;
 public partial class ReceiptViewModel
 {
     public ObservableCollection<PositionViewModel> Items { get; set; } = [];
+    public ObservableCollection<IndustryViewModel> Industry { get; set; } = [];
 
     [NotifyUpdated(nameof(Done))] private CorrType _corrType = CorrType.ByYourself;
     [NotifyUpdated(nameof(Done))] private string _act = " ";
@@ -40,6 +41,8 @@ public partial class ReceiptViewModel
         RoundedTotal = data.TotalSum != data.Items.Sum(i => i.TotalSum);
         foreach (var pos in data.Items)
             Items.Add(new PositionViewModel(this, pos));
+        foreach (var i in data.IndustryData)
+            Industry.Add(i);
     }
 
     public bool Done =>

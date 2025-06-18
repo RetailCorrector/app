@@ -30,6 +30,9 @@ namespace RetailCorrector.Editor.Receipt
         public void AddPosition(object? s, RoutedEventArgs e) =>
             Context.Items.Add(new PositionViewModel(Context));
 
+        public void ShowReceiptIndustry(object? s, RoutedEventArgs e) =>
+            new IndustryEditor(Context).ShowDialog();
+
         public void Save(object? s, RoutedEventArgs e)
         {
             Data = new RetailCorrector.Receipt
@@ -48,6 +51,7 @@ namespace RetailCorrector.Editor.Receipt
                     Pre = (uint)Math.Round(Context.Pre * 100),
                     Provision = (uint)Math.Round(Context.Provision * 100)
                 },
+                IndustryData = [..Context.Industry],
                 Items = [..Context.Items.Select(i => new Position
                 {
                     Name = i.Name,
@@ -57,7 +61,9 @@ namespace RetailCorrector.Editor.Receipt
                     MeasureUnit = i.Measure,
                     PayType = i.Pay,
                     PosType = i.Type,
-                    TotalSum = (uint)Math.Round(i.Sum * 100)
+                    TotalSum = (uint)Math.Round(i.Sum * 100),
+                    IndustryData = [..i.Industry],
+                    Codes = [],
                 })]
             };
             DialogResult = true;

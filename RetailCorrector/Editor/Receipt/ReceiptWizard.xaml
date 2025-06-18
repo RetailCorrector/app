@@ -40,6 +40,7 @@
             <tk:DoubleUpDown Margin="5" Value="{Binding Context.Provision, UpdateSourceTrigger=PropertyChanged}"/>
             <CheckBox Margin="5" Content="Округлять итог?" IsChecked="{Binding Context.RoundedTotal, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Content="Добавить позицию" Click="AddPosition" Margin="5"/>
+            <Button Content="Отрасль" Margin="5" Click="ShowReceiptIndustry"/>
             <Button Content="Сохранить чек" Margin="5,10,5,5" Click="Save" IsEnabled="{Binding Context.Done}"/>
         </StackPanel>
         <ScrollViewer MaxWidth="540" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
@@ -76,8 +77,8 @@
                             <tk:DoubleUpDown Value="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                             <TextBlock Margin="5,5,5,0" Text="Стоимость"/>
                             <tk:DoubleUpDown Value="{Binding Sum, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
-                            <Button Content="Удалить" Margin="5" Command="{Binding Remove}" 
-                                    CommandParameter="{Binding}"/>
+                            <Button Content="Отрасль" Margin="5" Command="{Binding EditIndustry}" CommandParameter="{Binding}"/>
+                            <Button Content="Удалить" Margin="5" Command="{Binding Remove}" CommandParameter="{Binding}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

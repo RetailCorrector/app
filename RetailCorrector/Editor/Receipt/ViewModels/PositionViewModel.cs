@@ -6,6 +6,7 @@ namespace RetailCorrector.Editor.Receipt;
 
 public partial class PositionViewModel(ReceiptViewModel parent)
 {
+    public ObservableCollection<IndustryViewModel> Industry { get; set; } = [];
     public PositionViewModel(ReceiptViewModel parent, Position data) : this(parent)
     {
         PropertyChanged += (_, e) => parent.OnPropertyChanged(nameof(parent.Done));
@@ -17,6 +18,8 @@ public partial class PositionViewModel(ReceiptViewModel parent)
         Price = data.Price / 100.0;
         Quantity = data.Quantity / 1000.0;
         Sum = data.TotalSum / 100.0;
+        foreach (var i in data.IndustryData)
+            Industry.Add(i);
     }
 
     [NotifyUpdated] private string _name = "";
@@ -33,7 +36,8 @@ public partial class PositionViewModel(ReceiptViewModel parent)
         Price > 0 && Quantity > 0 &&
         Sum == Math.Round(Price * Quantity, 2);
 
-    private readonly Command _remove =
+    public Command Remove { get; } = 
         new(pos => parent.Items.Remove((PositionViewModel)pos!));
-    public Command Remove => _remove;
+    public Command EditIndustry { get; } = 
+        new(pos => new IndustryEditor((PositionViewModel)pos!).ShowDialog());
 }
