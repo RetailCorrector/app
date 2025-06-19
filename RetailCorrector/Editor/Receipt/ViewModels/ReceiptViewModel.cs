@@ -41,7 +41,7 @@ public partial class ReceiptViewModel
         RoundedTotal = data.TotalSum != data.Items.Sum(i => i.TotalSum);
         foreach (var pos in data.Items)
             Items.Add(new PositionViewModel(this, pos));
-        foreach (var i in data.IndustryData)
+        foreach (var i in data.IndustryData ?? [])
             Industry.Add(i);
     }
 

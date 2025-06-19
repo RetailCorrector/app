@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using RetailCorrector.Plugins;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Loader;
 

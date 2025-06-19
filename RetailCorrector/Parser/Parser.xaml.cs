@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using RetailCorrector.History;
 using RetailCorrector.History.Actions;
-using RetailCorrector.Plugin;
+using RetailCorrector.Plugins;
 using RetailCorrector.Utils;
 using Xceed.Wpf.Toolkit;
 using System.Windows.Input;

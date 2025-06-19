@@ -19,7 +19,7 @@ public partial class PositionViewModel(ReceiptViewModel parent)
         Quantity = data.Quantity / 1000.0;
         Sum = data.TotalSum / 100.0;
         Codes = data.Codes;
-        foreach (var i in data.IndustryData)
+        foreach (var i in data.IndustryData ?? [])
             Industry.Add(i);
     }
 

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using RetailCorrector.Plugins;
+using System.IO;
 using System.Runtime.Loader;
 using System.Windows;
 

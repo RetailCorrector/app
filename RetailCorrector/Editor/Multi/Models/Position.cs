@@ -42,6 +42,8 @@ namespace RetailCorrector.Editor.Multi.Models
             Measure = @struct.MeasureUnit;
             Price = @struct.Price;
             Quantity = @struct.Quantity;
+            IndustryData = [..@struct.IndustryData.Select(d => new IndustryData(d, this))];
+            Codes = [.. PositionCode.Parse(@struct.Codes, this)];
             TotalSum = @struct.TotalSum;
             Receipt = parent;
         }
@@ -57,7 +59,7 @@ namespace RetailCorrector.Editor.Multi.Models
             PosType = sql.PosType,
             TaxRate = sql.TaxRate,
             IndustryData = [.. sql.IndustryData],
-            Codes = [.. sql.Codes],
+            Codes = PositionCode.ToStruct(sql.Codes),
         };
     }
 }

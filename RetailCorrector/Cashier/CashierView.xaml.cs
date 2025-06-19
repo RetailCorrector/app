@@ -1,4 +1,4 @@
-﻿using RetailCorrector.Plugin;
+﻿using RetailCorrector.Plugins;
 using RetailCorrector.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

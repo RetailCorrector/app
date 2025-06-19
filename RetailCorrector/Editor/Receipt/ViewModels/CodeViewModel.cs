@@ -19,102 +19,44 @@
         [NotifyUpdated] private string _f5 = "";
         [NotifyUpdated] private string _f6 = "";
 
-        public static implicit operator CodeViewModel(PositionCode[] ro)
+        public static implicit operator CodeViewModel(PositionCode ro) => new()
         {
-            var vm = new CodeViewModel();
-            foreach(var code in ro)
-            {
-                switch (code.Type)
-                {
-                    case Enums.PositionCodeType.Unknown:
-                        vm.Unknown = code.Value;
-                        break;
-                    case Enums.PositionCodeType.EAN8:
-                        vm.EAN8 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.EAN13:
-                        vm.EAN13 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.ITF14:
-                        vm.ITF14 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.GS1_0:
-                        vm.GS1_0 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.GS1_M:
-                        vm.GS1_M = code.Value;
-                        break;
-                    case Enums.PositionCodeType.KMK:
-                        vm.KMK = code.Value;
-                        break;
-                    case Enums.PositionCodeType.MI:
-                        vm.MI = code.Value;
-                        break;
-                    case Enums.PositionCodeType.EGAIS2:
-                        vm.EGAIS2 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.EGAIS3:
-                        vm.EGAIS3 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.F1:
-                        vm.F1 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.F2:
-                        vm.F2 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.F3:
-                        vm.F3 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.F4:
-                        vm.F4 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.F5:
-                        vm.F5 = code.Value;
-                        break;
-                    case Enums.PositionCodeType.F6:
-                        vm.F6 = code.Value;
-                        break;
-                }
-            }
-            return vm;
-        }
+            Unknown = ro.Unknown,
+            EAN8 = ro.EAN8,
+            EAN13 = ro.EAN13,
+            ITF14 = ro.ITF14,
+            GS1_0 = ro.GS1_0,
+            GS1_M = ro.GS1_M,
+            KMK = ro.KMK,
+            MI = ro.MI,
+            EGAIS2 = ro.EGAIS2,
+            EGAIS3 = ro.EGAIS3,
+            F1 = ro.F1,
+            F2 = ro.F2,
+            F3 = ro.F3,
+            F4 = ro.F4,
+            F5 = ro.F5,
+            F6 = ro.F6,
+        };
 
-        public static implicit operator PositionCode[](CodeViewModel rw)
+        public static implicit operator PositionCode(CodeViewModel rw) => new()
         {
-            List<PositionCode> codes = [];
-            if (!string.IsNullOrWhiteSpace(rw.Unknown))
-                codes.Add(new PositionCode(rw.Unknown, Enums.PositionCodeType.Unknown));
-            if (!string.IsNullOrWhiteSpace(rw.EAN8))
-                codes.Add(new PositionCode(rw.EAN8, Enums.PositionCodeType.EAN8));
-            if (!string.IsNullOrWhiteSpace(rw.EAN13))
-                codes.Add(new PositionCode(rw.EAN13, Enums.PositionCodeType.EAN13));
-            if (!string.IsNullOrWhiteSpace(rw.ITF14))
-                codes.Add(new PositionCode(rw.ITF14, Enums.PositionCodeType.ITF14));
-            if (!string.IsNullOrWhiteSpace(rw.GS1_0))
-                codes.Add(new PositionCode(rw.GS1_0, Enums.PositionCodeType.GS1_0));
-            if (!string.IsNullOrWhiteSpace(rw.GS1_M))
-                codes.Add(new PositionCode(rw.GS1_M, Enums.PositionCodeType.GS1_M));
-            if (!string.IsNullOrWhiteSpace(rw.KMK))
-                codes.Add(new PositionCode(rw.KMK, Enums.PositionCodeType.KMK));
-            if (!string.IsNullOrWhiteSpace(rw.MI))
-                codes.Add(new PositionCode(rw.MI, Enums.PositionCodeType.MI));
-            if (!string.IsNullOrWhiteSpace(rw.EGAIS2))
-                codes.Add(new PositionCode(rw.EGAIS2, Enums.PositionCodeType.EGAIS2));
-            if (!string.IsNullOrWhiteSpace(rw.EGAIS3))
-                codes.Add(new PositionCode(rw.EGAIS3, Enums.PositionCodeType.EGAIS3));
-            if (!string.IsNullOrWhiteSpace(rw.F1))
-                codes.Add(new PositionCode(rw.F1, Enums.PositionCodeType.F1));
-            if (!string.IsNullOrWhiteSpace(rw.F2))
-                codes.Add(new PositionCode(rw.F2, Enums.PositionCodeType.F2));
-            if (!string.IsNullOrWhiteSpace(rw.F3))
-                codes.Add(new PositionCode(rw.F3, Enums.PositionCodeType.F3));
-            if (!string.IsNullOrWhiteSpace(rw.F4))
-                codes.Add(new PositionCode(rw.F4, Enums.PositionCodeType.F4));
-            if (!string.IsNullOrWhiteSpace(rw.F5))
-                codes.Add(new PositionCode(rw.F5, Enums.PositionCodeType.F5));
-            if (!string.IsNullOrWhiteSpace(rw.F6))
-                codes.Add(new PositionCode(rw.F6, Enums.PositionCodeType.F6));
-            return [.. codes];
-        }
+            Unknown = rw.Unknown,
+            EAN8 = rw.EAN8,
+            EAN13 = rw.EAN13,
+            ITF14 = rw.ITF14,
+            GS1_0 = rw.GS1_0,
+            GS1_M = rw.GS1_M,
+            KMK = rw.KMK,
+            MI = rw.MI,
+            EGAIS2 = rw.EGAIS2,
+            EGAIS3 = rw.EGAIS3,
+            F1 = rw.F1,
+            F2 = rw.F2,
+            F3 = rw.F3,
+            F4 = rw.F4,
+            F5 = rw.F5,
+            F6 = rw.F6,
+        };
     }
 }
