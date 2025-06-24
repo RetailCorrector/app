@@ -8,44 +8,8 @@
         Title="RetailCorrector" Height="450" Width="800"
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <DockPanel>
-        <Menu IsMainMenu="True" DockPanel.Dock="Top">
-            <MenuItem Header="Пространство">
-                <MenuItem Header="Создать новое" Command="{Binding Source={x:Static u:Commands.Clear}}"/>
-                <Separator/>
-                <MenuItem Header="Получить чеки" Command="{Binding Source={x:Static u:Commands.ParseReceipts}}"/>
-                <Separator/>
-                <MenuItem Header="Дизайнер отчета" Command="{Binding Source={x:Static u:Commands.OpenReportEditor}}"/>
-                <MenuItem Header="Экспорт">
-                    <MenuItem Header="Для удаленного агента" IsEnabled="False" InputGestureText="Ctrl + B"/>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="Правка">
-                <MenuItem Header="Отменить" Command="{Binding Source={x:Static u:Commands.Undo}}"/>
-                <MenuItem Header="Вернуть" Command="{Binding Source={x:Static u:Commands.Redo}}"/>
-                <Separator/>
-                <MenuItem Header="Инвертировать выделение" Command="{Binding Source={x:Static u:Commands.InvertSelection}}"/>
-                <Separator/>
-                <MenuItem Header="Добавить" Command="{Binding Source={x:Static u:Commands.AddReceipt}}"/>
-                <MenuItem Header="Массовые редактор" Command="{Binding Source={x:Static u:Commands.MultiEditor}}"/>
-                <MenuItem Header="Дублировать" Command="{Binding Source={x:Static u:Commands.DuplicateReceipts}}"/>
-                <MenuItem Header="Инвертировать тип чека" Command="{Binding Source={x:Static u:Commands.InvertOperation}}" />
-                <MenuItem Header="Удалить" Command="{Binding Source={x:Static u:Commands.RemoveReceipts}}"/>
-            </MenuItem>
-            <MenuItem Header="Вид">
-                <MenuItem Header="История изменений" IsCheckable="True" Click="SwitchVisiblity" IsChecked="True"/>
-            </MenuItem>
-            <MenuItem Header="Сервисы">
-                <MenuItem Header="Менеджер модулей" Command="{Binding Source={x:Static u:Commands.OpenPluginManager}}"/>
-                <MenuItem Header="Локальный кассир" Command="{Binding Source={x:Static u:Commands.OpenCashier}}"/>
-            </MenuItem>
-            <MenuItem Header="Помощь">
-                <MenuItem Header="Открыть журнал сессии" Command="{Binding Source={x:Static u:Commands.OpenConsole}}"/>
-                <MenuItem Header="Открыть лог-папку" Click="ShowLogs"/>
-                <MenuItem Header="Документация" Command="{Binding Source={x:Static u:Commands.OpenDocs}}"/>
-                <MenuItem Header="О программе" Command="{Binding Source={x:Static u:Commands.OpenAbout}}"/>
-            </MenuItem>
-        </Menu>
-        <h:HistoryList DockPanel.Dock="Left" Visibility="{Binding HistoryVisibility, Mode=OneWay}"/>
+        <u:MainMenu/>
+        <h:HistoryList DockPanel.Dock="Left"/>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <r:ReceiptPanel x:Name="panel"/>
         </ScrollViewer>

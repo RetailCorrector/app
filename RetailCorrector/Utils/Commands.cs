@@ -34,6 +34,8 @@ namespace RetailCorrector.Utils
                 //new CommandBinding(OpenSettings, (_,_) => panel.Delete()),
                 new CommandBinding(OpenDocs, (_,_) => Process.Start(new ProcessStartInfo(Links.Wiki) { UseShellExecute = true})),
                 new CommandBinding(OpenConsole, (_,_) => new LoggerWindow().ShowDialog()),
+                new CommandBinding(OpenLogDir, (_,_) => 
+                    Process.Start(new ProcessStartInfo("explorer", Pathes.Logs) { UseShellExecute = true})),
                 new CommandBinding(OpenAbout, (_,_) => new AboutWindow().ShowDialog()),
 
                 new CommandBinding(Clear, (_,_) => {

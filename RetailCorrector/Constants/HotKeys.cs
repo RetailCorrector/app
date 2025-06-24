@@ -18,6 +18,7 @@ namespace RetailCorrector.Constants
         public readonly static KeyGesture OpenCashier = new(Key.B, ModifierKeys.Alt);
         public readonly static KeyGesture OpenSettings = new(Key.S, ModifierKeys.Alt);
         public readonly static KeyGesture OpenConsole = new(Key.OemTilde);
+        public readonly static KeyGesture OpenLogDir = new(Key.OemTilde, ModifierKeys.Shift);
         public readonly static KeyGesture OpenAbout = new(Key.OemTilde, ModifierKeys.Alt);
         public readonly static KeyGesture OpenDocs = new(Key.OemTilde, ModifierKeys.Control);
 
