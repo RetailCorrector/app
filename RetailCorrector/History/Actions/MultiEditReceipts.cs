@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using RetailCorrector.Editor.Multi;
 
 namespace RetailCorrector.History.Actions
@@ -17,14 +18,21 @@ namespace RetailCorrector.History.Actions
 
         public void Redo()
         {
-            using var db = new StorageContext();
-            db.Receipts.AddRange([.. Env.Receipts]);
-            db.SaveChanges();
-            db.Database.ExecuteSqlRaw(query);
-            db.ChangeTracker.Clear();
-            Env.Receipts.Clear();
-            foreach (var r in db.Receipts.Include(r => r.Items).Include(r => r.IndustryData).AsNoTracking())
-                Env.Receipts.Add(r);
+            try
+            {
+                using var db = new StorageContext();
+                db.Receipts.AddRange([.. Env.Receipts]);
+                db.SaveChanges();
+                db.Database.ExecuteSqlRaw(query);
+                db.ChangeTracker.Clear();
+                Env.Receipts.Clear();
+                foreach (var r in db.Receipts.Include(r => r.Items).Include(r => r.IndustryData).AsNoTracking())
+                    Env.Receipts.Add(r);
+            }
+            catch(SqliteException e)
+            {
+                Alert.Error(e.Message, e);
+            }
         }
     }
 }
