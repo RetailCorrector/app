@@ -42,11 +42,11 @@ namespace RetailCorrector.Editor.Receipt
             var operation = DisplayInfo.Operations[DataSource.Operation];
             if (!operation.EndsWith('а')) operation += 'а';
             var text = GenText($"Чек {operation.ToLower()}", 13);
-            ctx.DrawText(text, new Point((190 - text.Width) / 2, 5));
+            ctx.DrawText(text, new Point((Width - text.Width) / 2, 5));
             text = GenText(DisplayInfo.CorrectionTypes[DataSource.CorrectionType]);
             ctx.DrawText(text, new Point(5, 21));
             text = GenText(DataSource.ActNumber ?? "");
-            ctx.DrawText(text, new Point(185 - text.Width, 21));
+            ctx.DrawText(text, new Point(Width - 5 - text.Width, 21));
             text = GenText("---------------------------");
             ctx.DrawText(text, new Point(5, 32));
 
@@ -58,7 +58,7 @@ namespace RetailCorrector.Editor.Receipt
             text = GenText("ИТОГ", 14, true);
             ctx.DrawText(text, new Point(5, y));
             text = GenText($"≡{(DataSource.TotalSum/100.0):F2}", 14, true);
-            ctx.DrawText(text, new Point(185 - text.Width, y));
+            ctx.DrawText(text, new Point(Width - 5 - text.Width, y));
             y += 14;
 
             AddPayment(ctx, "НАЛИЧНЫЕ", DataSource.Payment.Cash, ref y);
@@ -71,12 +71,12 @@ namespace RetailCorrector.Editor.Receipt
             text = GenText($"{DataSource.Created:yyyy'-'MM'-'dd}");
             ctx.DrawText(text, new Point(5, y));
             text = GenText($"{DataSource.FiscalSign}");
-            ctx.DrawText(text, new Point(185 - text.Width, y));
+            ctx.DrawText(text, new Point(Width - 5 - text.Width, y));
 
             y += 11;
             Height = y + 10;
             var down = Height;
-            ctx.DrawLine(pen, new Point(190, -4), new Point(190, down));
+            ctx.DrawLine(pen, new Point(Width, -4), new Point(190, down));
             ctx.DrawLine(pen, new Point(0, -4), new Point(0, down));
             for (var i = 0; i < 38; i++)
             {
@@ -91,20 +91,20 @@ namespace RetailCorrector.Editor.Receipt
                     ctx.DrawLine(pen, new Point(i * 5, down - 4), new Point((i + 1) * 5, down));// down
                 }
             }
-            ctx.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), new Rect(0, 0, 190, Height));
+            ctx.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), new Rect(0, 0, Width, Height));
             base.OnRender(ctx);
         }
 
-        private static FormattedText GenText(string text, int size = 11, bool bold = false) =>
+        private FormattedText GenText(string text, int size = 11, bool bold = false) =>
             new(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
                 new Typeface(new FontFamily("Lucida Console"), FontStyles.Normal, 
                     bold ? FontWeights.Bold : FontWeights.Normal, FontStretches.Normal),
                 size, Brushes.Black, 1)
             {
-                MaxTextWidth = 180
+                MaxTextWidth = Width - 10
             };
 
-        private static void AddPosition(DrawingContext ctx, Position pos, ref double y)
+        private void AddPosition(DrawingContext ctx, Position pos, ref double y)
         {
             var text = GenText(pos.Name);
             ctx.DrawText(text, new Point(5, y));
@@ -113,20 +113,20 @@ namespace RetailCorrector.Editor.Receipt
             text = GenText($"{(pos.Price / 100.0):F2} x {(pos.Quantity / 1000.0):0.###} {unit}");
             ctx.DrawText(text, new Point(15, y));
             text = GenText($"{(pos.TotalSum / 100.0):F2}");
-            ctx.DrawText(text, new Point(185 - text.Width, y));
+            ctx.DrawText(text, new Point(Width - 5 - text.Width, y));
             y += text.Height;
             text = GenText("---------------------------");
             ctx.DrawText(text, new Point(5, y));
             y += text.Height;
         }
 
-        private static void AddPayment(DrawingContext ctx, string name, uint value, ref double y)
+        private void AddPayment(DrawingContext ctx, string name, uint value, ref double y)
         {
             if (value == 0) return;
             var text = GenText(name);
             ctx.DrawText(text,new Point(10, y));
             text = GenText($"≡{(value/100.0):F2}");
-            ctx.DrawText(text,new Point(185-text.Width, y));
+            ctx.DrawText(text,new Point(Width - 5 - text.Width, y));
             y += text.Height;
         }
 
