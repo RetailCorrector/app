@@ -39,6 +39,16 @@ namespace RetailCorrector.Editor.Receipt
             }
         }
 
+        public static void UpdateMargin()
+        {
+            var count = (int)_instance.ActualWidth / 190;
+            if (count > 0)
+            {
+                var lr = ((int)_instance.ActualWidth - count * 190) / count;
+                _instance.MarginItems = new Thickness(lr / 2.0, 7, lr / 2.0, 7);
+            }
+            else _instance.MarginItems = _defaultMarginItems;
+        }
         public static void Delete() =>
             HistoryController.Add(new RemoveReceipts([.. _instance.Views.FindAllIndex(i => i.IsSelected)]));
 
