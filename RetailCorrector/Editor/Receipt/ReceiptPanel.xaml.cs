@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using RetailCorrector.History;
 using RetailCorrector.History.Actions;
@@ -49,6 +49,12 @@ namespace RetailCorrector.Editor.Receipt
             }
             else _instance.MarginItems = _defaultMarginItems;
         }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            UpdateMargin();
+        }
+
         public static void Delete() =>
             HistoryController.Add(new RemoveReceipts([.. _instance.Views.FindAllIndex(i => i.IsSelected)]));
 
