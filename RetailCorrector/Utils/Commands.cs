@@ -47,6 +47,7 @@ namespace RetailCorrector.Utils
                 new CommandBinding(InvertOperation, (_,_) => ReceiptPanel.InvertOperation()),
                 new CommandBinding(MultiEditor, (_,_) => {
                     var path = Path.Combine(Path.GetTempPath(), "RetailCorrectorMultiEdit.sql");
+                    if(File.Exists(path)) File.Delete(path);
                     Process.Start("notepad",path)!.WaitForExit();
                     if(!File.Exists(path)) return;
                     var query = File.ReadAllText(path);
