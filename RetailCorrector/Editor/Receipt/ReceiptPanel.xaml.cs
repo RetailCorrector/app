@@ -1,5 +1,4 @@
-﻿using System.Printing;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using RetailCorrector.History;
 using RetailCorrector.History.Actions;
@@ -10,6 +9,9 @@ namespace RetailCorrector.Editor.Receipt
     public partial class ReceiptPanel : ItemsControl
     {
         private static ReceiptPanel _instance;
+        private static Thickness _defaultMarginItems = new(5, 7, 5, 7);
+        
+        [NotifyUpdated] private Thickness _marginItems = _defaultMarginItems;
 
         public ReceiptPanel()
         {
@@ -35,6 +37,22 @@ namespace RetailCorrector.Editor.Receipt
                 }
                 return items;
             }
+        }
+
+        public static void UpdateMargin()
+        {
+            var count = (int)_instance.ActualWidth / 190;
+            if (count > 0)
+            {
+                var lr = ((int)_instance.ActualWidth - count * 190) / count;
+                _instance.MarginItems = new Thickness(lr / 2.0, 7, lr / 2.0, 7);
+            }
+            else _instance.MarginItems = _defaultMarginItems;
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            UpdateMargin();
         }
 
         public static void Delete() =>
