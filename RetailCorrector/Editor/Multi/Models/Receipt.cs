@@ -70,8 +70,8 @@ namespace RetailCorrector.Editor.Multi.Models
                 Sign = @struct.FiscalSign
             };
 
-            res.IndustryData = [.. @struct.IndustryData.Select(d => new IndustryData(d, res))];
-            res.Items = [.. @struct.Items.Select(d => new Position(d, res))];
+            res.IndustryData = [.. @struct.IndustryData?.Select(d => new IndustryData(d, res)) ?? []];
+            res.Items = [.. @struct.Items?.Select(d => new Position(d, res)) ?? []];
 
             return res;
         }            

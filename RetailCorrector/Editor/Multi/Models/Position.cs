@@ -42,7 +42,7 @@ namespace RetailCorrector.Editor.Multi.Models
             Measure = @struct.MeasureUnit;
             Price = @struct.Price;
             Quantity = @struct.Quantity;
-            IndustryData = [..@struct.IndustryData.Select(d => new IndustryData(d, this))];
+            IndustryData = [..@struct.IndustryData?.Select(d => new IndustryData(d, this)) ?? []];
             Codes = [.. PositionCode.Parse(@struct.Codes, this)];
             TotalSum = @struct.TotalSum;
             Receipt = parent;
