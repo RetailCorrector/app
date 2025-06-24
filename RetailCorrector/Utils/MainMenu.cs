@@ -28,25 +28,29 @@ namespace RetailCorrector.Utils
         private static MenuItem Edit() => new() 
         { 
             Header = "Правка",
-            ItemsSource = new MenuItem[]
+            ItemsSource = new Control[]
             {
                 NewItem("Отменить", Commands.Undo),
                 NewItem("Вернуть", Commands.Redo),
-                NewItem("Инвертировать выделение", Commands.InvertSelection),
+                new Separator(),
                 NewItem("Добавить", Commands.AddReceipt),
-                NewItem("Массовые редактор", Commands.MultiEditor),
-                NewItem("Дублировать", Commands.DuplicateReceipts),
-                NewItem("Инвертировать тип чека", Commands.InvertOperation),
                 NewItem("Удалить", Commands.RemoveReceipts),
+                NewItem("Дублировать", Commands.DuplicateReceipts),
+                new Separator(),
+                NewItem("Инвертировать выделение", Commands.InvertSelection),
+                NewItem("Инвертировать тип чека", Commands.InvertOperation),
+                new Separator(),
+                NewItem("Массовые редактор", Commands.MultiEditor),
             }
         };
         private static MenuItem Service() => new() 
         { 
             Header = "Сервисы" ,
-            ItemsSource = new MenuItem[]
+            ItemsSource = new Control[]
             {
                 NewItem("Менеджер модулей", Commands.OpenPluginManager),
-                NewItem("Локальный кассир", Commands.OpenCashier)
+                NewItem("Локальный кассир", Commands.OpenCashier),
+                new Separator(),
             }
         };
         private static MenuItem Help() => new()
