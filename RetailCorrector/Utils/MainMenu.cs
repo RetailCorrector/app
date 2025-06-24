@@ -62,7 +62,11 @@ namespace RetailCorrector.Utils
 
         private static MenuItem NewItem(string text, object srcBinding)
         {
-            var item = new MenuItem { Header = text };
+            var item = new MenuItem { 
+                Header = text, 
+                HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left,  
+                VerticalContentAlignment = System.Windows.VerticalAlignment.Center
+            };
             item.SetBinding(MenuItem.CommandProperty, new Binding { Source = srcBinding });
             return item;
         }
