@@ -1,4 +1,3 @@
-﻿using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using RetailCorrector.History;
@@ -10,6 +9,9 @@ namespace RetailCorrector.Editor.Receipt
     public partial class ReceiptPanel : ItemsControl
     {
         private static ReceiptPanel _instance;
+        private static Thickness _defaultMarginItems = new(5, 7, 5, 7);
+        
+        [NotifyUpdated] private Thickness _marginItems = _defaultMarginItems;
 
         public ReceiptPanel()
         {
