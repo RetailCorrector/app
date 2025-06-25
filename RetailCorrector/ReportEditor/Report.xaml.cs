@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using RetailCorrector.Utils;
 
-namespace RetailCorrector.Editor.Report
+namespace RetailCorrector.ReportEditor
 {
     public partial class Report : Window
     {

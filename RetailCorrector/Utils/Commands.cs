@@ -29,7 +29,7 @@ namespace RetailCorrector.Utils
                 new CommandBinding(RemoveReceipts, (_,_) => ReceiptPanel.Delete()),
 
                 new CommandBinding(OpenPluginManager, (_,_) => new AssemblyDownloader().ShowDialog()),
-                new CommandBinding(OpenReportEditor, (_,_) => new Editor.Report.Report().ShowDialog()),
+                new CommandBinding(OpenReportEditor, (_,_) => new ReportEditor.Report().ShowDialog()),
                 new CommandBinding(OpenCashier, (_,_) => new CashierView().ShowDialog()),
                 //new CommandBinding(OpenSettings, (_,_) => panel.Delete()),
                 new CommandBinding(OpenDocs, (_,_) => Process.Start(new ProcessStartInfo(Links.Wiki) { UseShellExecute = true})),

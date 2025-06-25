@@ -1,4 +1,4 @@
-﻿namespace RetailCorrector.Editor.Report
+﻿namespace RetailCorrector.ReportEditor
 {
     public partial class StringsPair(string key = "", string value = "")
     {
