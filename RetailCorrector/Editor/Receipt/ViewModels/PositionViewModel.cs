@@ -31,7 +31,7 @@ public partial class PositionViewModel(ReceiptViewModel parent)
     [NotifyUpdated] private double _price = 0;
     [NotifyUpdated] private double _quantity = 1;
     [NotifyUpdated] private double _sum = 0;
-    [NotifyUpdated] private CodeViewModel _codes = null!;
+    [NotifyUpdated] private CodeViewModel _codes = new();
 
     public bool Done =>
         !string.IsNullOrWhiteSpace(Name) &&
