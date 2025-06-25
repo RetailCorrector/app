@@ -7,17 +7,18 @@ namespace RetailCorrector.Storage
     {
         public DbSet<Models.Receipt> Receipts { get; set; }
 
-        private SqliteConnection connection;
+        private readonly SqliteConnection connection;
 
         public StorageContext()
         {
             SQLitePCL.Batteries.Init();
             SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
             Database.EnsureCreated();
+            connection = new SqliteConnection("Data Source=:memory:");
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            connection = new SqliteConnection("Data Source=:memory:");
             connection.Open();
             optionsBuilder.UseSqlite(connection);
         }
