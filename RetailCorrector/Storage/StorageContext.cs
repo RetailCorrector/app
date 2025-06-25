@@ -12,12 +12,12 @@ namespace RetailCorrector.Storage
 
         public StorageContext()
         {
-            Instance = this;
             SQLitePCL.Batteries.Init();
             SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
-            Database.EnsureCreated();
             connection = new SqliteConnection("Data Source=:memory:");
+            Database.EnsureCreated();
         }
+        public static void Init() => Instance = new StorageContext();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
