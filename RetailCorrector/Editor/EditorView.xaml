@@ -16,6 +16,7 @@
             <Button Margin="5" Height="25" Width="25" Click="Button_Click"/>
         </StackPanel>
         <TextBox AcceptsReturn="True" Grid.Column="1" Text="{Binding QueryText}"/>
-        <DataGrid Grid.Row="2" Grid.ColumnSpan="2" AutoGenerateColumns="True" ItemsSource="{Binding Table}"/>
+        <DataGrid Grid.Row="2" Grid.ColumnSpan="2" AutoGenerateColumns="True" 
+                  ItemsSource="{Binding Table}" HeadersVisibility="Column" IsReadOnly="True"/>
     </Grid>
 </UserControl>
