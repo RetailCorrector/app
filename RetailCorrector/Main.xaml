@@ -10,8 +10,5 @@
     <DockPanel>
         <u:MainMenu/>
         <h:HistoryList DockPanel.Dock="Left"/>
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <r:ReceiptPanel x:Name="panel"/>
-        </ScrollViewer>
     </DockPanel>
 </Window>

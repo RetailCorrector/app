@@ -25,8 +25,8 @@ namespace RetailCorrector.Utils
                 }),
                 new CommandBinding(ParseReceipts, (_,_) => new Parser.Parser().ShowDialog()),
                 //new CommandBinding(PasteReceipt, (_,_) => HistoryController.Redo()),
-                new CommandBinding(DuplicateReceipts, (_,_) => ReceiptPanel.Duplicate()),
-                new CommandBinding(RemoveReceipts, (_,_) => ReceiptPanel.Delete()),
+                //new CommandBinding(DuplicateReceipts, (_,_) => ReceiptPanel.Duplicate()),
+                //new CommandBinding(RemoveReceipts, (_,_) => ReceiptPanel.Delete()),
 
                 new CommandBinding(OpenPluginManager, (_,_) => new AssemblyDownloader().ShowDialog()),
                 new CommandBinding(OpenReportEditor, (_,_) => new ReportEditor.Report().ShowDialog()),
@@ -44,9 +44,9 @@ namespace RetailCorrector.Utils
                     HistoryController.Clear();
                 }),
 
-                new CommandBinding(InvertSelection, (_,_) => ReceiptPanel.InvertSelect()),
+                //new CommandBinding(InvertSelection, (_,_) => ReceiptPanel.InvertSelect()),
 
-                new CommandBinding(InvertOperation, (_,_) => ReceiptPanel.InvertOperation()),
+//                new CommandBinding(InvertOperation, (_,_) => ReceiptPanel.InvertOperation()),
                 new CommandBinding(MultiEditor, (_,_) => {
                     var path = Path.Combine(Path.GetTempPath(), "RetailCorrectorMultiEdit.sql");
                     if(File.Exists(path)) File.Delete(path);
