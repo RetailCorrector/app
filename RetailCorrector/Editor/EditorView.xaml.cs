@@ -21,14 +21,21 @@ namespace RetailCorrector.Editor
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var conn = StorageContext.Instance.Database.GetDbConnection();
-            using var cmd = conn.CreateCommand();
-            cmd.CommandText = _queryText;
-            cmd.CommandType = CommandType.Text;
-            var table = new DataTable();
-            using var reader = cmd.ExecuteReader();
-            table.Load(reader);
-            Table = table.Locale();
+            try
+            {
+                var conn = StorageContext.Instance.Database.GetDbConnection();
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = _queryText;
+                cmd.CommandType = CommandType.Text;
+                var table = new DataTable();
+                using var reader = cmd.ExecuteReader();
+                table.Load(reader);
+                Table = table.Locale();
+            }
+            catch (Exception ex)
+            {
+                Alert.Error("При выполнении запроса возникла ошибка...", ex);
+            }
         }
     }
 }
