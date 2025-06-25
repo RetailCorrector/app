@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace RetailCorrector.Editor.Multi
+namespace RetailCorrector.Storage
 {
     public class StorageContext: DbContext
     {
