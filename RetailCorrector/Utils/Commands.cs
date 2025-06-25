@@ -19,8 +19,11 @@ namespace RetailCorrector.Utils
                 */
                 new CommandBinding(AddReceipt, (_,_) => {
                     var wizard = new ReceiptWizard();
-                    /*if (wizard.ShowDialog() == true) todo
-                        HistoryController.Add(new AddReceipts(wizard.Data));*/
+                    if (wizard.ShowDialog() == true)
+                    {
+                        StorageContext.Instance.Receipts.Add(wizard.Data);
+                        StorageContext.Instance.SaveChanges();
+                    }
                 }),
                 new CommandBinding(ParseReceipts, (_,_) => new Parser.Parser().ShowDialog()),
 
