@@ -6,11 +6,13 @@ namespace RetailCorrector.Storage
     public class StorageContext: DbContext
     {
         public DbSet<Models.Receipt> Receipts { get; set; }
+        public static StorageContext Instance { get; private set; } = null!;
 
         private readonly SqliteConnection connection;
 
         public StorageContext()
         {
+            Instance = this;
             SQLitePCL.Batteries.Init();
             SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
             Database.EnsureCreated();

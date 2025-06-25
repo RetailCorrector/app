@@ -45,7 +45,7 @@ namespace RetailCorrector.Utils
                 //new CommandBinding(InvertSelection, (_,_) => ReceiptPanel.InvertSelect()),
 
 //                new CommandBinding(InvertOperation, (_,_) => ReceiptPanel.InvertOperation()),
-                new CommandBinding(MultiEditor, (_,_) => {
+               /* new CommandBinding(MultiEditor, (_,_) => {
                     var path = Path.Combine(Path.GetTempPath(), "RetailCorrectorMultiEdit.sql");
                     if(File.Exists(path)) File.Delete(path);
                     Process.Start("notepad",path)!.WaitForExit();
@@ -54,7 +54,7 @@ namespace RetailCorrector.Utils
                     if(string.IsNullOrWhiteSpace(query)) return;
                     //HistoryController.Add(new MultiEditReceipts(query));
                     File.Delete(path);
-                }),
+                }),*/
             ];
         }
     }
