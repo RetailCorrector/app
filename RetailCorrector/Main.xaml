@@ -2,11 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:r="clr-namespace:RetailCorrector.Editor.Receipt"
+        xmlns:e="clr-namespace:RetailCorrector.Editor"
         xmlns:u="clr-namespace:RetailCorrector.Utils"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="RetailCorrector" Height="450" Width="800"
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <DockPanel>
         <u:MainMenu/>
+        <e:EditorView/>
     </DockPanel>
 </Window>
