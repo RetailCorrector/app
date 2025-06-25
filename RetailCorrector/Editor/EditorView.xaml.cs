@@ -26,7 +26,7 @@ namespace RetailCorrector.Editor
             var table = new DataTable();
             using var reader = cmd.ExecuteReader();
             table.Load(reader);
-            Table = table;
+            Table = table.Locale();
         }
     }
 }
