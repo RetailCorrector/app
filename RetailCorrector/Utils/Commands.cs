@@ -1,9 +1,10 @@
 ﻿using RetailCorrector.Cashier;
 using RetailCorrector.Editor.Receipt;
 using System.Diagnostics;
-using System.IO;
 using System.Windows.Input;
 using RetailCorrector.Plugin;
+using RetailCorrector.Storage;
+using RetailCorrector.Editor;
 
 namespace RetailCorrector.Utils
 {
@@ -35,8 +36,10 @@ namespace RetailCorrector.Utils
 
                 new CommandBinding(Clear, (_,_) => {
                     Env.Report = new Report();
-                    Env.Receipts.Clear();
-                    //HistoryController.Clear();
+                    StorageContext.Instance.Dispose();
+                    StorageContext.Init();
+                    EditorView.Instance.Table = new();
+                    EditorView.Instance.QueryText = "";
                 }),
             ];
         }

@@ -10,9 +10,11 @@ namespace RetailCorrector.Editor
     {
         [NotifyUpdated] private string _queryText = "";
         [NotifyUpdated] private DataTable _table = new();
+        public static EditorView Instance { get; private set; }
 
         public EditorView()
         {
+            Instance = this;
             InitializeComponent();
             StorageContext.Init();
         }
