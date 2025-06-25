@@ -14,9 +14,6 @@ namespace RetailCorrector.Utils
         {
             SetupHotKeys();
             return [
-                /*new CommandBinding(Undo, (_,_) => HistoryController.Undo()),
-                new CommandBinding(Redo, (_,_) => HistoryController.Redo()),
-                */
                 new CommandBinding(AddReceipt, (_,_) => {
                     var wizard = new ReceiptWizard();
                     if (wizard.ShowDialog() == true)

@@ -4,9 +4,6 @@ namespace RetailCorrector.Constants
 {
     public static class HotKeys
     {
-        public readonly static KeyGesture Undo = new(Key.Z, ModifierKeys.Control);
-        public readonly static KeyGesture Redo = new(Key.Y, ModifierKeys.Control);
-
         public readonly static KeyGesture AddReceipt = new(Key.P, ModifierKeys.Alt);
         public readonly static KeyGesture ParseReceipts = new(Key.P, ModifierKeys.Control);
 
