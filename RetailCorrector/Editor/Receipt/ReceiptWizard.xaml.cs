@@ -9,21 +9,10 @@ namespace RetailCorrector.Editor.Receipt
         public ReceiptViewModel Context { get; init; } = null!;
         public RetailCorrector.Receipt Data { get; private set; }
 
-        public bool IsCreate { get; }
-
         public ReceiptWizard()
         {
             CommandBindings.Add(new CommandBinding(Commands.ExitDialog, (_, _) => Close()));
-            IsCreate = true;
             Context = new();
-            InitializeComponent();
-        }
-
-        public ReceiptWizard(RetailCorrector.Receipt receipt)
-        {
-            CommandBindings.Add(new CommandBinding(Commands.ExitDialog, (_, _) => Close()));
-            IsCreate = false;
-            Context = new(receipt);
             InitializeComponent();
         }
 

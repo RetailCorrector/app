@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RetailCorrector.Editor.Multi.Models
+namespace RetailCorrector.Storage.Models
 {
     [Table("receipt")]
     public class Receipt

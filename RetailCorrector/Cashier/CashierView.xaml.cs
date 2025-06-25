@@ -1,4 +1,5 @@
 ﻿using RetailCorrector.Plugins;
+using RetailCorrector.Storage;
 using RetailCorrector.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -142,7 +143,7 @@ namespace RetailCorrector.Cashier{
             {
                 if (!await Plugin.Connect())
                     throw new Exception("Не удалось подключиться...");
-                foreach (var receipt in Env.Receipts)
+                foreach (var receipt in StorageContext.Instance.Receipts)
                 {
                     if (await Plugin.CountDocsInBuffer() > MaxBuffer)
                     {

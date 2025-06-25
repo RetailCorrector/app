@@ -6,9 +6,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using RetailCorrector.History;
-using RetailCorrector.History.Actions;
 using RetailCorrector.Plugins;
+using RetailCorrector.Storage;
 using RetailCorrector.Utils;
 using Xceed.Wpf.Toolkit;
 using System.Windows.Input;
@@ -131,7 +130,8 @@ namespace RetailCorrector.Parser
             {
                 var receipts = await Plugin!.Parse(CancelSource.Token);
                 CancelSource.Token.ThrowIfCancellationRequested();
-                HistoryController.Add(new AddReceipts([.. receipts]));
+                StorageContext.Instance.Receipts.AddRange([.. receipts]);
+                StorageContext.Instance.SaveChanges();
                 Cancel(null, new RoutedEventArgs());
                 System.Windows.MessageBox.Show($"Парсинг завершен! Найдено чеков: {receipts.Count()}.");
             }

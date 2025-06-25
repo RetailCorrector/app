@@ -10,7 +10,6 @@ namespace RetailCorrector.Utils
             IsMainMenu = true;
             DockPanel.SetDock(this, Dock.Top);
             Items.Add(Space());
-            Items.Add(Edit());
             Items.Add(Service());
             Items.Add(Help());
         }
@@ -18,29 +17,14 @@ namespace RetailCorrector.Utils
         private static MenuItem Space() => new() 
         { 
             Header = "Пространство",
-            ItemsSource = new MenuItem[]
-            {
-                NewItem("Создать новое", Commands.Clear),
-                NewItem("Получить чеки", Commands.ParseReceipts),
-                NewItem("Дизайнер отчета", Commands.OpenReportEditor),
-            }
-        };
-        private static MenuItem Edit() => new() 
-        { 
-            Header = "Правка",
             ItemsSource = new Control[]
             {
-                NewItem("Отменить", Commands.Undo),
-                NewItem("Вернуть", Commands.Redo),
+                NewItem("Создать новое", Commands.Clear),
                 new Separator(),
-                NewItem("Добавить", Commands.AddReceipt),
-                NewItem("Удалить", Commands.RemoveReceipts),
-                NewItem("Дублировать", Commands.DuplicateReceipts),
+                NewItem("Парсер чеков", Commands.ParseReceipts),
+                NewItem("Добавить чек", Commands.AddReceipt),
                 new Separator(),
-                NewItem("Инвертировать выделение", Commands.InvertSelection),
-                NewItem("Инвертировать тип чека", Commands.InvertOperation),
-                new Separator(),
-                NewItem("Массовые редактор", Commands.MultiEditor),
+                NewItem("Дизайнер отчета", Commands.OpenReportEditor),
             }
         };
         private static MenuItem Service() => new() 
