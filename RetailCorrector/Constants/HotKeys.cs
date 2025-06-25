@@ -9,9 +9,6 @@ namespace RetailCorrector.Constants
 
         public readonly static KeyGesture AddReceipt = new(Key.P, ModifierKeys.Alt);
         public readonly static KeyGesture ParseReceipts = new(Key.P, ModifierKeys.Control);
-        public readonly static KeyGesture PasteReceipt = new(Key.V, ModifierKeys.Control);
-        public readonly static KeyGesture DuplicateReceipts = new(Key.D, ModifierKeys.Control);
-        public readonly static KeyGesture RemoveReceipts = new(Key.Delete);
 
         public readonly static KeyGesture OpenPluginManager = new(Key.O, ModifierKeys.Control);
         public readonly static KeyGesture OpenReportEditor = new(Key.Q, ModifierKeys.Control);
@@ -24,10 +21,6 @@ namespace RetailCorrector.Constants
 
         public readonly static KeyGesture Clear = new(Key.N, ModifierKeys.Control);
 
-        public readonly static KeyGesture InvertSelection = new(Key.I, ModifierKeys.Control);
-
-        public readonly static KeyGesture InvertOperation = new(Key.I, ModifierKeys.Alt);
-        public readonly static KeyGesture MultiEditor = new(Key.E, ModifierKeys.Control);
         public readonly static KeyGesture ExitDialog = new(Key.Escape);
 
     }
