@@ -1,7 +1,5 @@
 ﻿using RetailCorrector.Cashier;
 using RetailCorrector.Editor.Receipt;
-using RetailCorrector.History;
-using RetailCorrector.History.Actions;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
@@ -15,13 +13,13 @@ namespace RetailCorrector.Utils
         {
             SetupHotKeys();
             return [
-                new CommandBinding(Undo, (_,_) => HistoryController.Undo()),
+                /*new CommandBinding(Undo, (_,_) => HistoryController.Undo()),
                 new CommandBinding(Redo, (_,_) => HistoryController.Redo()),
-
+                */
                 new CommandBinding(AddReceipt, (_,_) => {
                     var wizard = new ReceiptWizard();
-                    if (wizard.ShowDialog() == true)
-                        HistoryController.Add(new AddReceipts(wizard.Data));
+                    /*if (wizard.ShowDialog() == true) todo
+                        HistoryController.Add(new AddReceipts(wizard.Data));*/
                 }),
                 new CommandBinding(ParseReceipts, (_,_) => new Parser.Parser().ShowDialog()),
                 //new CommandBinding(PasteReceipt, (_,_) => HistoryController.Redo()),
@@ -41,7 +39,7 @@ namespace RetailCorrector.Utils
                 new CommandBinding(Clear, (_,_) => {
                     Env.Report = new Report();
                     Env.Receipts.Clear();
-                    HistoryController.Clear();
+                    //HistoryController.Clear();
                 }),
 
                 //new CommandBinding(InvertSelection, (_,_) => ReceiptPanel.InvertSelect()),
@@ -54,7 +52,7 @@ namespace RetailCorrector.Utils
                     if(!File.Exists(path)) return;
                     var query = File.ReadAllText(path);
                     if(string.IsNullOrWhiteSpace(query)) return;
-                    HistoryController.Add(new MultiEditReceipts(query));
+                    //HistoryController.Add(new MultiEditReceipts(query));
                     File.Delete(path);
                 }),
             ];

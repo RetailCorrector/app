@@ -12,6 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="History\**" />
+    <EmbeddedResource Remove="History\**" />
+    <None Remove="History\**" />
+    <Page Remove="History\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\icon.ico" />
     <Resource Include="Resources\JetBrainsMono.ttf" />
   </ItemGroup>
