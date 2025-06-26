@@ -8,6 +8,7 @@ namespace RetailCorrector.Storage
     {
         public DbSet<Models.Receipt> Receipts { get; set; }
         public static StorageContext Instance { get; private set; } = null!;
+        [NotifyUpdated] private bool _useSandbox = false;
 
         private readonly SqliteConnection connection;
 
