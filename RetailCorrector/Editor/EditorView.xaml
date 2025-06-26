@@ -13,7 +13,11 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <Button Margin="5" Height="25" Width="25" Click="Button_Click"/>
+            <Button Margin="5,5,5,2.5" Height="25" Width="25" Click="Run">
+                <Path Data="M4 4L4 17L17 11L4 4L4 17" 
+                      Fill="Green" Stroke="Black" StrokeThickness="1" Height="21" Width="21"/>
+            </Button>
+            <Button Margin="5,2.5" Height="25" Width="25" Click="ToggleSandbox" Background="{Binding BtnSandboxBackground}"/>
         </StackPanel>
         <TextBox AcceptsReturn="True" Grid.Column="1" Text="{Binding QueryText}"/>
         <DataGrid Grid.Row="2" Grid.ColumnSpan="2" AutoGenerateColumns="True" 

@@ -10,6 +10,7 @@ namespace RetailCorrector.Utils
             "position" => LocalPosition(table),
             "industry" => LocalIndustry(table),
             "code" => LocalPosCode(table),
+            _ => table
         };
 
         private static DataTable LocalReceipt(DataTable table)
