@@ -6,7 +6,7 @@ namespace RetailCorrector.Editor.Receipt
 {
     public partial class IndustryEditor : Window
     {
-        [NotifyUpdated] private int _selectedIndex = -1;
+        [NotifyChanged] private int _selectedIndex = -1;
 
         public IndustryEditor(ReceiptViewModel vm)
         {

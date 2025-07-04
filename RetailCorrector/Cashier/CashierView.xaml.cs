@@ -19,11 +19,11 @@ namespace RetailCorrector.Cashier{
         public bool Cancelled => _cancelSource.IsCancellationRequested;
         public bool Running => !_cancelSource.IsCancellationRequested;
 
-        [NotifyUpdated] private int _minBuffer = 20;
-        [NotifyUpdated] private int _maxBuffer = 30;
-        [NotifyUpdated] private int _progress = 0;
-        [NotifyUpdated] private int _maxProgress = 1;
-        [NotifyUpdated] private FiscalPlugin? _plugin;
+        [NotifyChanged] private int _minBuffer = 20;
+        [NotifyChanged] private int _maxBuffer = 30;
+        [NotifyChanged] private int _progress = 0;
+        [NotifyChanged] private int _maxProgress = 1;
+        [NotifyChanged] private FiscalPlugin? _plugin;
 
         private void SetCancelling(bool cancelling)
         {

@@ -2,22 +2,22 @@
 {
     public partial class CodeViewModel
     {
-        [NotifyUpdated] private string _unknown = "";
-        [NotifyUpdated] private string _EAN8 = "";
-        [NotifyUpdated] private string _EAN13 = "";
-        [NotifyUpdated] private string _ITF14 = "";
-        [NotifyUpdated] private string _GS1_0 = "";
-        [NotifyUpdated] private string _GS1_M = "";
-        [NotifyUpdated] private string _KMK = "";
-        [NotifyUpdated] private string _MI = "";
-        [NotifyUpdated] private string _EGAIS2 = "";
-        [NotifyUpdated] private string _EGAIS3 = "";
-        [NotifyUpdated] private string _f1 = "";
-        [NotifyUpdated] private string _f2 = "";
-        [NotifyUpdated] private string _f3 = "";
-        [NotifyUpdated] private string _f4 = "";
-        [NotifyUpdated] private string _f5 = "";
-        [NotifyUpdated] private string _f6 = "";
+        [NotifyChanged] private string _unknown = "";
+        [NotifyChanged] private string _EAN8 = "";
+        [NotifyChanged] private string _EAN13 = "";
+        [NotifyChanged] private string _ITF14 = "";
+        [NotifyChanged] private string _GS1_0 = "";
+        [NotifyChanged] private string _GS1_M = "";
+        [NotifyChanged] private string _KMK = "";
+        [NotifyChanged] private string _MI = "";
+        [NotifyChanged] private string _EGAIS2 = "";
+        [NotifyChanged] private string _EGAIS3 = "";
+        [NotifyChanged] private string _f1 = "";
+        [NotifyChanged] private string _f2 = "";
+        [NotifyChanged] private string _f3 = "";
+        [NotifyChanged] private string _f4 = "";
+        [NotifyChanged] private string _f5 = "";
+        [NotifyChanged] private string _f6 = "";
 
         public static implicit operator CodeViewModel(PositionCode ro) => new()
         {

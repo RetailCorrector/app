@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using OrnaUtils;
+using System.IO;
 
 namespace RetailCorrector.Constants;
 
@@ -8,27 +9,38 @@ public static class Pathes
     /// <summary>
     /// <code>C:\Program Files (x86)\RetailCorrector\</code>
     /// </summary>
-    public static readonly string App = 
-        SafeCombine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "RetailCorrector");
+    public static string App => app.ToString();
+
+    private static readonly DirectoryWatcher app = 
+        new DirectoryWatcher(Environment.SpecialFolder.ProgramFilesX86)
+        .Add("RetailCorrector");
     #endregion
 
     #region Дочерние каталоги
     /// <summary>
     /// <code>C:\Program Files (x86)\RetailCorrector\Settings\</code>
     /// </summary>
-    public static readonly string Settings = SafeCombine(App, "Settings");
+    public static string Settings => settings.ToString();
+    private static readonly DirectoryWatcher settings = 
+        new DirectoryWatcher(app).Add("Settings");
     /// <summary>
     /// <code>C:\Program Files (x86)\RetailCorrector\Logs\</code>
     /// </summary>
-    public static readonly string Logs = SafeCombine(App, "Logs");
+    public static string Logs => logs.ToString();
+    private static readonly DirectoryWatcher logs =
+        new DirectoryWatcher(app).Add("Logs");
     /// <summary>
     /// <code>C:\Program Files (x86)\RetailCorrector\Plugins\</code>
     /// </summary>
-    public static readonly string Plugins = SafeCombine(App, "Plugins");
+    public static string Plugins => plugins.ToString();
+    private static readonly DirectoryWatcher plugins =
+        new DirectoryWatcher(app).Add("Plugins");
     /// <summary>
     /// <code>C:\Program Files (x86)\RetailCorrector\Receipts\</code>
     /// </summary>
-    public static readonly string Receipts = SafeCombine(App, "Receipts");
+    public static string Receipts => receipts.ToString();
+    private static readonly DirectoryWatcher receipts =
+        new DirectoryWatcher(app).Add("Receipts");
     #endregion
 
     #region Файлы
@@ -50,15 +62,4 @@ public static class Pathes
     public static readonly string Log = Path.Combine(Logs, ".log");
     #endregion
 
-    private static string SafeCombine(params string[] paths)
-    {
-        var path = paths[0];
-        for(var i = 1; i < paths.Length; i++)
-        {
-            path = Path.Combine(path, paths[i]);
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-        }
-        return path;
-    }
 }

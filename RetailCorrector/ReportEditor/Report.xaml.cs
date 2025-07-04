@@ -24,11 +24,11 @@ namespace RetailCorrector.ReportEditor
 
         public int HeaderIndex { get; set; } = -1;
 
-        [NotifyUpdated] private string _url = Env.Report.Url;
-        [NotifyUpdated] private HttpMethod _method = Env.Report.Method;
-        [NotifyUpdated] private string _body = Env.Report.Content;
-        [NotifyUpdated] private string _contentType = Env.Report.ContentType;
-        [NotifyUpdated] private bool _isFreeRequest = true;
+        [NotifyChanged] private string _url = Env.Report.Url;
+        [NotifyChanged] private HttpMethod _method = Env.Report.Method;
+        [NotifyChanged] private string _body = Env.Report.Content;
+        [NotifyChanged] private string _contentType = Env.Report.ContentType;
+        [NotifyChanged] private bool _isFreeRequest = true;
 
         public ObservableCollection<StringsPair> Headers { get; set; } = GenHeaders();
 

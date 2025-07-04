@@ -2,10 +2,10 @@
 {
     public partial class IndustryViewModel
     {
-        [NotifyUpdated] private byte _gosId;
-        [NotifyUpdated] private DateTime _date;
-        [NotifyUpdated] private int _number;
-        [NotifyUpdated] private string _value = "";
+        [NotifyChanged] private byte _gosId;
+        [NotifyChanged] private DateTime _date;
+        [NotifyChanged] private int _number;
+        [NotifyChanged] private string _value = "";
 
         public static implicit operator IndustryViewModel(IndustryData ro) => new()
         {
