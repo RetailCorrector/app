@@ -5,6 +5,7 @@
         WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen"
         Height="250" Width="500">
     <DataGrid ItemsSource="{Binding DataContext.Industry}" 
+              SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
               DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
               VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
         <DataGrid.ContextMenu>

@@ -11,19 +11,19 @@ namespace RetailCorrector.Utils
     {
         private static DirectoryWatcher path = 
             new DirectoryWatcher(Path.GetTempPath())
-            .Add($"RetailCorrector-{Env.WorkspaceId:F}");
+            .Add($"RetailCorrector-{Env.WorkspaceId:D}");
 
         public static void UpdateSpaceId()
         {
             path = new DirectoryWatcher(Path.GetTempPath())
-                .Add($"RetailCorrector-{Env.WorkspaceId:F}");
+                .Add($"RetailCorrector-{Env.WorkspaceId:D}");
         }
 
         public static void Local()
         {
             ExportReport((string)path);
             ExportReceipts((string)path);
-            Process.Start("explorer", (string)path);
+            Process.Start("explorer", ((string)path).Replace("\\\\", "\\"));
             MessageBox.Show("Чеки и отчет выгружены!");
         }
 

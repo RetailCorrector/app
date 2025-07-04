@@ -44,7 +44,7 @@
                    VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
 
         <DataGrid Grid.Row="3" Grid.ColumnSpan="3" ItemsSource="{Binding Headers}" Grid.RowSpan="3"
-                  SelectedIndex="{Binding HeaderIndex, Mode=OneWay}">
+                  SelectedIndex="{Binding HeaderIndex, Mode=OneWayToSource}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Добавить" Click="AddHeader"/>
