@@ -16,9 +16,9 @@ namespace RetailCorrector.Parser
 {
     public partial class Parser : Window
     {
-        [NotifyUpdated] private SourcePlugin? _plugin;
-        [NotifyUpdated] private int _maxProgress = 1;
-        [NotifyUpdated] private int _currProgress = 0;
+        [NotifyChanged] private SourcePlugin? _plugin;
+        [NotifyChanged] private int _maxProgress = 1;
+        [NotifyChanged] private int _currProgress = 0;
 
         public bool IsEnabledCancelButton => !CancelSource.IsCancellationRequested;
         public bool IsEnabledStartButton => CancelSource.IsCancellationRequested;

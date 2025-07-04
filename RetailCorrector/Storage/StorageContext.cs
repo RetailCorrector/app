@@ -12,7 +12,7 @@ namespace RetailCorrector.Storage
         private DbSet<Models.IndustryData> IndustryData { get; set; }
 
         public static StorageContext Instance { get; private set; } = null!;
-        [NotifyUpdated] private bool _useSandbox = false;
+        [NotifyChanged] private bool _useSandbox = false;
 
         private readonly SqliteConnection connection;
 

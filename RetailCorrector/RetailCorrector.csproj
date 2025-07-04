@@ -31,7 +31,7 @@
     </PackageReference>
     <Using Include="RetailCorrector.Constants" />
     <Using Include="Serilog" />
-    <Using Include="RetailCorrector.Attributes" />
+	  <Using Include="OrnaUtils.Attributes" />
     <Using Include="RetailCorrector.Utils.AlertHelper" Alias="Alert" />
   </ItemGroup>
 

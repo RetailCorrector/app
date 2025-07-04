@@ -2,7 +2,7 @@
 {
     public partial class StringsPair(string key = "", string value = "")
     {
-        [NotifyUpdated] private string _key = key;
-        [NotifyUpdated] private string _value = value;
+        [NotifyChanged] private string _key = key;
+        [NotifyChanged] private string _value = value;
     }
 }

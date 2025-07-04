@@ -23,15 +23,15 @@ public partial class PositionViewModel(ReceiptViewModel parent)
             Industry.Add(i);
     }
 
-    [NotifyUpdated] private string _name = "";
-    [NotifyUpdated] private PositionType _type = PositionType.Product;
-    [NotifyUpdated] private PaymentType _pay = PaymentType.FullPayment;
-    [NotifyUpdated] private TaxRate _tax = TaxRate.Tax10;
-    [NotifyUpdated] private MeasureUnit _measure = MeasureUnit.Default;
-    [NotifyUpdated] private double _price = 0;
-    [NotifyUpdated] private double _quantity = 1;
-    [NotifyUpdated] private double _sum = 0;
-    [NotifyUpdated] private CodeViewModel _codes = new();
+    [NotifyChanged] private string _name = "";
+    [NotifyChanged] private PositionType _type = PositionType.Product;
+    [NotifyChanged] private PaymentType _pay = PaymentType.FullPayment;
+    [NotifyChanged] private TaxRate _tax = TaxRate.Tax10;
+    [NotifyChanged] private MeasureUnit _measure = MeasureUnit.Default;
+    [NotifyChanged] private double _price = 0;
+    [NotifyChanged] private double _quantity = 1;
+    [NotifyChanged] private double _sum = 0;
+    [NotifyChanged] private CodeViewModel _codes = new();
 
     public bool Done =>
         !string.IsNullOrWhiteSpace(Name) &&

@@ -15,7 +15,7 @@ public partial class AssemblyDownloader : Window
 {
     public ObservableCollection<AssemblyView> Items { get; } = [];
     
-    [NotifyUpdated] private string _currentRegistry;
+    [NotifyChanged] private string _currentRegistry;
     
     
     private Command ShowRegistries { get; } = new(_ => new RegistryList().ShowDialog());

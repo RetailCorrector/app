@@ -8,17 +8,17 @@ public partial class ReceiptViewModel
     public ObservableCollection<PositionViewModel> Items { get; set; } = [];
     public ObservableCollection<IndustryViewModel> Industry { get; set; } = [];
 
-    [NotifyUpdated(nameof(Done))] private CorrType _corrType = CorrType.ByYourself;
-    [NotifyUpdated(nameof(Done))] private string _act = " ";
-    [NotifyUpdated(nameof(Done))] private Operation _operation = Operation.Income;
-    [NotifyUpdated(nameof(Done))] private string _fiscal = "";
-    [NotifyUpdated(nameof(Done))] private DateTime? _date = null;
-    [NotifyUpdated(nameof(Done))] private bool _roundedTotal = false;
-    [NotifyUpdated(nameof(Done))] private double _cash = 0;
-    [NotifyUpdated(nameof(Done))] private double _ecash = 0;
-    [NotifyUpdated(nameof(Done))] private double _pre = 0;
-    [NotifyUpdated(nameof(Done))] private double _post = 0;
-    [NotifyUpdated(nameof(Done))] private double _provision = 0;
+    [NotifyChanged(nameof(Done))] private CorrType _corrType = CorrType.ByYourself;
+    [NotifyChanged(nameof(Done))] private string _act = " ";
+    [NotifyChanged(nameof(Done))] private Operation _operation = Operation.Income;
+    [NotifyChanged(nameof(Done))] private string _fiscal = "";
+    [NotifyChanged(nameof(Done))] private DateTime? _date = null;
+    [NotifyChanged(nameof(Done))] private bool _roundedTotal = false;
+    [NotifyChanged(nameof(Done))] private double _cash = 0;
+    [NotifyChanged(nameof(Done))] private double _ecash = 0;
+    [NotifyChanged(nameof(Done))] private double _pre = 0;
+    [NotifyChanged(nameof(Done))] private double _post = 0;
+    [NotifyChanged(nameof(Done))] private double _provision = 0;
 
     public ReceiptViewModel()
     {

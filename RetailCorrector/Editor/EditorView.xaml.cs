@@ -9,9 +9,9 @@ namespace RetailCorrector.Editor
 {
     public partial class EditorView : UserControl
     {
-        [NotifyUpdated] private string _queryText = "";
-        [NotifyUpdated] private DataTable _table = new();
-        [NotifyUpdated] private Brush _btnSandboxBackground = Brushes.White;
+        [NotifyChanged] private string _queryText = "";
+        [NotifyChanged] private DataTable _table = new();
+        [NotifyChanged] private Brush _btnSandboxBackground = Brushes.White;
 
         public static EditorView Instance { get; private set; }
 
