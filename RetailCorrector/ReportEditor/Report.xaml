@@ -65,9 +65,7 @@
                     <MenuItem Header="Общее количество чеков" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.TotalCount}}"/>
                     <Separator/>
                     <MenuItem Header="Осталось чеков" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.LeftReceiptCount}}"/>
-                    <MenuItem Header="Осталось часов" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.LeftHours}}"/>
                     <MenuItem Header="Осталось минут" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.LeftMinutes}}"/>
-                    <MenuItem Header="Осталось сессий" Command="{Binding WritePattern}" CommandParameter="{Binding Source={x:Static const:ReportKeywords.LeftSessionCount}}"/>
                 </ContextMenu>
             </TextBox.ContextMenu>
         </TextBox>

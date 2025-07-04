@@ -9,7 +9,5 @@
 
         public const string LeftReceiptCount = "left";
         public const string LeftMinutes = "left:minutes";
-        public const string LeftHours = "left:hours";
-        public const string LeftSessionCount = "left:sessions";
     }
 }
