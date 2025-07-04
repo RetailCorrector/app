@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="ornautils.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\icon.ico" />
     <Resource Include="Resources\JetBrainsMono.ttf" />
   </ItemGroup>
@@ -32,7 +36,7 @@
     <Using Include="RetailCorrector.Constants" />
     <Using Include="Serilog" />
 	  <Using Include="OrnaUtils.Attributes" />
-    <Using Include="RetailCorrector.Utils.AlertHelper" Alias="Alert" />
+	  <Using Include="RetailCorrector.Utils.AlertHelper" Alias="Alert" />
   </ItemGroup>
 
   <ItemGroup>
