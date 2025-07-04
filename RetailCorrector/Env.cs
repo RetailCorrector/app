@@ -1,4 +1,6 @@
-﻿namespace RetailCorrector;
+﻿using RetailCorrector.Utils;
+
+namespace RetailCorrector;
 
 public static class Env
 {
@@ -9,6 +11,7 @@ public static class Env
         set
         {
             _workspaceId = value;
+            Expoter.UpdateSpaceId();
         }
     }
     private static Guid _workspaceId = Guid.CreateVersion7();

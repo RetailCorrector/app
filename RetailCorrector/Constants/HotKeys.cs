@@ -9,6 +9,7 @@ namespace RetailCorrector.Constants
 
         public readonly static KeyGesture OpenPluginManager = new(Key.O, ModifierKeys.Control);
         public readonly static KeyGesture OpenReportEditor = new(Key.Q, ModifierKeys.Control);
+        public readonly static KeyGesture LocalExport = new(Key.B, ModifierKeys.Control);
         public readonly static KeyGesture OpenSettings = new(Key.S, ModifierKeys.Alt);
         public readonly static KeyGesture OpenConsole = new(Key.OemTilde, 0, "`");
         public readonly static KeyGesture OpenLogDir = new(Key.OemTilde, ModifierKeys.Shift, "Shift+`");

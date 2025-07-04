@@ -40,6 +40,7 @@ namespace RetailCorrector.Utils
                     EditorView.Instance.Table = new();
                     EditorView.Instance.QueryText = "";
                 }),
+                new CommandBinding(LocalExport, (_,_) => Expoter.Local())
             ];
         }
     }

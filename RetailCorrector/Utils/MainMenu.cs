@@ -25,6 +25,8 @@ namespace RetailCorrector.Utils
                 NewItem("Добавить чек", Commands.AddReceipt),
                 new Separator(),
                 NewItem("Дизайнер отчета", Commands.OpenReportEditor),
+                new Separator(),
+                NewItem("Подготовка локального агента", Commands.LocalExport),
             }
         };
         private static MenuItem Service() => new() 
