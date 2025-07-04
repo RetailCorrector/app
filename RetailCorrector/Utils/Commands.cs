@@ -33,6 +33,7 @@ namespace RetailCorrector.Utils
                 new CommandBinding(OpenAbout, (_,_) => new AboutWindow().ShowDialog()),
 
                 new CommandBinding(Clear, (_,_) => {
+                    Env.WorkspaceId = Guid.CreateVersion7();
                     Env.Report = new Report();
                     StorageContext.Instance.Dispose();
                     StorageContext.Init();
