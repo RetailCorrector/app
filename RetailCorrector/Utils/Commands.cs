@@ -1,4 +1,3 @@
-﻿using RetailCorrector.Cashier;
 using RetailCorrector.Editor.Receipt;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -26,7 +25,6 @@ namespace RetailCorrector.Utils
 
                 new CommandBinding(OpenPluginManager, (_,_) => new AssemblyDownloader().ShowDialog()),
                 new CommandBinding(OpenReportEditor, (_,_) => new ReportEditor.Report().ShowDialog()),
-                new CommandBinding(OpenCashier, (_,_) => new CashierView().ShowDialog()),
                 //new CommandBinding(OpenSettings, (_,_) => panel.Delete()),
                 new CommandBinding(OpenDocs, (_,_) => Process.Start(new ProcessStartInfo(Links.Wiki) { UseShellExecute = true})),
                 new CommandBinding(OpenConsole, (_,_) => new LoggerWindow().ShowDialog()),

@@ -33,7 +33,6 @@ namespace RetailCorrector.Utils
             ItemsSource = new Control[]
             {
                 NewItem("Менеджер модулей", Commands.OpenPluginManager),
-                NewItem("Локальный кассир", Commands.OpenCashier),
                 new Separator(),
             }
         };
